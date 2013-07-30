@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_9" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	
+	<!-- Spring 事件监听程序 配置 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!-- Spring 刷新Introspector防止内存泄露 -->
+    <listener>
+   		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
+	
+	<!-- 指定Spring applicationContext.xml的配置文件所在目录。默认配置在WEB-INF目录下	-->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/applicationContext.xml,
+			/WEB-INF/applicationContext-security.xml
+		</param-value>
+	</context-param>
+	
+	<servlet>
+		<servlet-name>springMVC</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/springMVC-servlet.xml</param-value>
+		</init-param>
+		 
+		<init-param>
+			<param-name>template_update_delay</param-name>
+			<param-value>0</param-value> <!-- 0 值仅用于开发环境，生产环境请设置为3600或者更大。 -->
+		</init-param>
+		<init-param>
+			<param-name>DefaultEncoding</param-name> <!-- 解决中文编码问题 -->
+			<param-value>UTF-8</param-value>
+		</init-param>
+		
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>springMVC</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 配置Spring Security start-->  
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 配置Spring Security end-->
+
+	<!--  防止多人登陆 ,控制一个用户只能登录一次，不能在其他地方重新登录-->
+  	<listener>
+		<listener-class>
+			org.springframework.security.web.session.HttpSessionEventPublisher 
+		</listener-class>
+	</listener>
+	
+	<!-- session超时定义,单位为分钟 -->
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+  	<display-name>Archetype Created Web Application</display-name>
+</web-app>
