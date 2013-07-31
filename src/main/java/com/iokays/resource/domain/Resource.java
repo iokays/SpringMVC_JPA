@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.iokays.authoritietorepository.domain.AuthoritieToResource;
+import com.iokays.authoritytorepository.domain.AuthorityToResource;
 
 /**
  * 资源信息实体类
@@ -37,12 +37,12 @@ public class Resource implements Serializable{
 	private Integer enabled;									//是否可用				0:禁用	1:正常
 	private Integer isSys;										//是否是超级资源			0:非		1:是
 	
-	private Set<AuthoritieToResource> authoritieToResources;	//权限资源
+	private Set<AuthorityToResource> authorityToResources;	//权限资源
 	
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")		//主键生成策略为UUID
 	@GeneratedValue(generator="idGenerator")
-	@Column(name = "id", unique = true, nullable = false, length = 32)
+	@Column(name = "id_", unique = true, nullable = false, length = 32)
 	public String getId() {
 		return id;
 	}
@@ -50,7 +50,7 @@ public class Resource implements Serializable{
 		this.id = id;
 	}
 	
-	@Column(name = "name", unique = true, nullable = false, length = 50)
+	@Column(name = "name_", unique = true, nullable = false, length = 50)
 	public String getName() {
 		return name;
 	}
@@ -58,7 +58,7 @@ public class Resource implements Serializable{
 		this.name = name;
 	}
 	
-	@Column(name = "type", nullable = false, length = 10)
+	@Column(name = "type_", nullable = false, length = 10)
 	public String getType() {
 		return type;
 	}
@@ -66,7 +66,7 @@ public class Resource implements Serializable{
 		this.type = type;
 	}
 	
-	@Column(name = "resource", nullable = false, length = 50)
+	@Column(name = "resource_", nullable = false, length = 50)
 	public String getResource() {
 		return resource;
 	}
@@ -74,7 +74,7 @@ public class Resource implements Serializable{
 		this.resource = resource;
 	}
 	
-	@Column(name = "priority")
+	@Column(name = "priority_")
 	public Integer getPriority() {
 		return priority;
 	}
@@ -82,7 +82,7 @@ public class Resource implements Serializable{
 		this.priority = priority;
 	}
 	
-	@Column(name = "description", length = 200)
+	@Column(name = "description_", length = 200)
 	public String getDescription() {
 		return description;
 	}
@@ -90,7 +90,7 @@ public class Resource implements Serializable{
 		this.description = description;
 	}
 	
-	@Column(name = "enabled", nullable = false)
+	@Column(name = "enabled_", nullable = false)
 	public Integer getEnabled() {
 		return enabled;
 	}
@@ -98,7 +98,7 @@ public class Resource implements Serializable{
 		this.enabled = enabled;
 	}
 	
-	@Column(name = "isSys")
+	@Column(name = "is_sys_")
 	public Integer getIsSys() {
 		return isSys;
 	}
@@ -107,12 +107,12 @@ public class Resource implements Serializable{
 	}
 	
 	@OneToMany(mappedBy = "resource", fetch = FetchType.LAZY)
-	public Set<AuthoritieToResource> getAuthoritieToResources() {
-		return authoritieToResources;
+	public Set<AuthorityToResource> getAuthorityToResources() {
+		return authorityToResources;
 	}
-	public void setAuthoritieToResources(
-			Set<AuthoritieToResource> authoritieToResources) {
-		this.authoritieToResources = authoritieToResources;
+	public void setAuthorityToResources(
+			Set<AuthorityToResource> authorityToResources) {
+		this.authorityToResources = authorityToResources;
 	}
 	
 }

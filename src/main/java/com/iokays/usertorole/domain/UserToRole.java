@@ -35,7 +35,7 @@ public class UserToRole implements Serializable{
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")		//主键生成策略为UUID
 	@GeneratedValue(generator="idGenerator")
-	@Column(name = "id", unique = true, nullable = false, length = 32)
+	@Column(name = "id_", unique = true, nullable = false, length = 32)
 	public String getId() {
 		return id;
 	}
@@ -44,7 +44,7 @@ public class UserToRole implements Serializable{
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "userId", nullable = true)
+	@JoinColumn(name = "user_id_", nullable = true)
 	public User getUser() {
 		return user;
 	}
@@ -53,7 +53,7 @@ public class UserToRole implements Serializable{
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "roleId", nullable = true)
+	@JoinColumn(name = "role_id_", nullable = true)
 	public Role getRole() {
 		return role;
 	}

@@ -1,4 +1,4 @@
-package com.iokays.roletoauthoritie.domain;
+package com.iokays.roletoauthority.domain;
 
 import java.io.Serializable;
 
@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.iokays.authoritie.domain.Authoritie;
+import com.iokays.authority.domain.Authority;
 import com.iokays.role.domain.Role;
 
 /**
@@ -22,20 +22,20 @@ import com.iokays.role.domain.Role;
  *
  */
 @Entity
-@Table(name = "t_pub_role_authoritie")
-public class RoleToAuthoritie implements Serializable{
+@Table(name = "t_pub_role_authority")
+public class RoleToAuthority implements Serializable{
 
 	private static final long serialVersionUID = -1931908140621449515L;
 	
 	private String id;					//唯一标识符
 	private Role role;					//角色
-	private Authoritie authoritie;		//权限
+	private Authority authority;		//权限
 	private Integer enabled;			//是否可用
 	
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")		//主键生成策略为UUID
 	@GeneratedValue(generator="idGenerator")
-	@Column(name = "id", unique = true, nullable = false, length = 32)
+	@Column(name = "id_", unique = true, nullable = false, length = 32)
 	public String getId() {
 		return id;
 	}
@@ -44,7 +44,7 @@ public class RoleToAuthoritie implements Serializable{
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "roleId", nullable = false)
+	@JoinColumn(name = "role_id_", nullable = false)
 	public Role getRole() {
 		return role;
 	}
@@ -53,15 +53,15 @@ public class RoleToAuthoritie implements Serializable{
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "authoritieId", nullable = false)
-	public Authoritie getAuthoritie() {
-		return authoritie;
+	@JoinColumn(name = "authoritie_id_", nullable = false)
+	public Authority getAuthority() {
+		return authority;
 	}
-	public void setAuthoritie(Authoritie authoritie) {
-		this.authoritie = authoritie;
+	public void setAuthority(Authority authority) {
+		this.authority = authority;
 	}
 	
-	@Column(name = "enabled", nullable = false)
+	@Column(name = "enabled_", nullable = false)
 	public Integer getEnabled() {
 		return enabled;
 	}

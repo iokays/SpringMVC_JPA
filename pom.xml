@@ -9,18 +9,25 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<springframework.version>3.2.3.RELEASE</springframework.version>
-		<springframework.date.version>1.3.4.RELEASE</springframework.date.version>
+		<springframework.webmvc.version>3.2.3.RELEASE</springframework.webmvc.version>
+
+		<springframework.version>3.2.2.RELEASE</springframework.version>
+		<springframework.date.version>1.3.2.RELEASE</springframework.date.version>
 		<springframework.security.version>3.1.4.RELEASE</springframework.security.version>
-		
-		<hibernate.version>4.3.0.Beta2</hibernate.version>
-		
+
+		<hibernate.version>4.2.2.Final</hibernate.version>
+
 		<slf4j.version>1.7.5</slf4j.version>
 	</properties>
 
 	<dependencies>
-	
-		<!-- springframework start -->
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${springframework.webmvc.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -41,7 +48,13 @@
 
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
+			<artifactId>spring-beans</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
 
@@ -53,21 +66,22 @@
 
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
+			<artifactId>spring-jdbc</artifactId>
 			<version>${springframework.version}</version>
-			<scope>test</scope>
 		</dependency>
-		<!-- springframework end -->
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
 
-		<!-- springframework.data start -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
 			<version>${springframework.date.version}</version>
 		</dependency>
-		<!-- springframework.data start -->
-	
+
 		<!-- springframework.security start -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -93,8 +107,7 @@
 			<version>${springframework.security.version}</version>
 		</dependency>
 		<!-- springframework.security end -->
-		
-		<!-- hibernate start -->
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -118,22 +131,12 @@
 			<artifactId>hibernate-proxool</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		<!-- hibernate start -->
-		
-		<!-- 
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.7.1</version>
-		</dependency>
-		 -->
 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.25</version>
 		</dependency>
-		
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -143,24 +146,47 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-nop</artifactId>
-			<version>${slf4j.version}</version>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1-b09</version>
+			<version>3.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils-core</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
 		</dependency>
 
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>com.springsource.repository.maven.release</id>
+			<url>http://repo.springsource.org/release/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<build>
 		<finalName>SpringMVC_JPA</finalName>
 

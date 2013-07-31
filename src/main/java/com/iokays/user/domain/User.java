@@ -47,7 +47,7 @@ public class User implements Serializable {
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")		//主键生成策略为UUID
 	@GeneratedValue(generator="idGenerator")
-	@Column(name = "id", unique = true, nullable = false, length = 32)
+	@Column(name = "id_", unique = true, nullable = false, length = 32)
 	public String getId() {
 		return id;
 	}
@@ -55,7 +55,7 @@ public class User implements Serializable {
 		this.id = id;
 	}
 	
-	@Column(name = "account", unique = true, length = 32, nullable = false)
+	@Column(name = "account_", unique = true, length = 32, nullable = false)
 	public String getAccount() {
 		return account;
 	}
@@ -63,7 +63,7 @@ public class User implements Serializable {
 		this.account = account;
 	}
 	
-	@Column(name = "name", length = 32, nullable = false)
+	@Column(name = "name_", length = 32, nullable = false)
 	public String getName() {
 		return name;
 	}
@@ -71,7 +71,7 @@ public class User implements Serializable {
 		this.name = name;
 	}
 	
-	@Column(name = "password", length = 32, nullable = false)
+	@Column(name = "password_", length = 32, nullable = false)
 	public String getPassword() {
 		return password;
 	}
@@ -79,7 +79,7 @@ public class User implements Serializable {
 		this.password = password;
 	}
 	
-	@Column(name = "enabled", nullable = false)
+	@Column(name = "enabled_", nullable = false)
 	public Integer getEnabled() {
 		return enabled;
 	}
@@ -87,7 +87,7 @@ public class User implements Serializable {
 		this.enabled = enabled;
 	}
 
-	@Column(name = "isSys", nullable = false)
+	@Column(name = "is_sys_", nullable = false)
 	public Integer getIsSys() {
 		return isSys;
 	}
@@ -95,7 +95,7 @@ public class User implements Serializable {
 		this.isSys = isSys;
 	}
 
-	@Column(name = "description", length = 200, nullable = true)
+	@Column(name = "description_", length = 200, nullable = true)
 	public String getDescription() {
 		return description;
 	}
@@ -103,7 +103,7 @@ public class User implements Serializable {
 		this.description = description;
 	}
 	
-	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "role_", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	public Set<UserToRole> getUserToRoles() {
 		return userToRoles;
 	}

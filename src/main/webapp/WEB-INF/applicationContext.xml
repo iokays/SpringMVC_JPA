@@ -38,7 +38,7 @@
 		</property>
 	</bean>
 	
-	<jpa:repositories base-package="com.iokays.user.repository"
+	<jpa:repositories base-package="com.iokays.*.repository"
 		repository-impl-postfix="Impl" entity-manager-factory-ref="entityManagerFactory"
 		transaction-manager-ref="transactionManager" />
 

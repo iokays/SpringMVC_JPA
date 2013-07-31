@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.iokays.user.domain.User;
-import com.iokays.user.repository.UserDao;
+import com.iokays.user.repository.UserRepository;
 import com.iokays.user.service.UserService;
 
 /**
@@ -17,9 +17,9 @@ import com.iokays.user.service.UserService;
 @Service("userService")
 public class UserServiceImpl implements UserService{
 	@Resource
-	private UserDao userDao;
+	private UserRepository userRepository;
 	
 	public void save(User user) {
-		userDao.save(user);
+		userRepository.save(user);
 	}
 }

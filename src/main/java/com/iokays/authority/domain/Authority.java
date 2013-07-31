@@ -1,4 +1,4 @@
-package com.iokays.authoritie.domain;
+package com.iokays.authority.domain;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -14,8 +14,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.iokays.authoritietorepository.domain.AuthoritieToResource;
-import com.iokays.roletoauthoritie.domain.RoleToAuthoritie;
+import com.iokays.authoritytorepository.domain.AuthorityToResource;
+import com.iokays.roletoauthority.domain.RoleToAuthority;
 
 /**
  *  权限信息实体类
@@ -25,8 +25,8 @@ import com.iokays.roletoauthoritie.domain.RoleToAuthoritie;
  */
 
 @Entity
-@Table(name = "t_pub_authoritie")
-public class Authoritie implements Serializable {
+@Table(name = "t_pub_authority")
+public class Authority implements Serializable {
 
 	private static final long serialVersionUID = -4571074703857910904L;
 	
@@ -36,20 +36,20 @@ public class Authoritie implements Serializable {
 	private String description;								//权限描述
 	private Integer enabled;								//是否可用
 	
-	private Set<RoleToAuthoritie> roleToAuthorities;		//角色权限
-	private Set<AuthoritieToResource> authoritieToResources;//权限资源
+	private Set<RoleToAuthority> roleToAuthorities;			//角色权限
+	private Set<AuthorityToResource> authorityToResources;	//权限资源
 	
 	/**
 	 * 默认构造函数
 	 */
-	public Authoritie() {
+	public Authority() {
 		
 	}
 	
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")		//主键生成策略为UUID
 	@GeneratedValue(generator="idGenerator")
-	@Column(name = "id", unique = true, nullable = false, length = 32)
+	@Column(name = "id_", unique = true, nullable = false, length = 32)
 	public String getId() {
 		return id;
 	}
@@ -57,7 +57,7 @@ public class Authoritie implements Serializable {
 		this.id = id;
 	}
 	
-	@Column(name = "name", unique = true, nullable = false, length = 50)
+	@Column(name = "name_", unique = true, nullable = false, length = 50)
 	public String getName() {
 		return name;
 	}
@@ -65,7 +65,7 @@ public class Authoritie implements Serializable {
 		this.name = name;
 	}
 	
-	@Column(name = "isSys", nullable = false)
+	@Column(name = "is_sys_", nullable = false)
 	public Integer getIsSys() {
 		return isSys;
 	}
@@ -73,7 +73,7 @@ public class Authoritie implements Serializable {
 		this.isSys = isSys;
 	}
 	
-	@Column(name = "description", nullable = true, length = 200)
+	@Column(name = "description_", nullable = true, length = 200)
 	public String getDescription() {
 		return description;
 	}
@@ -81,7 +81,7 @@ public class Authoritie implements Serializable {
 		this.description = description;
 	}
 	
-	@Column(name ="enabled", nullable = true)
+	@Column(name ="enabled_", nullable = true)
 	public Integer getEnabled() {
 		return enabled;
 	}
@@ -90,18 +90,24 @@ public class Authoritie implements Serializable {
 	}
 	
 	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
-	public Set<RoleToAuthoritie> getRoleToAuthorities() {
+	public Set<RoleToAuthority> getRoleToAuthorities() {
 		return roleToAuthorities;
 	}
-	public void setRoleToAuthorities(Set<RoleToAuthoritie> roleToAuthorities) {
+
+	public void setRoleToAuthorities(Set<RoleToAuthority> roleToAuthorities) {
 		this.roleToAuthorities = roleToAuthorities;
 	}
+
+	@OneToMany(mappedBy = "authority", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	public Set<AuthorityToResource> getAuthorityToResources() {
+		return authorityToResources;
+	}
+
+	public void setAuthorityToResources(
+			Set<AuthorityToResource> authorityToResources) {
+		this.authorityToResources = authorityToResources;
+	}
 	
-	@OneToMany(mappedBy = "authoritie", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	public Set<AuthoritieToResource> getAuthoritieToResources() {
-		return authoritieToResources;
-	}
-	public void setAuthoritieToResources(Set<AuthoritieToResource> authoritieToResources) {
-		this.authoritieToResources = authoritieToResources;
-	}
+	
+	
 }

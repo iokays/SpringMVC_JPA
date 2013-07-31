@@ -6,6 +6,10 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 
 public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocationSecurityMetadataSource{
+	
+	private void loadResourceDefine() {
+		
+	}
 
 	@Override
 	public Collection<ConfigAttribute> getAllConfigAttributes() {

@@ -15,5 +15,4 @@ public interface UserService {
 	 * 			    用户基本信息
 	 */
 	public void save(User user);
-	
 }

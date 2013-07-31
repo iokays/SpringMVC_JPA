@@ -1,4 +1,4 @@
-package com.iokays.authoritietorepository.domain;
+package com.iokays.authoritytorepository.domain;
 
 import java.io.Serializable;
 
@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.iokays.authoritie.domain.Authoritie;
+import com.iokays.authority.domain.Authority;
 import com.iokays.resource.domain.Resource;
 
 /**
@@ -23,20 +23,20 @@ import com.iokays.resource.domain.Resource;
  */
 
 @Entity
-@Table(name = "t_pub_authoritie_resource")
-public class AuthoritieToResource implements Serializable{
+@Table(name = "t_pub_authority_resource")
+public class AuthorityToResource implements Serializable{
 
 	private static final long serialVersionUID = 3842203721619078799L;
 	
 	private String id;						//唯一标识符
-	private Authoritie authoritie;			//权限
+	private Authority authority;			//权限
 	private Resource resource;				//资源
 	private Integer enabled;				//是否可用
 	
 	@Id
 	@GenericGenerator(name = "idGenerator", strategy = "uuid")
 	@GeneratedValue(generator = "idGenerator")
-	@Column(name = "id", unique = true, nullable = false, length = 32)
+	@Column(name = "id_", unique = true, nullable = false, length = 32)
 	public String getId() {
 		return id;
 	}
@@ -45,16 +45,16 @@ public class AuthoritieToResource implements Serializable{
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "authoritieId", nullable = false)
-	public Authoritie getAuthoritie() {
-		return authoritie;
+	@JoinColumn(name = "authority_id_", nullable = false)
+	public Authority getAuthority() {
+		return authority;
 	}
-	public void setAuthoritie(Authoritie authoritie) {
-		this.authoritie = authoritie;
+	public void setAuthority(Authority authority) {
+		this.authority = authority;
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "resourceId", nullable = false)
+	@JoinColumn(name = "resource_id_", nullable = false)
 	public Resource getResource() {
 		return resource;
 	}
@@ -62,7 +62,7 @@ public class AuthoritieToResource implements Serializable{
 		this.resource = resource;
 	}
 	
-	@Column(name = "enabled", nullable = false)
+	@Column(name = "enabled_", nullable = false)
 	public Integer getEnabled() {
 		return enabled;
 	}

@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.iokays.roletoauthoritie.domain.RoleToAuthoritie;
+import com.iokays.roletoauthority.domain.RoleToAuthority;
 import com.iokays.usertorole.domain.UserToRole;
 
 /**
@@ -37,12 +37,12 @@ public class Role implements Serializable{
 	private Integer enabled;								//是否可用				0:禁用	1:正常
 	
 	private Set<UserToRole> userToRoles;					//用户角色
-	private Set<RoleToAuthoritie> roleToAuthorities;		//角色权限
+	private Set<RoleToAuthority> roleToAuthorities;		//角色权限
 	
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")		//主键生成策略为UUID
 	@GeneratedValue(generator="idGenerator")
-	@Column(name = "id", unique = true, nullable = false, length = 32)
+	@Column(name = "id_", unique = true, nullable = false, length = 32)
 	public String getId() {
 		return id;
 	}
@@ -50,7 +50,7 @@ public class Role implements Serializable{
 		this.id = id;
 	}
 	
-	@Column(name = "name", unique = true, nullable = false, length = 50)
+	@Column(name = "name_", unique = true, nullable = false, length = 50)
 	public String getName() {
 		return name;
 	}
@@ -58,7 +58,7 @@ public class Role implements Serializable{
 		this.name = name;
 	}
 	
-	@Column(name = "isSys")
+	@Column(name = "is_sys_")
 	public Integer getIsSys() {
 		return isSys;
 	}
@@ -66,7 +66,7 @@ public class Role implements Serializable{
 		this.isSys = isSys;
 	}
 	
-	@Column(name = "description", length = 200)
+	@Column(name = "description_", length = 200)
 	public String getDescription() {
 		return description;
 	}
@@ -74,7 +74,7 @@ public class Role implements Serializable{
 		this.description = description;
 	}
 
-	@Column(name = "enabled", nullable = false)
+	@Column(name = "enabled_", nullable = false)
 	public Integer getEnabled() {
 		return enabled;
 	}
@@ -90,13 +90,15 @@ public class Role implements Serializable{
 		this.userToRoles = userToRoles;
 	}
 	
-	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	public Set<RoleToAuthoritie> getRoleToAuthorities() {
+	@OneToMany(mappedBy = "authority", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	public Set<RoleToAuthority> getRoleToAuthorities() {
 		return roleToAuthorities;
 	}
-	public void setRoleToAuthorities(Set<RoleToAuthoritie> roleToAuthorities) {
+	public void setRoleToAuthorities(Set<RoleToAuthority> roleToAuthorities) {
 		this.roleToAuthorities = roleToAuthorities;
 	}
+	
+	
 	
 	
 	

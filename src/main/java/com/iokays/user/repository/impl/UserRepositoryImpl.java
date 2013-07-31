@@ -1,25 +1,27 @@
-package com.iokays.security.repository.impl;
+package com.iokays.user.repository.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Repository;
 
-import com.iokays.security.repository.UserDetailDao;
+import com.iokays.user.repository.custom.UserRepositoryCustom;
+
 /**
- * 自定义用户持久层 权限  接口(JDBC)实现
+ * 自定义用户持久层接口(EntityManager OR JDBC)实现
+ * 
  * @author pengyuanbing@gmail.com
  *
  */
-@Repository
-public class UserDetailDaoImpl implements UserDetailDao{
+public class UserRepositoryImpl implements UserRepositoryCustom {
 	
 	/**
 	 * 根据用户名查询用户密码 SQL语句
@@ -33,6 +35,11 @@ public class UserDetailDaoImpl implements UserDetailDao{
 			"from t_pub_user, t_pub_user_role, t_pub_role, t_pub_role_authoritie, t_pub_authoritie " +
 			"where t_pub_user.account = '1' and t_pub_user.enabled = 1 and t_pub_user.id = t_pub_user_role.userId and t_pub_user_role.enabled = 1 and t_pub_user_role.roleId = t_pub_role.id and " +
 			"t_pub_role.enabled = 1 and t_pub_role.id = t_pub_role_authoritie.roleId and t_pub_role_authoritie.enabled = 1 and t_pub_role_authoritie.authoritieId = t_pub_authoritie.id and t_pub_authoritie.enabled = 1 ";
+	
+	
+	
+	@PersistenceContext
+	private EntityManager entityManager;
 	
 	private JdbcTemplate jdbcTemplate;
 	
@@ -71,4 +78,3 @@ public class UserDetailDaoImpl implements UserDetailDao{
 		return result;
 	}
 }
-	
