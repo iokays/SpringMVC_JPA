@@ -4,16 +4,13 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import com.iokays.authority.domain.Authority;
 import com.iokays.resource.domain.Resource;
+import com.iokays.utils.domain.IdEntity;
 
 /**
  * 权限资源关联实体类
@@ -24,25 +21,13 @@ import com.iokays.resource.domain.Resource;
 
 @Entity
 @Table(name = "t_pub_authority_resource")
-public class AuthorityToResource implements Serializable{
+public class AuthorityToResource extends IdEntity implements Serializable{
 
 	private static final long serialVersionUID = 3842203721619078799L;
 	
-	private String id;						//唯一标识符
 	private Authority authority;			//权限
 	private Resource resource;				//资源
 	private Integer enabled;				//是否可用
-	
-	@Id
-	@GenericGenerator(name = "idGenerator", strategy = "uuid")
-	@GeneratedValue(generator = "idGenerator")
-	@Column(name = "id_", unique = true, nullable = false, length = 32)
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	
 	@ManyToOne
 	@JoinColumn(name = "authority_id_", nullable = false)

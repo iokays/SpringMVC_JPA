@@ -7,15 +7,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import com.iokays.roletoauthority.domain.RoleToAuthority;
 import com.iokays.usertorole.domain.UserToRole;
+import com.iokays.utils.domain.IdEntity;
 
 /**
  * 角色信息实体类
@@ -26,11 +23,10 @@ import com.iokays.usertorole.domain.UserToRole;
 
 @Entity
 @Table(name = "t_pub_role")
-public class Role implements Serializable{
+public class Role extends IdEntity implements Serializable{
 
 	private static final long serialVersionUID = 5985194730311465091L;
 	
-	private String id;										//角色ID
 	private String name;									//角色名称
 	private Integer isSys;									//是否是超级角色			0:非		1:是
 	private String description;								//角色描述
@@ -38,17 +34,6 @@ public class Role implements Serializable{
 	
 	private Set<UserToRole> userToRoles;					//用户角色
 	private Set<RoleToAuthority> roleToAuthorities;		//角色权限
-	
-	@Id
-	@GenericGenerator(name="idGenerator", strategy="uuid")		//主键生成策略为UUID
-	@GeneratedValue(generator="idGenerator")
-	@Column(name = "id_", unique = true, nullable = false, length = 32)
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	
 	@Column(name = "name_", unique = true, nullable = false, length = 50)
 	public String getName() {

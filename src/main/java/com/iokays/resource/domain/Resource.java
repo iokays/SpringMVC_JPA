@@ -6,14 +6,11 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import com.iokays.authoritytorepository.domain.AuthorityToResource;
+import com.iokays.utils.domain.IdEntity;
 
 /**
  * 资源信息实体类
@@ -23,11 +20,10 @@ import com.iokays.authoritytorepository.domain.AuthorityToResource;
  */
 @Entity
 @Table(name = "t_pub_resource")
-public class Resource implements Serializable{
+public class Resource extends IdEntity implements Serializable{
 
 	private static final long serialVersionUID = 7814877404789755510L;
 	
-	private String id;											//资源唯一标识符
 	private String name;										//资源名称
 	private String type;										//资源类型 method, url
 	private String value;										//资源链接
@@ -38,17 +34,6 @@ public class Resource implements Serializable{
 	private Integer isSys;										//是否是超级资源			0:非		1:是
 	
 	private Set<AuthorityToResource> authorityToResources;	//权限资源
-	
-	@Id
-	@GenericGenerator(name="idGenerator", strategy="uuid")		//主键生成策略为UUID
-	@GeneratedValue(generator="idGenerator")
-	@Column(name = "id_", unique = true, nullable = false, length = 32)
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	
 	@Column(name = "name_", unique = true, nullable = false, length = 50)
 	public String getName() {

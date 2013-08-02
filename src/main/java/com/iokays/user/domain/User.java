@@ -7,14 +7,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import com.iokays.usertorole.domain.UserToRole;
+import com.iokays.utils.domain.IdEntity;
 
 /**
  * 用户信息实体类
@@ -24,10 +21,9 @@ import com.iokays.usertorole.domain.UserToRole;
  */
 @Entity
 @Table(name="t_pub_user")
-public class User implements Serializable {
+public class User extends IdEntity implements Serializable {
 	private static final long serialVersionUID = 2259087012492570233L;
 	
-	private String id;			//用户主键
 	private String account;		//登陆账号
 	private String name;		//用户名
 	private String password;	//用户密码
@@ -44,16 +40,6 @@ public class User implements Serializable {
 		
 	}
 
-	@Id
-	@GenericGenerator(name="idGenerator", strategy="uuid")		//主键生成策略为UUID
-	@GeneratedValue(generator="idGenerator")
-	@Column(name = "id_", unique = true, nullable = false, length = 32)
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	
 	@Column(name = "account_", unique = true, length = 32, nullable = false)
 	public String getAccount() {
