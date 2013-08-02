@@ -1,12 +1,13 @@
-package com.iokays.security.service.impl;
+package com.iokays.security.manager;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,25 +16,27 @@ import org.springframework.stereotype.Service;
 
 import com.iokays.user.repository.UserRepository;
 
-@Service("userDetailsService")
-public class UserDetailsServiceImpl implements UserDetailsService{
+@Service("userDetailsManager")
+public class UserDetailsManager implements UserDetailsService {
 	
 	/**
 	 * 根据用户名获取密码，权限
 	 */
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
-		Collection<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-		final String password = userDao.getPasswordByAccount(username);
+		final String password = userRepository.getPasswordByAccount(username);
+		final List<String> list = userRepository.getAuthoritiesByAccount(username);
 		
-		GrantedAuthorityImpl auth2=new GrantedAuthorityImpl("ROLE_ADMIN");
-		grantedAuthorities.add(auth2);
+		Collection<GrantedAuthority> grantedAuthorities =  new ArrayList<GrantedAuthority>();
+		for (int i = 0; i < list.size(); ++i) {
+			GrantedAuthority authority = new SimpleGrantedAuthority(list.get(i)); 
+			grantedAuthorities.add(authority);
+		}
 		
 		return new User(username, password, true, true, true, true, grantedAuthorities);
 	}
 	
 	@Resource
-	UserRepository userDao;
-
+	UserRepository userRepository;
 	
 }

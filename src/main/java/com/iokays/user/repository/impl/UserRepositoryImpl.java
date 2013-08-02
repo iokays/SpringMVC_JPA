@@ -1,7 +1,8 @@
 package com.iokays.user.repository.impl;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,8 +11,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 
 import com.iokays.user.repository.custom.UserRepositoryCustom;
 
@@ -26,17 +26,15 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 	/**
 	 * 根据用户名查询用户密码 SQL语句
 	 */
-	private static final String sql_getPasswordByAccount = "select password from t_pub_user where account = ?";
+	private static final String sql_getPasswordByAccount = "select password_ from t_pub_user where account_ = ?";
 	/**
 	 * 根据用户名查询权限 SQL语句
 	 */
 	private static final String sql_getAuthorityByAccount = 
-			"select t_pub_authoritie.id " +
-			"from t_pub_user, t_pub_user_role, t_pub_role, t_pub_role_authoritie, t_pub_authoritie " +
-			"where t_pub_user.account = '1' and t_pub_user.enabled = 1 and t_pub_user.id = t_pub_user_role.userId and t_pub_user_role.enabled = 1 and t_pub_user_role.roleId = t_pub_role.id and " +
-			"t_pub_role.enabled = 1 and t_pub_role.id = t_pub_role_authoritie.roleId and t_pub_role_authoritie.enabled = 1 and t_pub_role_authoritie.authoritieId = t_pub_authoritie.id and t_pub_authoritie.enabled = 1 ";
-	
-	
+			"select t_pub_authority.id_ " +
+			"from t_pub_user, t_pub_user_role, t_pub_role, t_pub_role_authority, t_pub_authority " +
+			"where t_pub_user.account_ = ? and t_pub_user.enabled_ = 1 and t_pub_user.id_ = t_pub_user_role.user_id_ and t_pub_user_role.enabled_ = 1 and t_pub_user_role.role_id_ = t_pub_role.id_ and " +
+			"t_pub_role.enabled_ = 1 and t_pub_role.id_ = t_pub_role_authority.role_id_ and t_pub_role_authority.enabled_ = 1 and t_pub_role_authority.authority_id_ = t_pub_authority.id_ and t_pub_authority.enabled_ = 1 ";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -58,23 +56,13 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 	/**
 	 * 根据用户名获取用户权限
 	 */
-	public Collection<GrantedAuthority> getAuthorityByUsername(final String account) {
-		Collection<GrantedAuthority> grantedAuthority = new ArrayList<GrantedAuthority>();
-		List<String> list = getAuthorityByAccount(account);
-		
-		for (int i = 0; i < list.size(); ++i) {
-			GrantedAuthority authority = new SimpleGrantedAuthority(list.get(i)); 
-			grantedAuthority.add(authority);
-		}
-		return grantedAuthority;
+	public List<String> getAuthoritiesByAccount(final String account) {
+		return jdbcTemplate.query(sql_getAuthorityByAccount, new Object[] {account}, new ParameterizedRowMapper<String>() {
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getString(1);
+			}
+		});
 	}
 	
-	/**
-	 * 根据用户名获取用户权限
-	 */
-	private List<String> getAuthorityByAccount(final String account) {
-		List<String> result = new ArrayList<String>();
-		jdbcTemplate.queryForObject(sql_getAuthorityByAccount, new Object[] {account}, java.lang.String.class);
-		return result;
-	}
 }

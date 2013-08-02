@@ -103,7 +103,7 @@ public class User implements Serializable {
 		this.description = description;
 	}
 	
-	@OneToMany(mappedBy = "role_", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	public Set<UserToRole> getUserToRoles() {
 		return userToRoles;
 	}

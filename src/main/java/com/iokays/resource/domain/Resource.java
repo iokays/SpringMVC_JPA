@@ -30,7 +30,7 @@ public class Resource implements Serializable{
 	private String id;											//资源唯一标识符
 	private String name;										//资源名称
 	private String type;										//资源类型 method, url
-	private String resource;									//资源链接
+	private String value;										//资源链接
 	private Integer priority;									//资源优先权
 	private String description;									//资源描述
 	
@@ -66,12 +66,12 @@ public class Resource implements Serializable{
 		this.type = type;
 	}
 	
-	@Column(name = "resource_", nullable = false, length = 50)
-	public String getResource() {
-		return resource;
+	@Column(name = "value_", nullable = false, length = 50)
+	public String getValue() {
+		return value;
 	}
-	public void setResource(String resource) {
-		this.resource = resource;
+	public void setValue(String value) {
+		this.value = value;
 	}
 	
 	@Column(name = "priority_")

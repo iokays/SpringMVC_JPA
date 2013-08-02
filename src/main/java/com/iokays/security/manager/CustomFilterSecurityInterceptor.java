@@ -1,4 +1,4 @@
-package com.iokays.security.service.impl;
+package com.iokays.security.manager;
 
 import java.io.IOException;
 
@@ -15,7 +15,7 @@ import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 
-public class FilterSecurityInterceptor extends AbstractSecurityInterceptor
+public class CustomFilterSecurityInterceptor extends AbstractSecurityInterceptor
 		implements Filter {
 	
 	private FilterInvocationSecurityMetadataSource securityMetadataSource;
@@ -26,7 +26,7 @@ public class FilterSecurityInterceptor extends AbstractSecurityInterceptor
 		invoke(filterInvocation);
 	}
 
-	public void invoke(FilterInvocation filterInvocation) throws IOException, ServletException{
+	public void invoke(FilterInvocation filterInvocation) throws IOException, ServletException {
 		  InterceptorStatusToken token = super.beforeInvocation(filterInvocation);
 		  try{
 			  filterInvocation.getChain().doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());

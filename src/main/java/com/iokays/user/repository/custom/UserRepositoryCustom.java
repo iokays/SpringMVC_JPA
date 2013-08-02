@@ -1,8 +1,6 @@
 package com.iokays.user.repository.custom;
 
-import java.util.Collection;
-
-import org.springframework.security.core.GrantedAuthority;
+import java.util.List;
 
 /**
  * 自定义用户持久层接口
@@ -11,6 +9,6 @@ import org.springframework.security.core.GrantedAuthority;
  *
  */
 public interface UserRepositoryCustom {
-	public Collection<GrantedAuthority> getAuthorityByUsername(final String account);
+	public List<String> getAuthoritiesByAccount(final String account);
 	public String getPasswordByAccount(final String account);
 }

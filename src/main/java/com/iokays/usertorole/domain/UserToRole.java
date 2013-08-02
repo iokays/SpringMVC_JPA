@@ -60,6 +60,8 @@ public class UserToRole implements Serializable{
 	public void setRole(Role role) {
 		this.role = role;
 	}
+	
+	@Column(name = "enabled_", nullable = false)
 	public Integer getEnabled() {
 		return enabled;
 	}

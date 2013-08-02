@@ -53,7 +53,7 @@ public class RoleToAuthority implements Serializable{
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "authoritie_id_", nullable = false)
+	@JoinColumn(name = "authority_id_", nullable = false)
 	public Authority getAuthority() {
 		return authority;
 	}
