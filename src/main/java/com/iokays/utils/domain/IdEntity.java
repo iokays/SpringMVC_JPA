@@ -32,5 +32,4 @@ public abstract class IdEntity {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
 }

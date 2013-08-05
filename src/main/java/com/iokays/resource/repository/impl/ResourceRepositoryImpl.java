@@ -35,9 +35,8 @@ public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
 		return jdbcTemplate.query(GET_VALUE_BY_AUTHORITY_ID_SQL, new Object[] {authorityId}, new ParameterizedRowMapper<String>() {
 			@Override
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return rs.getString("value_");
+				return rs.getString(1);
 			}
 		});
 	}
-	
 }
