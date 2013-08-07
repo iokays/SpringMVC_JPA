@@ -21,6 +21,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 	
 	public List<String> getId() {
 		return authorityRepository.getIds();
+		
 	}
 	
 	@Resource

@@ -2,6 +2,7 @@ package com.iokays.authority.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,4 +14,7 @@ public interface AuthorityRepository extends JpaRepository<Authority, String> {
 	
 	@Query("select id from Authority")
 	public List<String> getIds();
+	
+	@Query("select securityId from Authority")
+	public List<Integer> getSecurityIds(Sort sort);
 }

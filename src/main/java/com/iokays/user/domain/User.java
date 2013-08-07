@@ -6,12 +6,16 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.iokays.usertorole.domain.UserToRole;
 import com.iokays.utils.domain.IdEntity;
+import com.iokays.utils.domain.Level;
+import com.iokays.utils.domain.Status;
 
 /**
  * 用户信息实体类
@@ -27,9 +31,9 @@ public class User extends IdEntity implements Serializable {
 	private String account;		//登陆账号
 	private String name;		//用户名
 	private String password;	//用户密码
-	private Integer enabled;	//是否可用				0:禁用	1:正常
-	private Integer isSys;		//是否是超级用户			0:非		1:是
 	private String description;	//用户描述
+	private Status states;		//是否可用
+	private Level level;		//资源等级
 	
 	private Set<UserToRole> userToRoles;	//用户角色
 	
@@ -65,20 +69,22 @@ public class User extends IdEntity implements Serializable {
 		this.password = password;
 	}
 	
-	@Column(name = "enabled_", nullable = false)
-	public Integer getEnabled() {
-		return enabled;
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name ="status_", nullable = true)
+	public Status getStates() {
+		return states;
 	}
-	public void setEnabled(Integer enabled) {
-		this.enabled = enabled;
+	public void setStates(Status states) {
+		this.states = states;
 	}
-
-	@Column(name = "is_sys_", nullable = false)
-	public Integer getIsSys() {
-		return isSys;
+	
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "level_", nullable = false)
+	public Level getLevel() {
+		return level;
 	}
-	public void setIsSys(Integer isSys) {
-		this.isSys = isSys;
+	public void setLevel(Level level) {
+		this.level = level;
 	}
 
 	@Column(name = "description_", length = 200, nullable = true)

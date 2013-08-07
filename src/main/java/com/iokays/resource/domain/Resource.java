@@ -5,12 +5,16 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.iokays.authoritytorepository.domain.AuthorityToResource;
 import com.iokays.utils.domain.IdEntity;
+import com.iokays.utils.domain.Level;
+import com.iokays.utils.domain.Status;
 
 /**
  * 资源信息实体类
@@ -20,7 +24,7 @@ import com.iokays.utils.domain.IdEntity;
  */
 @Entity
 @Table(name = "t_pub_resource")
-public class Resource extends IdEntity implements Serializable{
+public class Resource extends IdEntity implements Serializable {
 
 	private static final long serialVersionUID = 7814877404789755510L;
 	
@@ -30,10 +34,9 @@ public class Resource extends IdEntity implements Serializable{
 	private Integer priority;									//资源优先权
 	private String description;									//资源描述
 	
-	private Integer enabled;									//是否可用				0:禁用	1:正常
-	private Integer isSys;										//是否是超级资源			0:非		1:是
-	
-	private Set<AuthorityToResource> authorityToResources;	//权限资源
+	private Status states;										//是否可用
+	private Level level;										//资源等级
+	private Set<AuthorityToResource> authorityToResources;		//权限资源
 	
 	@Column(name = "name_", unique = true, nullable = false, length = 50)
 	public String getName() {
@@ -75,20 +78,22 @@ public class Resource extends IdEntity implements Serializable{
 		this.description = description;
 	}
 	
-	@Column(name = "enabled_", nullable = false)
-	public Integer getEnabled() {
-		return enabled;
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name ="status_", nullable = true)
+	public Status getStates() {
+		return states;
 	}
-	public void setEnabled(Integer enabled) {
-		this.enabled = enabled;
+	public void setStates(Status states) {
+		this.states = states;
 	}
 	
-	@Column(name = "is_sys_")
-	public Integer getIsSys() {
-		return isSys;
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "level_", nullable = false)
+	public Level getLevel() {
+		return level;
 	}
-	public void setIsSys(Integer isSys) {
-		this.isSys = isSys;
+	public void setLevel(Level level) {
+		this.level = level;
 	}
 	
 	@OneToMany(mappedBy = "resource", fetch = FetchType.LAZY)

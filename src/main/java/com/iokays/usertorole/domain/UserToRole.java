@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -11,6 +13,7 @@ import javax.persistence.Table;
 import com.iokays.role.domain.Role;
 import com.iokays.user.domain.User;
 import com.iokays.utils.domain.IdEntity;
+import com.iokays.utils.domain.Status;
 
 /**
  * 用户角色关联表
@@ -26,7 +29,7 @@ public class UserToRole extends IdEntity implements Serializable{
 	
 	private User user;					//用户
 	private Role role;					//角色
-	private Integer enabled;			//是否可用
+	private Status states;				//是否可用
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id_", nullable = true)
@@ -46,11 +49,12 @@ public class UserToRole extends IdEntity implements Serializable{
 		this.role = role;
 	}
 	
-	@Column(name = "enabled_", nullable = false)
-	public Integer getEnabled() {
-		return enabled;
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name ="status_", nullable = true)
+	public Status getStates() {
+		return states;
 	}
-	public void setEnabled(Integer enabled) {
-		this.enabled = enabled;
+	public void setStates(Status states) {
+		this.states = states;
 	}
 }
