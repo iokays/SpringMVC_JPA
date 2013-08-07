@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.iokays.resource.domain.Resource;
 import com.iokays.resource.repository.custom.ResourceRepositoryCustom;
 
-public interface ResourceRepository extends JpaRepository<Resource, String>, ResourceRepositoryCustom{
+public interface ResourceRepository extends JpaRepository<Resource, String>, ResourceRepositoryCustom {
 	@Query("select name from Authority")
 	public List<String> getName();
 	

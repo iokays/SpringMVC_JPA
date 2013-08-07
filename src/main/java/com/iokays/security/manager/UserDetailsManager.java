@@ -24,7 +24,7 @@ public class UserDetailsManager implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		final String password = userRepository.getPasswordByAccount(username);
-		final List<String> list = userRepository.getAuthoritiesByAccount(username);
+		final List<String> list = userRepository.getAuthorityIdsByAccount(username);
 		
 		Collection<GrantedAuthority> grantedAuthorities =  new ArrayList<GrantedAuthority>();
 		for (int i = 0; i < list.size(); ++i) {

@@ -9,6 +9,6 @@ import java.util.List;
  *
  */
 public interface UserRepositoryCustom {
-	public List<String> getAuthoritiesByAccount(final String account);
+	public List<String> getAuthorityIdsByAccount(final String account);
 	public String getPasswordByAccount(final String account);
 }

@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -40,8 +38,6 @@ public class Authority extends IdEntity implements Serializable {
 	
 	private Set<RoleToAuthority> roleToAuthorities;			//角色权限
 	private Set<AuthorityToResource> authorityToResources;	//权限资源
-	
-	private int securityId;									//自增长安全权限编号Id，用于权限判定算法[折半]
 	
 	/**
 	 * 默认构造函数
@@ -102,15 +98,5 @@ public class Authority extends IdEntity implements Serializable {
 	public void setAuthorityToResources(
 			Set<AuthorityToResource> authorityToResources) {
 		this.authorityToResources = authorityToResources;
-	}
-	
-	@Column(name ="security_id_", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)		//不支持Oracle数据库 
-	public int getSecurityId() {
-		return securityId;
-	}
-
-	public void setSecurityId(int securityId) {
-		this.securityId = securityId;
 	}
 }
