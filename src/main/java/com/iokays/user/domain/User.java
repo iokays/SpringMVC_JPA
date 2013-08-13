@@ -43,7 +43,6 @@ public class User extends IdEntity implements Serializable {
 	public User() {	
 		
 	}
-
 	
 	@Column(name = "account_", unique = true, length = 32, nullable = false)
 	public String getAccount() {
@@ -95,7 +94,7 @@ public class User extends IdEntity implements Serializable {
 		this.description = description;
 	}
 	
-	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	public Set<UserToRole> getUserToRoles() {
 		return userToRoles;
 	}

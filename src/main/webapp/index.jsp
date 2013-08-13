@@ -6,7 +6,7 @@
 <%@ include file="/common/meta.jsp" %>
 <%@ include file="/common/include-jquery-ui-theme.jsp" %>
 <%@ include file="/common/include-custom-styles.jsp" %>
-</head>
+</head> 
 <body>
 	<div id = "top" style="position:absolute; height:10em; left:0em; right:0em">
 		<h1>基于SpringMVC_JPA 全注解框架搭建</h1>
@@ -29,8 +29,6 @@
 			</h3>
 			<div>Phasellus mattis tincidunt nibh.</div>
 		</div>
-		
-		
 	</div>
 	<div id = "main" style="position:absolute; left:20em; top:10em; bottom:0em; right:0em;">
 		<iframe name = "main"  seamless="seamless" height = "100%" width = "100%" src = "index.html"></iframe>

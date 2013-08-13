@@ -82,7 +82,7 @@ public class Role extends IdEntity implements Serializable{
 		this.userToRoles = userToRoles;
 	}
 	
-	@OneToMany(mappedBy = "authority", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	public Set<RoleToAuthority> getRoleToAuthorities() {
 		return roleToAuthorities;
 	}

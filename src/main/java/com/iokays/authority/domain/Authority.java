@@ -81,7 +81,7 @@ public class Authority extends IdEntity implements Serializable {
 		this.level = level;
 	}
 
-	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "authority", fetch = FetchType.LAZY)
 	public Set<RoleToAuthority> getRoleToAuthorities() {
 		return roleToAuthorities;
 	}
