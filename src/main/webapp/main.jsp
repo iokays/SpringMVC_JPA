@@ -9,10 +9,10 @@
 </head>
 <body>
 <h2>权限标签测试</h2>
-<sec:authorize url = "/test.jsp">
+<sec:authorize url = "/success.jsp">
 	可见
 </sec:authorize>
-<sec:authorize url = "/test.html">
+<sec:authorize url = "/error.jsp">
 	不可见
 </sec:authorize>
 </body>

@@ -1,5 +1,7 @@
 package com.iokays.utils.domain;
 
+import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,16 +22,24 @@ import org.hibernate.annotations.GenericGenerator;
 public abstract class IdEntity {
 
 	protected String id;
+	protected Long createDate = Calendar.getInstance().getTimeInMillis();	//默认排序规则
 
 	@Id
 	@GeneratedValue(generator = "idGenerator")
 	@GenericGenerator(name = "idGenerator", strategy = "uuid")
-	@Column(name = "id_", unique = true, nullable = false, length = 32)
+	@Column(name = "id_", unique = true, nullable = false, length = 32, updatable = false)
 	public String getId() {
 		return id;
 	}
-
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	@Column(name = "create_date_", nullable = false, updatable = false)
+	public Long getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Long createDate) {
+		this.createDate = createDate;
 	}
 }
