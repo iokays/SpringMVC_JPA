@@ -20,6 +20,16 @@ import com.iokays.user.service.UserService;
 public class UserServiceImpl implements UserService {
 	@Resource
 	private UserRepository userRepository;
+	
+//	@Override
+//	public Page<User> findAll(Pageable pageable) {
+//		return userRepository.findAll(pageable);
+//	}
+	
+//	@Override
+//	public Page<User> findAll(Pageable pageable, Status status) {
+//		return userRepository.findAll(pageable);
+//	}
 
 	/* (non-Javadoc)
 	 * @see com.iokays.user.service.UserService#save(com.iokays.user.domain.User)

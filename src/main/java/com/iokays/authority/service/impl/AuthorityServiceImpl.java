@@ -19,7 +19,7 @@ import com.iokays.authority.service.AuthorityService;
 @Service("authorityService")
 public class AuthorityServiceImpl implements AuthorityService {
 	
-	public List<String> getId() {
+	public List<String> getIds() {
 		return authorityRepository.getIds();
 		
 	}

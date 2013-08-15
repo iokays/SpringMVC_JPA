@@ -23,10 +23,6 @@ import com.iokays.user.repository.custom.UserRepositoryCustom;
 public class UserRepositoryImpl implements UserRepositoryCustom {
 	
 	/**
-	 * 根据用户名查询用户密码 SQL语句
-	 */
-	private static final String sql_getPasswordByAccount = "select password_ from t_pub_user where account_ = ?";
-	/**
 	 * 根据用户名查询权限 SQL语句
 	 */
 	private static final String sql_getAuthorityIdsByAccount = 
@@ -34,7 +30,6 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 			"from t_pub_user, t_pub_user_role, t_pub_role, t_pub_role_authority, t_pub_authority " +
 			"where t_pub_user.account_ = ? and t_pub_user.status_ = 1 and t_pub_user.id_ = t_pub_user_role.user_id_ and t_pub_user_role.status_ = 1 and t_pub_user_role.role_id_ = t_pub_role.id_ and " +
 			"t_pub_role.status_ = 1 and t_pub_role.id_ = t_pub_role_authority.role_id_ and t_pub_role_authority.status_ = 1 and t_pub_role_authority.authority_id_ = t_pub_authority.id_ and t_pub_authority.status_ = 1 ";
-	
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -44,13 +39,6 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 	@Autowired
 	public void setDataSource(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
-	}
-	
-	/**
-	 * 根据登录名获取用户密码
-	 */
-	public String getPasswordByAccount(final String account) {
-		return jdbcTemplate.queryForObject(sql_getPasswordByAccount, new Object[] {account}, java.lang.String.class);
 	}
 	
 	/**

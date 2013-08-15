@@ -9,9 +9,9 @@ import com.iokays.resource.domain.Resource;
 import com.iokays.resource.repository.custom.ResourceRepositoryCustom;
 
 public interface ResourceRepository extends JpaRepository<Resource, String>, ResourceRepositoryCustom {
-	@Query("select name from Authority")
+	@Query("select name from Resource")
 	public List<String> getName();
 	
-	@Query("select id from Authority")
+	@Query("select id from Resource")
 	public List<String> getId();
 }

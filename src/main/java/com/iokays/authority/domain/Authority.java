@@ -54,7 +54,6 @@ public class Authority extends IdEntity implements Serializable {
 		this.name = name;
 	}
 	
-	
 	@Column(name = "description_", nullable = true, length = 200)
 	public String getDescription() {
 		return description;

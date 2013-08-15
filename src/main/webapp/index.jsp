@@ -31,7 +31,7 @@
 		</div>
 	</div>
 	<div id = "main" style="position:absolute; left:20em; top:10em; bottom:0em; right:0em;">
-		<iframe name = "main"  seamless="seamless" height = "100%" width = "100%" src = "index.html"></iframe>
+		<iframe name = "main"  seamless="seamless" height = "100%" width = "100%" src = "main.jsp"></iframe>
 	</div>
 </body>
 </html>

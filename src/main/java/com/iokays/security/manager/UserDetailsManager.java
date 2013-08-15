@@ -23,16 +23,21 @@ public class UserDetailsManager implements UserDetailsService {
 	 */
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
-		final String password = userRepository.getPasswordByAccount(username);
-		final List<String> list = userRepository.getAuthorityIdsByAccount(username);
+		final String id = userRepository.getId(username);
 		
-		Collection<GrantedAuthority> grantedAuthorities =  new ArrayList<GrantedAuthority>();
-		for (int i = 0; i < list.size(); ++i) {
-			GrantedAuthority authority = new SimpleGrantedAuthority(list.get(i)); 
-			grantedAuthorities.add(authority);
+		if (null != id) {
+			final String password = userRepository.getPasswordByAccount(username);
+			final List<String> list = userRepository.getAuthorityIdsByAccount(username);
+			
+			Collection<GrantedAuthority> grantedAuthorities =  new ArrayList<GrantedAuthority>();
+			for (int i = 0; i < list.size(); ++i) {
+				GrantedAuthority authority = new SimpleGrantedAuthority(list.get(i)); 
+				grantedAuthorities.add(authority);
+			}
+			return new UserSecurity(id, username, password, grantedAuthorities);
+		} else {
+			return null;
 		}
-		
-		return new UserSecurity(null, username, password, grantedAuthorities);
 	}
 	
 	@Resource

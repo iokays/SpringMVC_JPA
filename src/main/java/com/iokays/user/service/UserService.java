@@ -16,6 +16,49 @@ import com.iokays.user.domain.User;
 public interface UserService {
 	
 	/**
+	 * 分页查询用户列表
+	 * @param
+	 *    pageable 分页参数
+	 * @return
+	 *    Page<User> 查询到的User对象列表【getContent】
+	 */
+//	public abstract Page<User> findAll(Pageable pageable);
+	
+	/**
+	 * 分页查询用户列表
+	 * @param
+	 *    pageable 分页参数
+	 *    status 对象禁用状态
+	 *    
+	 * @return
+	 *    Page<User> 查询到的User对象列表【getContent】
+	 */
+//	public abstract Page<User> findAll(Pageable pageable, Status status);
+	
+	/**
+	 * 分页查询用户列表
+	 * @param
+	 *    pageable 分页参数
+	 *    level 系统权限级别
+	 *    
+	 * @return
+	 *    Page<User> 查询到的User对象列表【getContent】
+	 */
+//	public abstract Page<User> findAll(Pageable pageable, Level level);
+	
+	/**
+	 * 分页查询用户列表
+	 * @param
+	 *    pageable 分页参数
+	 *    status 对象禁用状态
+	 *    level 系统权限级别
+	 *    
+	 * @return
+	 *    Page<User> 查询到的User对象列表【getContent】
+	 */
+//	public abstract Page<User> findAll(Pageable pageable, Status status, Level level);
+	
+	/**
 	 * 保存，更新用户对象
 	 * @param 
 	 *    user 用户的基本信息
