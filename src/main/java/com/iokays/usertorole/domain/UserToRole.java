@@ -29,7 +29,7 @@ public class UserToRole extends IdEntity implements Serializable{
 	
 	private User user;					//用户
 	private Role role;					//角色
-	private Status states;				//是否可用
+	private Status status;				//是否可用
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id_", nullable = true)
@@ -51,10 +51,10 @@ public class UserToRole extends IdEntity implements Serializable{
 	
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name ="status_", nullable = true)
-	public Status getStates() {
-		return states;
+	public Status getStatus() {
+		return status;
 	}
-	public void setStates(Status states) {
-		this.states = states;
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 }

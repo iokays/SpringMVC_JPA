@@ -33,7 +33,7 @@ public class Authority extends IdEntity implements Serializable {
 	private String name;									//权限名称
 	private String description;								//权限描述
 	
-	private Status states;									//是否可用
+	private Status status;									//是否可用
 	private Level level;									//权限等级
 	
 	private Set<RoleToAuthority> roleToAuthorities;			//角色权限
@@ -64,11 +64,11 @@ public class Authority extends IdEntity implements Serializable {
 	
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name ="status_", nullable = false)
-	public Status getStates() {
-		return states;
+	public Status getStatus() {
+		return status;
 	}
-	public void setStates(Status states) {
-		this.states = states;
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 	
 	@Enumerated(EnumType.ORDINAL)

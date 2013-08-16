@@ -22,6 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
 public abstract class IdEntity {
 
 	protected String id;
+	
 	protected Long createDate = Calendar.getInstance().getTimeInMillis();	//默认排序规则
 
 	@Id

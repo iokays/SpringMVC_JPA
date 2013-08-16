@@ -32,7 +32,7 @@ public class User extends IdEntity implements Serializable {
 	private String name;		//用户名
 	private String password;	//用户密码
 	private String description;	//用户描述
-	private Status states;		//是否可用
+	private Status status;		//是否可用
 	private Level level;		//资源等级
 	
 	private Set<UserToRole> userToRoles;	//用户角色
@@ -70,11 +70,11 @@ public class User extends IdEntity implements Serializable {
 	
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name ="status_", nullable = true)
-	public Status getStates() {
-		return states;
+	public Status getStatus() {
+		return status;
 	}
-	public void setStates(Status states) {
-		this.states = states;
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 	
 	@Enumerated(EnumType.ORDINAL)

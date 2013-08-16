@@ -4,20 +4,38 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.iokays.user.domain.User;
 import com.iokays.user.service.UserService;
+import com.iokays.utils.domain.Level;
+import com.iokays.utils.domain.Status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
 public class UserServiceImplTest {
 	
-	@Resource(name = "userService")
+	@Resource
 	private UserService userService;
 	
-	@Test
-	public void testSave() {
-		userService.save(null);
+	public void save() {
+		User user = new User();
+		user.setAccount("pengyuanbing1");
+		user.setName("pengyuanbing1");
+		user.setDescription("说明1");
+		user.setPassword("pengyuanbing1");
+		user.setLevel(Level.systemic);
+		user.setStatus(Status.enabled);
+		userService.save(user);
 	}
+	
+	@Test
+	public void findAll() {
+		userService.findAll(new PageRequest(0, 2, Direction.DESC, "createDate"));
+	}
+	
+	
 }
