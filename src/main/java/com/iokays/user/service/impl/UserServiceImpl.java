@@ -5,8 +5,6 @@ import javax.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.iokays.user.domain.User;
 import com.iokays.user.repository.UserRepository;
@@ -21,7 +19,6 @@ import com.iokays.utils.domain.Status;
  *
  */
 @Service("userService")
-@Transactional(readOnly = true, timeout = 10)
 public class UserServiceImpl implements UserService {
 	@Resource
 	private UserRepository userRepository;
@@ -53,6 +50,10 @@ public class UserServiceImpl implements UserService {
 		return null == level ? findAll(pageable) : userRepository.findAllByLevel(pageable, level);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see com.iokays.user.service.UserService#findAll(org.springframework.data.domain.Pageable, com.iokays.utils.domain.Status, com.iokays.utils.domain.Level)
+	 */
 	@Override
 	public Page<User> findAll(Pageable pageable, Status status, Level level) {
 		if (null == status) {
@@ -70,7 +71,6 @@ public class UserServiceImpl implements UserService {
 	 * @see com.iokays.user.service.UserService#save(com.iokays.user.domain.User)
 	 */
 	@Override
-	@Transactional(readOnly = false, propagation=Propagation.REQUIRES_NEW) 
 	public void save(User user) {
 		userRepository.save(user);
 	}
@@ -87,7 +87,6 @@ public class UserServiceImpl implements UserService {
 	 * @see com.iokays.user.service.UserService#delete(java.lang.String)
 	 */
 	@Override
-	@Transactional(readOnly = false, propagation=Propagation.REQUIRES_NEW) 
 	public void delete(String id) {
 		userRepository.delete(id);
 	}
@@ -96,7 +95,6 @@ public class UserServiceImpl implements UserService {
 	 * @see com.iokays.user.service.UserService#delete(java.lang.String)
 	 */
 	@Override
-	@Transactional(readOnly = false, propagation=Propagation.REQUIRES_NEW) 
 	public void delete(String... ids) {
 		for (int i = 0; i < ids.length; ++i) {
 			userRepository.delete(ids[i]);

@@ -33,7 +33,7 @@ public class User extends IdEntity implements Serializable {
 	private String password;	//用户密码
 	private String description;	//用户描述
 	private Status status;		//是否可用
-	private Level level;		//资源等级
+	private Level level;		//等级
 	
 	private Set<UserToRole> userToRoles;	//用户角色
 	

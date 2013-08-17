@@ -17,7 +17,7 @@
 				<a href="#">系统管理</a>
 			</h3>
 			<div>
-				<a href = "admin/user/list.jsp" target="main">用户列表</a><br>
+				<a href = "admin/user/list" target="main">用户列表</a><br>
 				角色列表<br>
 				权限列表<br>
 				资源列表

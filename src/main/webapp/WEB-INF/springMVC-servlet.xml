@@ -19,9 +19,8 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 	
-	<!-- 
 	<mvc:annotation-driven/>
-	-->
+	<mvc:resources mapping="/js/**" location="/js/" />
 
 	<!-- 完成请求和注解POJO的映射 -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />

@@ -18,7 +18,6 @@ public interface UserService {
 	 * 分页查询用户列表[默认以创建时间倒序排列]
 	 * 
 	 * @param pageable 分页参数
-	 * 
 	 * @return  Page<User> 查询到的User对象列表【getContent】
 	 */
 	public abstract Page<User> findAll(Pageable pageable);
@@ -28,7 +27,6 @@ public interface UserService {
 	 * 
 	 * @param pageable 分页参数
 	 * @param status 对象禁用状态
-	 * 
 	 * @return Page<User> 查询到的User对象列表【getContent】
 	 */
 	public abstract Page<User> findAll(Pageable pageable, Status status);
@@ -49,7 +47,6 @@ public interface UserService {
 	 * @param pageable 分页参数
 	 * @param status 对象禁用状态
 	 * @param level 系统权限级别
-	 * 
 	 * @return Page<User> 查询到的User对象列表【getContent】
 	 */
 	
@@ -60,8 +57,7 @@ public interface UserService {
 	 * 
 	 * @param pageable 分页参数
 	 * @param status 对象禁用状态
-	 * @param level 系统权限级别
-	 *    
+	 * @param level 系统权限级别   
 	 * @return Page<User> 查询到的User对象列表【getContent】
 	 */
 //	public abstract Page<User> findAll(Pageable pageable, Status status, Level level);
@@ -83,14 +79,12 @@ public interface UserService {
 	
 	/**
 	 * 根据用户ID单个删除用户基本信息 
-	 * 
 	 * @param id 用户ID
 	 */
 	public abstract void delete(String id);
 	
 	/**
 	 * 根据用户ID批量删除用户基本信息 
-	 * 
 	 * @param ids 用户Id数组
 	 */
 	public abstract void delete(String... ids);
