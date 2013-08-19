@@ -20,6 +20,7 @@
 	</context:component-scan>
 	
 	<mvc:annotation-driven/>
+	
 	<mvc:resources mapping="/js/**" location="/js/" />
 
 	<!-- 完成请求和注解POJO的映射 -->

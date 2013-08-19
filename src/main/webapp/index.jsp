@@ -18,7 +18,7 @@
 			</h3>
 			<div>
 				<a href = "admin/user/list" target="main">用户列表</a><br>
-				角色列表<br>
+				<a href = "admin/user/role" target="main">角色列表</a><br>
 				权限列表<br>
 				资源列表
 			</div>

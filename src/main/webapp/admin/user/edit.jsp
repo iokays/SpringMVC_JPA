@@ -15,19 +15,22 @@
 	<div id="tabs-user-edit" >
 		<form action = "/edit" method = "post">
 			<div>
-				<label style="width:5em; display:inline-block">登陆账号</label><input type = "text" name = "user.account" value = "${user.account }" />
+				<label style="width:5em; display:inline-block">登陆账号</label><input type = "text" name = "account" value = "${user.account }" />
 			</div>
 			<div>
-				<label style="width:5em; display:inline-block">用户名称</label><input type = "text" name = "user.name" value = "${user.name }"/>
+				<label style="width:5em; display:inline-block">用户名称</label><input type = "text" name = "name" value = "${user.name }"/>
 			</div>
 			<div>
-				<label style="width:5em; display:inline-block">用户描述</label><input type = "text" name = "user.description" value = "${user.description }"/>
+				<label style="width:5em; display:inline-block">用户密码</label><input type = "text" name = "password" value = "${user.password }"/>
 			</div>
 			<div>
-				<label style="width:5em; display:inline-block">是否可用</label><input type = "text" name = "user.status" value = "${user.status }"/>
+				<label style="width:5em; display:inline-block">用户描述</label><input type = "text" name = "description" value = "${user.description }"/>
 			</div>
 			<div>
-				<label style="width:5em; display:inline-block">等级</label><input type = "text" name = "user.level" value = "${user.level }"/>
+				<label style="width:5em; display:inline-block">是否可用</label><input type = "text" name = "status" value = "${user.status }"/>
+			</div>
+			<div>
+				<label style="width:5em; display:inline-block">等级</label><input type = "text" name = "level" value = "${user.level }"/>
 			</div>
 		</form>
 	</div>

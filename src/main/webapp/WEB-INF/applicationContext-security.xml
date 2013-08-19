@@ -7,14 +7,20 @@
 	
 	<beans:description>SpringSecurity安全配置</beans:description>
 	
+	<!-- 页面标签权限功能依赖 -->
+	<beans:bean id="webInvocationFilter" class="org.springframework.security.web.access.DefaultWebInvocationPrivilegeEvaluator">
+		<beans:constructor-arg name="securityInterceptor" ref="customSecurityInterceptor" />
+	</beans:bean>
+	
 	<http pattern="/frame/**" security="none"/>
 	
  	<http auto-config="true">
-		<custom-filter ref="customFilter" before="FILTER_SECURITY_INTERCEPTOR"/> 
+		<custom-filter ref="customSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR"/> 
 	</http>
 	
+	
 	<!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager, securityMetadataSource三个属性。-->
-	<beans:bean id="customFilter" class="com.iokays.security.manager.CustomFilterSecurityInterceptor">
+	<beans:bean id="customSecurityInterceptor" class="com.iokays.security.manager.CustomFilterSecurityInterceptor">
 		<beans:property name="authenticationManager" ref="customAuthenticationManager"/>
 		<beans:property name="accessDecisionManager" ref="customAccessDecisionManager"/>
 		<beans:property name="securityMetadataSource" ref="customSecurityMetadataSource"/>
@@ -40,5 +46,4 @@
 	<!-- [注解已实现] -->
 	<!-- <beans:bean id="userDetailsManager" class="com.iokays.security.manager.UserDetailsManager"/> -->
 	
-  
 </beans:beans>

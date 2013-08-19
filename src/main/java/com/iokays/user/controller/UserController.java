@@ -57,7 +57,19 @@ public class UserController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String add(User user, Model model) {
 		userService.save(user);
-		return "/admin/user/list";
+		return "redirect:/admin/user/list";
+	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public String edit(User user, Model model) {
+		userService.save(user);
+		return "redirect:/admin/user/list";
+	}
+	
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	public String delete(@PathVariable(value = "id") String id, Model model) {
+		userService.delete(id);
+		return "redirect:/admin/user/list";
 	}
 	
 	public void test() {

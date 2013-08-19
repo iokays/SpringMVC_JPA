@@ -55,6 +55,9 @@
 				<label style="width:5em; display:inline-block">用户名称</label><input type = "text" name = "name"/>
 			</div>
 			<div>
+				<label style="width:5em; display:inline-block">用户密码</label><input type = "text" name = "password"/>
+			</div>
+			<div>
 				<label style="width:5em; display:inline-block">用户描述</label><input type = "text" name = "description"/>
 			</div>
 			<div>
