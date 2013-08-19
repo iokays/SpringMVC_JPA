@@ -39,7 +39,7 @@
 						<td>${user.description }</td>
 						<td>${user.status }</td>
 						<td>${user.level }</td>
-						<td><a href = "load/${user.id }" title="修改基本信息,角色">修改</a>|<a href = "delete/${user.id }" title="删除基本信息 ">删除</a></td>
+						<td><a href = "${ctx }/admin/user/load/${user.id }" title="修改基本信息,角色">修改</a>|<a href = "${ctx }/admin/user/delete/${user.id }" title="删除基本信息 ">删除</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -47,7 +47,7 @@
 	</div>
 	
 	<div id="tabs_user_add">
-		<form action = "add" method = "post">
+		<form action = "${ctx }/admin/user/add" method = "post">
 			<div>
 				<label style="width:5em; display:inline-block">登陆账号</label><input type = "text" name = "account"/>
 			</div>
@@ -61,15 +61,16 @@
 				<label style="width:5em; display:inline-block">用户描述</label><input type = "text" name = "description"/>
 			</div>
 			<div>
-				<label style="width:5em; display:inline-block">是否可用</label><input type = "text" name = "user.status"/>
+				<label style="width:5em; display:inline-block">是否可用</label><input type = "text" name = "status"/>
 			</div>
 			<div>
-				<label style="width:5em; display:inline-block">等级</label><input type = "text" name = "user.level"/>
+				<label style="width:5em; display:inline-block">等级</label><input type = "text" name = "level"/>
 			</div>
 			
 			<div style="float:rigth;">
-				<button id="button" onclick = "this.form.submit()">添加</button>
+				<button id="button" onclick = "this.form.submit()">保存并添加角色</button>
 			</div>
+			
 		</form>
 	</div>
 </div>

@@ -1,7 +1,7 @@
-package com.iokays.resource.repository.custom;
+package com.iokays.resource.repository.plus;
 
 import java.util.List;
 
-public interface ResourceRepositoryCustom {
+public interface ResourceRepositoryPlus {
 	public abstract List<String> getValues (String authorityId);
 }

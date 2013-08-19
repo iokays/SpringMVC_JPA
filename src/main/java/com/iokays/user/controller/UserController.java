@@ -56,13 +56,13 @@ public class UserController {
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String add(User user, Model model) {
-		userService.save(user);
+		userService.insert(user);
 		return "redirect:/admin/user/list";
 	}
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String edit(User user, Model model) {
-		userService.save(user);
+		userService.update(user);
 		return "redirect:/admin/user/list";
 	}
 	

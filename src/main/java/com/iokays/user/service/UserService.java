@@ -67,7 +67,14 @@ public interface UserService {
 	 * 
 	 * @param user 用户的基本信息
 	 */
-	public abstract void save(User user);
+	public abstract void insert(User user);
+	
+	/**
+	 * 保存，更新用户对象
+	 * 
+	 * @param user 用户的基本信息
+	 */
+	public abstract void update(User user);
 	
 	/**
 	 * 根据用户ID获取用户的基本信息

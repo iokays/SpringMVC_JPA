@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 
-import com.iokays.user.repository.custom.UserRepositoryCustom;
+import com.iokays.user.repository.plus.UserRepositoryPlus;
 
 /**
  * 自定义用户持久层接口(EntityManager OR JDBC)实现
@@ -20,7 +20,7 @@ import com.iokays.user.repository.custom.UserRepositoryCustom;
  * @author pengyuanbing@gmail.com
  *
  */
-public class UserRepositoryImpl implements UserRepositoryCustom {
+public class UserRepositoryImpl implements UserRepositoryPlus {
 	
 	/**
 	 * 根据用户名查询权限 SQL语句

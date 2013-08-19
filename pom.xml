@@ -199,8 +199,6 @@
 
 	<build>
 		<finalName>SpringMVC_JPA</finalName>
-		
-		
 
 		<pluginManagement>
 			<plugins>
@@ -212,28 +210,24 @@
 						<source>1.7</source>
 						<target>1.7</target>
 						<encoding>UTF-8</encoding>
-						
+
 						<configuration>
-	                    <additionalProjectnatures>
-	                        <projectnature>org.eclipse.jdt.core.javanature</projectnature>
-	                        <!-- 
-	                        <projectnature>org.eclipse.m2e.core.maven2Nature</projectnature>
-	                        <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
-	                         -->
-	                    </additionalProjectnatures>
-	                    <additionalBuildcommands>
-	                        <buildcommand>org.eclipse.jdt.core.javabuilder</buildcommand>
-	                        <!-- 
-	                        <buildcommand>org.eclipse.m2e.core.maven2Builder</buildcommand>
-	                        <buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
-	                         -->
-	                    </additionalBuildcommands>
-                </configuration>
+							<additionalProjectnatures>
+								<projectnature>org.eclipse.jdt.core.javanature</projectnature>
+								<!-- <projectnature>org.eclipse.m2e.core.maven2Nature</projectnature> 
+									<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature> -->
+							</additionalProjectnatures>
+							<additionalBuildcommands>
+								<buildcommand>org.eclipse.jdt.core.javabuilder</buildcommand>
+								<!-- <buildcommand>org.eclipse.m2e.core.maven2Builder</buildcommand> 
+									<buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand> -->
+							</additionalBuildcommands>
+						</configuration>
 					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
-	
-	
+
+
 </project>

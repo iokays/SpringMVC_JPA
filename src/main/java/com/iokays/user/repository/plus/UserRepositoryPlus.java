@@ -1,4 +1,4 @@
-package com.iokays.user.repository.custom;
+package com.iokays.user.repository.plus;
 
 import java.util.List;
 
@@ -8,6 +8,6 @@ import java.util.List;
  * @author pengyuanbing@gmail.com
  *
  */
-public interface UserRepositoryCustom {
+public interface UserRepositoryPlus {
 	public List<String> getAuthorityIdsByAccount(final String account);
 }

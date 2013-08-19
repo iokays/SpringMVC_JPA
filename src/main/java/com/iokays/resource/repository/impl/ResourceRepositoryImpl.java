@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 
-import com.iokays.resource.repository.custom.ResourceRepositoryCustom;
+import com.iokays.resource.repository.plus.ResourceRepositoryPlus;
 
-public class ResourceRepositoryImpl implements ResourceRepositoryCustom {
+public class ResourceRepositoryImpl implements ResourceRepositoryPlus {
 	
 	private static String GET_VALUE_BY_AUTHORITY_ID_SQL =  "select t2.value_ "
 			+ "from t_pub_authority_resource t1,  t_pub_resource t2 "

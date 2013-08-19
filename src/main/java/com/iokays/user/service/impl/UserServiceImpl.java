@@ -68,10 +68,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.iokays.user.service.UserService#save(com.iokays.user.domain.User)
+	 * @see com.iokays.user.service.UserService#insert(com.iokays.user.domain.User)
 	 */
 	@Override
-	public void save(User user) {
+	public void insert(User user) {
+		userRepository.save(user);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.iokays.user.service.UserService#update(com.iokays.user.domain.User)
+	 */
+	@Override
+	public void update(User user) {
 		userRepository.save(user);
 	}
 	

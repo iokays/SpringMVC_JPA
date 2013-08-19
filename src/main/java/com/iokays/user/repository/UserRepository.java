@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.iokays.user.domain.User;
-import com.iokays.user.repository.custom.UserRepositoryCustom;
+import com.iokays.user.repository.plus.UserRepositoryPlus;
 import com.iokays.utils.domain.Level;
 import com.iokays.utils.domain.Status;
 
@@ -17,7 +17,7 @@ import com.iokays.utils.domain.Status;
  * @author pengyuanbing@gmail.com
  *
  */
-public interface UserRepository extends JpaRepository<User, String>, UserRepositoryCustom {
+public interface UserRepository extends JpaRepository<User, String>, UserRepositoryPlus {
 	
 	/**
 	 * 根据User对象状态查询用户列表
