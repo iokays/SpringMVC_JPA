@@ -2,16 +2,11 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<%@ include file="/common/global.jsp"%>
+<%@ include file="/common/global.jsp" %>
 <%@ include file="/common/meta.jsp" %>
 <%@ include file="/common/include-jquery-ui-theme.jsp" %>
 <%@ include file="/common/include-custom-styles.jsp" %>
 
-<script type="text/javascript">
-	function test() {
-		alert("hello world");
-	}
-</script>
 </head>
 <body>
 <div id="tabs">
@@ -66,7 +61,6 @@
 			<div>
 				<label style="width:5em; display:inline-block">等级</label><input type = "text" name = "level"/>
 			</div>
-			
 			<div style="float:rigth;">
 				<button id="button" onclick = "this.form.submit()">保存并添加角色</button>
 			</div>

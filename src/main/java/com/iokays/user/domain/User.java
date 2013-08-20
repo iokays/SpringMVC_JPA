@@ -60,7 +60,7 @@ public class User extends IdEntity implements Serializable {
 		this.name = name;
 	}
 	
-	@Column(name = "password_", length = 32, nullable = false)
+	@Column(name = "password_", length = 32, nullable = false, updatable = false)
 	public String getPassword() {
 		return password;
 	}

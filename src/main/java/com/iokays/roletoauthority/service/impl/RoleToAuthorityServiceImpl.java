@@ -2,6 +2,8 @@ package com.iokays.roletoauthority.service.impl;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,4 +76,18 @@ public class RoleToAuthorityServiceImpl implements RoleToAuthorityService {
 			roleToAuthorityRepository.delete(roleId, authorityIds[i]);
 		}
 	}
+
+	@Override
+	public Page<RoleToAuthority> getByRoleId(String roleId, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return roleToAuthorityRepository.getByRoleId(roleId, pageable);
+	}
+
+	@Override
+	public Page<RoleToAuthority> getByAuthorityId(String authorityId, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return roleToAuthorityRepository.getByAuthorityId(authorityId, pageable);
+	}
+	
+	
 }

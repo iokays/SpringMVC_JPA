@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -24,7 +25,7 @@ import com.iokays.utils.domain.Status;
  */
 @Entity
 @Table(name = "t_pub_user_role", uniqueConstraints = {@UniqueConstraint(columnNames={"user_id_", "role_id_"})})
-public class UserToRole extends IdEntity implements Serializable{
+public class UserToRole extends IdEntity implements Serializable {
 
 	private static final long serialVersionUID = 2693663154227947127L;
 	
@@ -32,7 +33,9 @@ public class UserToRole extends IdEntity implements Serializable{
 	private Role role;					//角色
 	private Status status;				//是否可用
 	
-	@ManyToOne
+	public UserToRole() {};
+	
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id_", nullable = true)
 	public User getUser() {
 		return user;
@@ -41,7 +44,7 @@ public class UserToRole extends IdEntity implements Serializable{
 		this.user = user;
 	}
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id_", nullable = true)
 	public Role getRole() {
 		return role;

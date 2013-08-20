@@ -2,6 +2,9 @@ package com.iokays.authoritytorepository.service.impl;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.iokays.authoritytorepository.domain.AuthorityToResource;
 import com.iokays.authoritytorepository.repository.AuthorityToResourceRepository;
 import com.iokays.authoritytorepository.service.AuthorityToResourceService;
@@ -69,4 +72,15 @@ public class AuthorityToResourceServiceImpl implements AuthorityToResourceServic
 			authorityToResourceRepository.delete(authorityId, resourceIds[i]);
 		}
 	}
+
+	@Override
+	public Page<AuthorityToResource> getByAuthorityId(String authorityId, Pageable pageable) {
+		return authorityToResourceRepository.getByAuthorityId(authorityId, pageable);
+	}
+
+	@Override
+	public Page<AuthorityToResource> getByResourceId(String resourceId, Pageable pageable) {
+		return authorityToResourceRepository.getByResourceId(resourceId, pageable);
+	}
+	
 }

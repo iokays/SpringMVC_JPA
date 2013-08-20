@@ -8,7 +8,7 @@
 <%@ include file="common/include-custom-styles.jsp" %>
 </head>
 <body>
-<h2>权限标签测试</h2>
+<%-- <h2>权限标签测试</h2>
 用户名:<sec:authentication property="name" />, 欢迎来到主页!<br>
 拥有权限:<sec:authentication property="principal.authorities" /><br>  
 
@@ -20,7 +20,7 @@
 
 <sec:authorize url = "/test.jsp">
 	<br>不可见
-</sec:authorize>
+</sec:authorize> --%>
 
 </body>
 </html>
