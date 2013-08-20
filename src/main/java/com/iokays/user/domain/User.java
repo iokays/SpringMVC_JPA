@@ -32,8 +32,8 @@ public class User extends IdEntity implements Serializable {
 	private String name;		//用户名
 	private String password;	//用户密码
 	private String description;	//用户描述
-	private Status status = Status.enabled;		//是否可用
-	private Level level = Level.systemic;		//等级
+	private Status status;		//是否可用
+	private Level level;		//等级
 	
 	private Set<UserToRole> userToRoles;	//用户角色
 	

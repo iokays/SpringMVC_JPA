@@ -29,7 +29,11 @@ public class Resource extends IdEntity implements Serializable {
 	private static final long serialVersionUID = 7814877404789755510L;
 	
 	private String name;										//资源名称
-	private String type;										//资源类型 method, url
+	public static enum Type {
+	      method,
+	      url
+	}
+	private Type type;											//资源类型 method, url
 	private String value;										//资源链接
 	private Integer priority;									//资源优先权
 	private String description;									//资源描述
@@ -46,11 +50,12 @@ public class Resource extends IdEntity implements Serializable {
 		this.name = name;
 	}
 	
-	@Column(name = "type_", nullable = false, length = 10)
-	public String getType() {
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "type_", nullable = false)
+	public Type getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 	

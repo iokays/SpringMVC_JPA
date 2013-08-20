@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.iokays.authority.domain.Authority;
 import com.iokays.resource.domain.Resource;
@@ -23,7 +24,7 @@ import com.iokays.utils.domain.Status;
  */
 
 @Entity
-@Table(name = "t_pub_authority_resource")
+@Table(name = "t_pub_authority_resource", uniqueConstraints = {@UniqueConstraint(columnNames={"authority_id_", "resource_id_"})})
 public class AuthorityToResource extends IdEntity implements Serializable{
 
 	private static final long serialVersionUID = 3842203721619078799L;

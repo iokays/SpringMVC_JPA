@@ -30,7 +30,7 @@ public class CustomInvocationSecurityMetadataSourceService implements FilterInvo
 		resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
 		for (String _authorityId : _authorityIds) {
 			ConfigAttribute _configAttribute = new SecurityConfig(_authorityId);
-			List<String> _resourceValues =  resourceRepository.getValues(_authorityId);
+			List<String> _resourceValues =  resourceRepository.getValuesByAuthorityId(_authorityId);
 			for (String _resourceValue : _resourceValues) {
 				if (resourceMap.containsKey(_resourceValue)) {
 					Collection<ConfigAttribute> _value = resourceMap.get(_resourceValue);
@@ -43,7 +43,6 @@ public class CustomInvocationSecurityMetadataSourceService implements FilterInvo
 				}
 			}
 		}
-		
 	}
 	
 	@Override

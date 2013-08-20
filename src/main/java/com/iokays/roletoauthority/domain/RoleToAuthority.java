@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.iokays.authority.domain.Authority;
 import com.iokays.role.domain.Role;
@@ -22,7 +23,7 @@ import com.iokays.utils.domain.Status;
  *
  */
 @Entity
-@Table(name = "t_pub_role_authority")
+@Table(name = "t_pub_role_authority", uniqueConstraints = {@UniqueConstraint(columnNames={"role_id_", "authority_id_"})})
 public class RoleToAuthority extends IdEntity implements Serializable{
 
 	private static final long serialVersionUID = -1931908140621449515L;

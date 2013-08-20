@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.iokays.authority.repository.AuthorityRepository;
 import com.iokays.user.repository.UserRepository;
 
 @Service("userDetailsManager")
@@ -27,7 +28,7 @@ public class UserDetailsManager implements UserDetailsService {
 		
 		if (null != id) {
 			final String password = userRepository.getPasswordByAccount(username);
-			final List<String> list = userRepository.getAuthorityIdsByAccount(username);
+			final List<String> list = AuthorityRepository.getIdsByUserId(id);
 			
 			Collection<GrantedAuthority> grantedAuthorities =  new ArrayList<GrantedAuthority>();
 			for (int i = 0; i < list.size(); ++i) {
@@ -42,4 +43,6 @@ public class UserDetailsManager implements UserDetailsService {
 	
 	@Resource
 	UserRepository userRepository;
+	@Resource
+	AuthorityRepository AuthorityRepository;
 }
