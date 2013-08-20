@@ -27,7 +27,7 @@ public class UserServiceImplTest {
 		user.setPassword("pengyuanbing1");
 		user.setLevel(Level.systemic);
 		user.setStatus(Status.enabled);
-		userService.save(user);
+		userService.insert(user);
 	}
 	
 	@Test

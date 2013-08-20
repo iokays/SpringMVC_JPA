@@ -72,7 +72,7 @@ public class UserController {
 		return "redirect:/admin/user/list";
 	}
 	
-	public void test() {
+	public void userId() {
 		@SuppressWarnings("unused")
 		UserSecurity userSecurity = (UserSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}

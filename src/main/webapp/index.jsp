@@ -18,9 +18,9 @@
 			</h3>
 			<div>
 				<a href = "${ctx }/admin/user/list" target="main">用户列表</a><br>
-				<a href = "${ctx }/admin/user/role" target="main">角色列表</a><br>
-				权限列表<br>
-				资源列表
+				<a href = "${ctx }/admin/role/list" target="main">角色列表</a><br>
+				<a href = "${ctx }/admin/authority/list" target="main">权限列表</a><br>
+				<a href = "${ctx }/admin/resource/list" target="main">资源列表</a><br>
 			</div>
 		</div>
 		<div>

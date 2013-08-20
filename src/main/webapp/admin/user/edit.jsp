@@ -11,7 +11,7 @@
 <div id="tabs">
 	<ul>
 		<li><a href="#tabs-user-edit">用户编辑</a></li>
-		<li><a href="#tabs-user-to-role">所属角色</a></li>
+		<li><a href="#tabs-user-to-role">包含角色</a></li>
 	</ul>
 	<div id="tabs-user-edit" >
 		<form action = "${ctx }/admin/user/edit" method = "post">
