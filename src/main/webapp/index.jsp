@@ -25,9 +25,11 @@
 		</div>
 		<div>
 			<h3>
-				<a href="#">JPBM6工作流</a>
+				<a href="#">Activiti工作流</a>
 			</h3>
-			<div>Phasellus mattis tincidunt nibh.</div>
+			<div>
+				<a href = "${ctx }/workflow/process/list" target="main">流程定义</a><br>
+			</div>
 		</div>
 	</div>
 	<div id = "main" style="position:absolute; left:20em; top:10em; bottom:0em; right:0em;">
