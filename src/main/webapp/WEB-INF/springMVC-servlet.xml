@@ -21,12 +21,16 @@
 	
 	<mvc:annotation-driven></mvc:annotation-driven>
 	
-	<mvc:resources mapping="/js/**" location="/js/" />
+	<!-- 默认的Servlet来响应静态文件 -->
+	<mvc:default-servlet-handler/>
+	
+	<!-- <mvc:resources mapping="/dist/**" location="/dist/" />
+	<mvc:resources mapping="/jquery/**" location="/jquery/" /> -->
 
 	<!-- 完成请求和注解POJO的映射 -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 
 	<!-- 对转向页面的路径解析。prefix：前缀， suffix：后缀 -->
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/" p:suffix=".jsp" />
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/" p:suffix=".jsp" />
 	
 </beans>

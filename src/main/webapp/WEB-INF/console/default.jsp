@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/common/global-taglib.jsp" %>
 <!DOCTYPE HTML>
 <html>
 <head>
-<%@ include file="/common/global.jsp"%>
-<%@ include file="/common/meta.jsp" %>
-<%@ include file="/common/include-jquery-ui-theme.jsp" %>
-<%@ include file="/common/include-custom-styles.jsp" %>
+<%@ include file="/common/global-util.jsp" %>
+<%@ include file="/common/bootstrap-styles.jsp"%>
 </head> 
 <body>
+	
+
 	<div id = "top" style="position:absolute; height:10em; left:0em; right:0em">
 		<h1>基于SpringMVC_JPA 全注解框架搭建</h1>
 	</div>	
