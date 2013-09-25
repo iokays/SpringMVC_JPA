@@ -13,6 +13,8 @@
 						http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
 	<description>Spring公共配置 </description>
+	
+	<context:property-placeholder ignore-unresolvable="true" local-override="true" location="classpath*:/application.properties"/>
 
 	<context:component-scan base-package="com.iokays"></context:component-scan>
 
@@ -52,10 +54,10 @@
 	
 	
 	<bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/SpringMVC_JPA" />
-		<property name="jdbcDriver" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUsername" value="root" />
-    	<property name="jdbcPassword" value="5201314" />
+		<property name="jdbcUrl" value="${activiti.url}" />
+		<property name="jdbcDriver" value="${activiti.driverClassName}" />
+		<property name="jdbcUsername" value="${activiti.username}" />
+    	<property name="jdbcPassword" value="${activiti.password}" />
     	<property name="databaseSchemaUpdate" value="true" />
     	<property name="jobExecutorActivate" value="false" />
 		<property name="transactionManager" ref="transactionManager" />

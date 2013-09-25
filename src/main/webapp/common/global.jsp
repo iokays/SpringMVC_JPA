@@ -7,12 +7,12 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <%
-//jquery版本
+/* jquery版本 */
 String jqueryVersion = "2.0.3";
-String jquery-mousewheelVersion = "3.0.6";
+String jquery_mousewheelVersion = "3.1.3";
 
 session.setAttribute("jqueryVersion", jqueryVersion);
-session.setAttribute("jquery-mousewheelVersion", jquery-mousewheelVersion);
+session.setAttribute("jquery_mousewheelVersion", jquery_mousewheelVersion);
 
 pageContext.setAttribute("timeInMillis", System.currentTimeMillis());
 %>
