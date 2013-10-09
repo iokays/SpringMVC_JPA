@@ -5,22 +5,7 @@
 <%@ include file="/common/global.jsp"%>
 <%@ include file="/common/metro_styles.jsp"%>
 <%@ include file="/common/meta.jsp"%>
-
-    <script type="text/javascript" src="${ctx }/ajax/libs/jquery/${jqueryVersion}/jquery.js"></script>
-    <script type="text/javascript" src="${ctx }/ajax/libs/jquery_mousewheel/${jquery_mousewheelVersion}/jquery.mousewheel.js"></script>
-    <script type="text/javascript" src="${ctx }/js/modern/dropdown.js"></script>
-    <script type="text/javascript" src="${ctx }/js/modern/accordion.js"></script>
-    <script type="text/javascript" src="${ctx }/js/modern/buttonset.js"></script>
-    <script type="text/javascript" src="${ctx }/js/modern/carousel.js"></script>
-    <script type="text/javascript" src="${ctx }/js/modern/input-control.js"></script>
-    <script type="text/javascript" src="${ctx }/js/modern/pagecontrol.js"></script>
-    <script type="text/javascript" src="${ctx }/js/modern/rating.js"></script>
-    <script type="text/javascript" src="${ctx }/js/modern/slider.js"></script>
-    <script type="text/javascript" src="${ctx }/js/modern/tile-slider.js"></script>
-    <script type="text/javascript" src="${ctx }/js/modern/tile-drag.js"></script>
-    <script type="text/javascript" src="${ctx }/ajax/libs/prettify/r224/prettify.js"></script>
-
-    <title>全局样式 · Bootstrap Metro UI CSS 中文版</title>
+    <title>基于SpringMVC_JPA 全注解框架搭建</title>
 </head>
 <body class="modern-ui">
 
@@ -36,9 +21,9 @@
         <div class="divider"></div>
 
         <ul class="menu">
-            <li><a href="index.html">首页</a></li>
+            <li><a href="">首页</a></li>
             <li data-role="dropdown">
-                <a href="#">系统管理</a>
+                <a href="#">脚手架</a>
                 <ul class="dropdown-menu">
                     <li><a href="global.html">全局样式</a></li>
                     <li><a href="layout.html">布局与模板</a></li>
@@ -79,8 +64,30 @@
                     <li><a href="cards.html">额外惊喜 - 一副扑克</a></li>
                 </ul>
             </li>
-
-            <li><a href="https://github.com/olton/Metro-UI-CSS" target="_blank">源码</a></li>
+            
+            <li data-role="dropdown">
+                <a href="#">工作流管理</a>
+                <ul class="dropdown-menu">
+                    <li><a href="global.html">工作流定义列表</a></li>
+                    <li><a href="layout.html">工作流实例列表</a></li>
+                    <li><a href="layout.html">工作流任务列表</a></li>
+                    <li class="divider"></li>
+                    <li><a href="responsive.html">工作流用户组列表</a>
+                    </li>
+                </ul>
+            </li>
+            
+            <li data-role="dropdown">
+                <a href="#">系统管理</a>
+                <ul class="dropdown-menu">
+                    <li><a href="global.html">用户列表</a></li>
+                    <li><a href="layout.html">角色列表</a></li>
+                    <li><a href="grid.html">权限列表</a></li>
+                    <li><a href="grid.html">资源列表</a></li>
+                </ul>
+            </li>
+            
+			<li><a href="https://github.com/olton/Metro-UI-CSS" target="_blank">源码</a></li>
         </ul>
 
     </div>
@@ -226,4 +233,19 @@
         </div>
     </div>
     </body>
+    
+    <script type="text/javascript" src="${ctx }/ajax/libs/jquery/${jqueryVersion}/jquery.js"></script>
+    <script type="text/javascript" src="${ctx }/ajax/libs/jquery_mousewheel/${jquery_mousewheelVersion}/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="${ctx }/js/modern/dropdown.js"></script>
+    <script type="text/javascript" src="${ctx }/js/modern/accordion.js"></script>
+    <script type="text/javascript" src="${ctx }/js/modern/buttonset.js"></script>
+    <script type="text/javascript" src="${ctx }/js/modern/carousel.js"></script>
+    <script type="text/javascript" src="${ctx }/js/modern/input-control.js"></script>
+    <script type="text/javascript" src="${ctx }/js/modern/pagecontrol.js"></script>
+    <script type="text/javascript" src="${ctx }/js/modern/rating.js"></script>
+    <script type="text/javascript" src="${ctx }/js/modern/slider.js"></script>
+    <script type="text/javascript" src="${ctx }/js/modern/tile-slider.js"></script>
+    <script type="text/javascript" src="${ctx }/js/modern/tile-drag.js"></script>
+    <script type="text/javascript" src="${ctx }/ajax/libs/prettify/r224/prettify.js"></script>
+    
 </html>

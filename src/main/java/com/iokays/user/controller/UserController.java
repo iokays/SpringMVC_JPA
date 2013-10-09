@@ -4,7 +4,6 @@ import javax.annotation.Resource;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefaults;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,7 +35,7 @@ public class UserController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(
 			@PageableDefaults(pageNumber = 0, value = 50, sort = "createDate = desc")
-			@RequestParam(value = "pageable", required = false) Pageable pageable,
+			@RequestParam(value = "pageable", required = false) PageRequest pageable,
 			@RequestParam(value = "status", required = false) Status status,
 			@RequestParam(value = "level", required = false) Level level, Model model) {
 		if (null == pageable) {

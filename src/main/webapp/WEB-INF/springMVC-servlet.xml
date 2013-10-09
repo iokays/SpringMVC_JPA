@@ -33,4 +33,6 @@
 	<!-- 对转向页面的路径解析。prefix：前缀， suffix：后缀 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/" p:suffix=".jsp" />
 	
+	<!-- 支持上传文件 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 </beans>
