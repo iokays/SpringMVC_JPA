@@ -27,9 +27,9 @@ public class AuthorityController {
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(@PageableDefaults(pageNumber = 0, value = 50, sort = "createDate = desc")
-	@RequestParam(value = "pageable", required = false) Pageable pageable,
-	@RequestParam(value = "status", required = false) Status status,
-	@RequestParam(value = "level", required = false) Level level, Model model) {
+					@RequestParam(value = "pageable", required = false) Pageable pageable,
+					@RequestParam(value = "status", required = false) Status status,
+					@RequestParam(value = "level", required = false) Level level, Model model) {
 		if (null == pageable) {
 			pageable = new PageRequest(0, 50, Direction.DESC, "createDate");
 		}

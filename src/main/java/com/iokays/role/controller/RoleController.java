@@ -3,7 +3,6 @@ package com.iokays.role.controller;
 import javax.annotation.Resource;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefaults;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.iokays.role.domain.Role;
 import com.iokays.role.service.RoleService;
-import com.iokays.utils.domain.Level;
-import com.iokays.utils.domain.Status;
 
 @Controller
 @RequestMapping("/admin/role")
@@ -26,13 +23,8 @@ public class RoleController {
 	private RoleService roleService;
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(@PageableDefaults(pageNumber = 0, value = 50, sort = "createDate = desc")
-	@RequestParam(value = "pageable", required = false) Pageable pageable,
-	@RequestParam(value = "status", required = false) Status status,
-	@RequestParam(value = "level", required = false) Level level, Model model) {
-		if (null == pageable) {
-			pageable = new PageRequest(0, 50, Direction.DESC, "createDate");
-		}
+	public String list(@PageableDefaults(pageNumber = 0, value = 50, sort = "createDate", sortDir=Direction.DESC)
+	@RequestParam(value = "pageable", required = false) Pageable pageable, Model model) {
 		Page<Role> page = roleService.findAll(pageable);
 		model.addAttribute("page", page);
 		return "/admin/role/list";

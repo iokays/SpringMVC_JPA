@@ -2,9 +2,12 @@ package com.iokays.user.service.impl;
 
 import javax.annotation.Resource;
 
+import org.activiti.engine.IdentityService;
+import org.activiti.engine.impl.persistence.entity.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.iokays.user.domain.User;
 import com.iokays.user.repository.UserRepository;
@@ -19,9 +22,13 @@ import com.iokays.utils.domain.Status;
  *
  */
 @Service("userService")
+@Transactional
 public class UserServiceImpl implements UserService {
 	@Resource
 	private UserRepository userRepository;
+	
+	@Resource
+	private IdentityService identityService;
 	
 	/*
 	 * (non-Javadoc)
@@ -81,6 +88,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void update(User user) {
 		userRepository.save(user);
+		UserEntity userEntity = (UserEntity)identityService.createUserQuery().userId(user.getId()).singleResult();
+		userEntity.setFirstName(user.getName());
+		identityService.saveUser(userEntity);
 	}
 	
 	/* (non-Javadoc)

@@ -2,22 +2,27 @@ package com.iokays.user.service.impl;
 
 import javax.annotation.Resource;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.iokays.user.domain.User;
+import com.iokays.user.repository.UserRepository;
 import com.iokays.user.service.UserService;
 import com.iokays.utils.domain.Level;
 import com.iokays.utils.domain.Status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
+@ContextConfiguration(locations = {"classpath:applicationContext.xml", "classpath:applicationContext-security.xml"})
+@Transactional
 public class UserServiceImplTest {
 	
 	@Resource
 	private UserService userService;
+	
+	@Resource
+	private UserRepository userRepository;
 	
 	public void save() {
 		User user = new User();
@@ -30,10 +35,8 @@ public class UserServiceImplTest {
 		userService.insert(user);
 	}
 	
-	@Test
 	public void findAll() {
 		userService.findAll(null);
 	}
-	
 	
 }
