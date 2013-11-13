@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="myProcess" name="My process" isExecutable="true">
-    
+    <extensionElements>
+    	<activiti:executionListener event= "start" class="com.iokays.activitiform.listener.ActivitiFormListener" >
+    		<activiti:field name="activitiForm" expression="${activitiFormService.create()}" />
+    	</activiti:executionListener>
+	</extensionElements>
     <startEvent id="startevent1" name="Start">
 	    <extensionElements>
-	      <activiti:formProperty id="name" name = "name" expression="#{activitiForm.name}" type ="string" /> 
-	      <activiti:formProperty id="description" name = "description" expression="#{activitiForm.description}" type ="string" />  
+	      <activiti:formProperty id="name" name = "name" expression="#{activitiForm.name}" /> 
+	      <activiti:formProperty id="description" name = "description" expression="#{activitiForm.description}" />  
 	    </extensionElements>
     </startEvent>
     <userTask id="usertask1" name="表单[JPA]">
+    	<extensionElements>
+	      <activiti:formProperty id="name" name = "name" expression="#{activitiForm.name}" /> 
+	      <activiti:formProperty id="description" name = "description" expression="#{activitiForm.description}" />  
+	    </extensionElements>
     </userTask>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow2" sourceRef="usertask1" targetRef="endevent1"></sequenceFlow>

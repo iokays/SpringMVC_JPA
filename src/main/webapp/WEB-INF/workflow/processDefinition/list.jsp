@@ -59,7 +59,7 @@
 						</c:if>
 						</td>
 						
-						<td><a href = "${ctx }/admin/authority/delete/${authority.id }" title="删除基本信息 ">删除</a></td>
+						<td><a href = "${ctx }/workflow/processDefinition/delete/${processDefinition.deploymentId }" title="删除基本信息 ">删除</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

@@ -64,6 +64,11 @@ public class ProcessDefinitionServiceImpl implements ProcessDefinitionService {
 		}
 	}
 	
+	//删除流程定义
+	public void delete(final String deploymentId) {
+		repositoryService.deleteDeployment(deploymentId);
+	}
+	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Resource

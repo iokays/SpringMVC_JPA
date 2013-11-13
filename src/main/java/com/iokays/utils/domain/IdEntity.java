@@ -27,8 +27,8 @@ public abstract class IdEntity {
 
 	@Id
 	@GeneratedValue(generator = "idGenerator")
-	@GenericGenerator(name = "idGenerator", strategy = "uuid")
-	@Column(name = "id_", unique = true, nullable = false, length = 32, updatable = false)
+	@GenericGenerator(name = "idGenerator", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "id_", unique = true, nullable = false, length = 36, updatable = false)
 	public String getId() {
 		return id;
 	}
