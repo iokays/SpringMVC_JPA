@@ -1,0 +1,11 @@
+2013-12-29 18:08:25,007 - ResourceManager : unable to find resource 'filename' in any resource loader.
+2013-12-29 18:09:48,002 - ResourceManager : unable to find resource 'F:/_ANDY/Desktop/article.vm' in any resource loader.
+2013-12-29 18:10:06,055 - ResourceManager : unable to find resource 'F://_ANDY//Desktop//article.vm' in any resource loader.
+2013-12-29 18:10:35,001 - ResourceManager : unable to find resource 'F:/_ANDY/Desktop/article.vm' in any resource loader.
+2013-12-29 18:11:13,383 - ResourceManager : unable to find resource 'article.vm' in any resource loader.
+2013-12-29 18:11:49,365 - ResourceManager : unable to find resource 'article.vm' in any resource loader.
+2013-12-29 18:12:52,878 - ResourceManager : unable to find resource 'article.vm' in any resource loader.
+2013-12-29 18:14:18,449 - ResourceManager : unable to find resource '/article.vm' in any resource loader.
+2013-12-29 18:14:36,573 - ResourceManager : unable to find resource '/ticle.vm' in any resource loader.
+2013-12-29 18:14:52,677 - ResourceManager : unable to find resource './article.vm' in any resource loader.
+2013-12-29 18:16:20,744 - ResourceManager : unable to find resource 'f:\article.vm' in any resource loader.

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>${column.name}</title>
+
+    <link rel="stylesheet" href="./public/bootstrap/2.3.2/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="./public/bootstrap/2.3.2/css/bootstrap-responsive.min.css" media="screen">
+    <link rel="stylesheet" href="./public/weixin/weixin.css" media="screen">
+
+
+</head>
+<body>
+<div id="weixin">
+    <div>
+        <img src="./image/weixin.jpg" alt="微信平台"/>
+    </div>
+    <div><span style="color:yellow">培正逗点襄阳中心</span></div>
+</div>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="">
+                        <a href="./index.html">首页</a>
+                    </li>
+                    #foreach( $column_ in ${columns_root} )
+                        <li class="#if($column_.id == $column.id) active #end"><a
+                                href="./${column_.id}.html">${column_.name}</a></li>
+                    #end
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<header class="jumbotron subhead" id="overview">
+    <div class="container" style="margin-top: 40px">
+        <img src="${column.image}" style="top: 0;left: 0;min-width: 100%;height: 200px">
+
+    </div>
+</header>
+
+<div class="container" style="background:#FFF">
+    <div>
+        <ul class="breadcrumb">
+            <li><a href="#">首页</a> <span class="divider">/</span></li>
+            <li><a href="${column.id}.html">${column.name}</a> <span class="divider">/</span></li>
+        </ul>
+    </div>
+
+    <div>
+        <div class="row">
+            <div class="span2">
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu"
+                    style="display: block; position: static; margin-bottom: 5px; *width: 180px;">
+                    <li><a tabindex="-1" href="${column.id}.html">${column.name}</a></li>
+                    <li class="divider"></li>
+                    #foreach($column in $column.children )
+                        <li><a tabindex="-1" href="${column.id}.html">${column.name}</a></li>
+                    #end
+                </ul>
+            </div>
+
+            <div class="span10" style="margin-left:20px; margin-bottom:50px">
+                <ul class="nav nav-tabs">
+                    #foreach( $article in ${column.children[0].articles} )
+                        <li><a href="#${article.id}" data-toggle="tab">${velocityCount} ${article.title}</a></li>
+                    #end
+                </ul>
+                <div class="tab-content">
+                    #foreach( $article in ${column.children[0].articles} )
+                        <div class="tab-pane #if($velocityCount == 1) active #end" id="${article.id}">
+                            <p>${article.content}</p>
+                        </div>
+                    #end
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- footer start-->
+<footer class="footer">
+    <div class="container" style="margin-top: 40px">
+        <p class="text-center">
+            <strong>
+                <a href="http://search.51job.com/list/%2B,%2B,%2B,%2B,%2B,%2B,%25C5%25E0%25D5%25FD%25BD%25CC%25D3%25FD,0,%2B.html?lang=c&stype=1&image_x=39&image_y=13"
+                   target="_blank">在线招聘</a> |
+                <a href="falv/" target="_self">法律责任</a> |
+                <a href="hezuo/" target="_self">合作品牌</a> |
+                <a href="lianxi/" target="_self">联系我们</a>
+            </strong>
+
+
+        </p>
+
+        <p class="text-right"> <span>
+          <a href="" target="_blank"><img src="./image/img_17.jpg" alt="新浪微博"/> 新浪微博</a>
+            <a href="" target="_blank"><img src="./image/img_18.jpg" alt="腾讯微博"/> 腾讯微博</a>
+        </span></p>
+
+        <p class="text-center">Copyright（C） 2013 培正逗点儿童教育中心. All Rights Reserved
+            <script type="text/javascript">
+                var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cspan id='cnzz_stat_icon_1000131407'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1000131407%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        </p>
+        <p class="text-center"><a href="http://www.miitbeian.gov.cn/" target="_blank">沪ICP备08001402号 </a></p>
+
+    </div>
+</footer>
+
+<!-- footer end-->
+
+
+<script src="./public/jquery/1.10.2/jquery.min.js"></script>
+
+<script src="./public/bootstrap/2.3.2/js/bootstrap.js"></script>
+
+<script>
+    !function ($) {
+        $(function () {
+            $('#myCarousel').carousel()
+        })
+    }(window.jQuery)
+</script>
+
+<script src="./public/holder/holder.js"></script>
+<script src="./public/baidu/shangqiao.js"></script>
+</body>
+</html>
