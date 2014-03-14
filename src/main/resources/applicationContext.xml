@@ -49,4 +49,13 @@
         <property name="password" value="${password}"/>
     </bean>
 
+	<bean id="properties" class="java.util.Properties">
+		<constructor-arg index="0">
+			<props>
+				<prop key="_homePath">d:/news/home</prop>
+				<prop key="_articlePath">d:/news/article</prop>
+			</props>
+		</constructor-arg>
+	</bean>
+
 </beans>

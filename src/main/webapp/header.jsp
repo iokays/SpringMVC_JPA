@@ -9,6 +9,7 @@
                     <li class=""><a target="columns" href="<%=request.getContextPath() %>/columns">栏目管理</a></li>
                     <li class=""><a target="articles" href="<%=request.getContextPath() %>/articles">文章管理</a></li>
                     <li class=""><a target="reservations" href="<%=request.getContextPath() %>/reservations">预约管理</a>
+                    <li class=""><a target="log" href="<%=request.getContextPath() %>/reservations">日志管理</a>
                     </li>
                 </ul>
             </div>

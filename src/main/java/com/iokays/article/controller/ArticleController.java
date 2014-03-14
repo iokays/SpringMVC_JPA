@@ -20,11 +20,20 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import java.util.Map;
 
+/**
+ * 文章管理，控制层实现类
+ */
 @Controller
 public class ArticleController {
 
-    private final static Logger logger = LoggerFactory.getLogger(ArticleController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ArticleController.class);
 
+    /**
+     *
+     * @param columnId 栏目Id
+     * @param pageable 分页参数
+     * @return
+     */
     @RequestMapping(value = "/articles", method = RequestMethod.GET)
     public ModelAndView listAll(
             @RequestParam(value = "columnId", required = false) String columnId,

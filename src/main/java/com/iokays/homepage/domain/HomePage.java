@@ -17,9 +17,9 @@ public class HomePage extends IdEntity implements Serializable {
 
     private static final long serialVersionUID = -4784844584245964547L;
 
-    private String name;            //名称
+    private String name;             //名称
     private String image;            //图片
-    private String url;                //地址
+    private String url;              //地址
     private Integer sort;            //排序
 
     @Column(name = "name_", length = 50, nullable = true)
