@@ -18,7 +18,7 @@ public class HomePage extends IdEntity implements Serializable {
     private static final long serialVersionUID = -4784844584245964547L;
 
     private String name;             //名称
-    private String image;            //图片
+    private String target;           //指向
     private String url;              //地址
     private Integer sort;            //排序
 
@@ -33,13 +33,13 @@ public class HomePage extends IdEntity implements Serializable {
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @Column(columnDefinition = "LONGTEXT", name = "image_", nullable = false)
-    public String getImage() {
-        return image;
+    @Column(name = "target_", length = 50, nullable = false)
+    public String getTarget() {
+        return target;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setTarget(String target) {
+        this.target = target;
     }
 
     @Column(name = "url_", length = 100, nullable = true)

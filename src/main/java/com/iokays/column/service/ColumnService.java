@@ -1,6 +1,5 @@
 package com.iokays.column.service;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -24,9 +23,9 @@ public interface ColumnService {
 
     public abstract Page<Column> findAllByParent(Column parent, Pageable pageable);
 
-    public abstract List<Column> findAllByParent(Serializable parentId, Sort sort);
+    public abstract List<Column> findAllByParent(String parentId, Sort sort);
 
-    public abstract Page<Column> findAllByParent(Serializable parentId, Pageable pageable);
+    public abstract Page<Column> findAllByParent(String parentId, Pageable pageable);
 
     public abstract List<Column> findAllByGrade(Column.Grade grade);
 
@@ -42,11 +41,11 @@ public interface ColumnService {
 
     public abstract Column save(Column column);
 
-    public abstract Integer update(Serializable id, Map<String, Object> map) throws Exception;
+    public abstract Column update(String id, Map<String, String> map);
 
-    public abstract Column findOne(Serializable id);
+    public abstract Column findOne(String id);
 
-    public abstract Integer delete(Serializable id);
+    public abstract void delete(String id);
 
 
 }

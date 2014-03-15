@@ -1,11 +1,11 @@
 package com.iokays.article.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.iokays.article.domain.Article;
-import com.iokays.article.service.ArticleService;
-import com.iokays.column.domain.Column;
-import com.iokays.column.service.ColumnService;
-import com.iokays.template.service.TemplateService;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,11 +14,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import java.util.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iokays.article.domain.Article;
+import com.iokays.article.service.ArticleService;
+import com.iokays.column.domain.Column;
+import com.iokays.column.service.ColumnService;
 
 /**
  * 文章管理，控制层实现类
@@ -49,8 +57,9 @@ public class ArticleController {
 
     @RequestMapping(value = "/articles/{id}", method = RequestMethod.GET)
     public ModelAndView findOne(@PathVariable("id") String id) {
+    	LOGGER.debug("id:{}", id);
         ModelAndView mav = new ModelAndView("article");
-
+        
         mav.addObject("article", articleService.findOne(id));
         mav.addObject("columns", columnService.findAllByGrade(Column.Grade.two));
         return mav;
@@ -71,24 +80,15 @@ public class ArticleController {
         @SuppressWarnings("unchecked")
         Map<String, Object> map = objectMapper.readValue(body, Map.class);
         final String resutl = articleService.update(id, map).toString();
-        try {
-            templateService.buildArticle(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+       
         return resutl;
     }
 
     @RequestMapping(value = "/articles", method = RequestMethod.POST)
     @ResponseBody
     public String insert(Article article) {
-        articleService.save(article);
-        try {
-            templateService.buildArticle(article.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    	decoderImg(article.getContent());
+    	articleService.save(article);
         return article.getId();
     }
 
@@ -97,14 +97,20 @@ public class ArticleController {
     public String delete(@PathVariable("id") String id) {
         return articleService.delete(id).toString();
     }
+    
+    private void decoderImg(String context) {
+    	Pattern pattern = Pattern.compile("<img(.*)>");
+    	Matcher matcher = pattern.matcher(context);
+    	while (matcher.find()) {
+    		System.out.println(matcher.group(0));
+    	}
+    	
+    }
 
     @Resource
     ArticleService articleService;
 
     @Resource
     ColumnService columnService;
-
-    @Resource
-    TemplateService templateService;
 
 }

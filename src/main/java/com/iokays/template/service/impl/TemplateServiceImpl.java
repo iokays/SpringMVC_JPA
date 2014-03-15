@@ -2,7 +2,6 @@ package com.iokays.template.service.impl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -98,7 +97,7 @@ public class TemplateServiceImpl implements TemplateService {
 	}
 	
 	//文章添加,修改
-	public void buildArticle(Serializable id) throws IOException {
+	public void buildArticle(String id) throws IOException {
 		List<Column> columns_root = columnService.findAllByGrade(Column.Grade.one, new Sort("sort"));
 		
 		Article article = articleService.findOne(id);
@@ -114,7 +113,7 @@ public class TemplateServiceImpl implements TemplateService {
 		build(column, columns_root);
 	}
 	
-	public void buildColumn(Serializable id) throws IOException {
+	public void buildColumn(String id) throws IOException {
 		List<Column> columns_root = columnService.findAllByGrade(Column.Grade.one, new Sort("sort"));
 		
 		Column column_ = columnService.findOne(id);

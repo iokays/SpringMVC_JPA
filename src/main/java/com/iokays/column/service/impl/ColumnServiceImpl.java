@@ -1,6 +1,5 @@
 package com.iokays.column.service.impl;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -24,11 +23,11 @@ public class ColumnServiceImpl implements ColumnService {
     @Resource
     private ColumnRepository columnRepository;
 
-    public List<Column> findAllByParent(Serializable parentId, Sort sort) {
+    public List<Column> findAllByParent(String parentId, Sort sort) {
         return columnRepository.findAllByParent(parentId, sort);
     }
 
-    public Page<Column> findAllByParent(Serializable parentId, Pageable pageable) {
+    public Page<Column> findAllByParent(String parentId, Pageable pageable) {
         return columnRepository.findAllByParent(parentId, pageable);
     }
 
@@ -96,15 +95,25 @@ public class ColumnServiceImpl implements ColumnService {
      * @see com.iokays.column.service.ColumnService#update(java.io.Serializable, java.util.Map)
      */
     @Override
-    public Integer update(Serializable id, Map<String, Object> map) throws Exception {
-        return columnRepository.update(id, map);
+    public Column update(String id, Map<String, String> map) {
+    	Column _column = columnRepository.findOne(id);
+    	
+    	if (map.containsKey("id")) { _column.setId(map.get("id")); map.remove("id"); }
+    	if (map.containsKey("grade")) { _column.setGrade(Grade.valueOf(map.get("grade"))); map.remove("grade"); }
+    	if (map.containsKey("parentId")) { _column.getParent().setId(map.get("parentId")); map.remove("parentId"); }
+    	if (map.containsKey("sort")) { _column.setSort(Integer.valueOf(map.get("sort"))); map.remove("sort"); }
+    	if (map.containsKey("description")) { _column.setDescription(map.get("description")); map.remove("description"); }
+    	if (map.containsKey("template")) { _column.setTemplate(map.get("template")); map.remove("template"); }
+    	if (map.containsKey("imageUrl")) { _column.setImageUrl(map.get("imageUrl")); map.remove("imageUrl"); }
+    	
+        return _column;
     }
 
     /* (non-Javadoc)
      * @see com.iokays.column.repository.service.impl.ColumnService#findOne(java.io.Serializable)
      */
     @Override
-    public Column findOne(Serializable id) {
+    public Column findOne(String id) {
         return columnRepository.findOne(id);
     }
 
@@ -112,8 +121,8 @@ public class ColumnServiceImpl implements ColumnService {
      * @see com.iokays.column.repository.service.impl.ColumnService#delete(java.io.Serializable)
      */
     @Override
-    public Integer delete(Serializable id) {
-        return columnRepository.deleteById(id);
+    public void delete(String id) {
+        columnRepository.delete(id);
     }
 
 

@@ -12,7 +12,7 @@
     function removeData(e, id) {
         $.ajax({
             type: "DELETE",
-            url: "${ctx}/article/" + id,
+            url: "${ctx}/articles/" + id,
             success: function (data) {
                 $(e).parents("tr").remove();
                 $("#alert").attr("class", "alert alert-success");
@@ -64,7 +64,7 @@
                     <td>${object[2] }</td>
                     <td>${object[3] }</td>
                     <td>
-                        <a href="${ctx}/article/${object[0]}" class="btn btn-small btn-primary" target="blank">编辑</a>
+                        <a href="${ctx}/articles/${object[0]}" class="btn btn-small btn-primary" target="blank">编辑</a>
                         <button class="btn btn-small btn-danger" type="button"
                                 onclick="removeData(this, '${object[0]}')">删除
                         </button>

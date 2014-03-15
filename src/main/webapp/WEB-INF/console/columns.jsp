@@ -7,29 +7,7 @@
     <%@ include file="/common/meta.jsp" %>
     <title>栏目列表</title>
 </head>
-<script type="text/javascript">
-    function removeData(e, id) {
-        $.ajax({
-            type: "DELETE",
-            url: "${ctx}/column/" + id,
-            success: function (data) {
-                $(e).parents("tr").remove();
-                $("#alert").attr("class", "alert alert-success");
-                if (0 == data) {
-                    $("#alert_text").html("数据不存在,或者已删除");
-                } else {
-                    $("#alert_text").html("数据删除成功");
-                }
-                $("#alert").css("display", "block");
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                $("#alert").attr("class", "alert alert-error");
-                $("#alert_text").html("删除失败!");
-                $("#alert").css("display", "block");
-            }});
-    }
 
-</script>
 <body>
 <%@ include file="/header.jsp" %>
 <div class="container" style="background: #FFF">
@@ -72,7 +50,7 @@
                     <td>${column.sort }</td>
                     <td>${column.template }</td>
                     <td>
-                        <a href="${ctx}/column/${column.id}" class="btn btn-small btn-primary"
+                        <a href="${ctx}/columns/${column.id}" class="btn btn-small btn-primary"
                            target="${column.id }">编辑</a>
                         <button class="btn btn-small btn-danger" type="button"
                                 onclick="removeData(this, '${column.id}')">删除
@@ -91,7 +69,7 @@
                         <td>${child.sort }</td>
                         <td>${child.template }</td>
                         <td>
-                            <a href="${ctx}/column/${child.id}" class="btn btn-small btn-primary" target="${child.id}">编辑</a>
+                            <a href="${ctx}/columns/${child.id}" class="btn btn-small btn-primary" target="${child.id}">编辑</a>
                             <button class="btn btn-small btn-danger" type="button"
                                     onclick="removeData(this, '${child.id}')">删除
                             </button>
@@ -106,13 +84,7 @@
 
 
 </div>
-
+<script type="text/javascript" src="${ctx }/js/columns.js"></script>
 </body>
-<script type="text/javascript">
-    $(function () {
-        $(".close").click(function () {
-            $(this).parent().hide();
-        });
-    });
-</script>
+
 </html>

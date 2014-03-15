@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -26,14 +27,21 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iokays.homepage.domain.HomePage;
 import com.iokays.homepage.service.HomePageService;
-import com.iokays.template.service.TemplateService;
 
+/**
+ * 首页图片管理 控制类
+ * @author pengyuanbing@gmail.com
+ *
+ */
 @Controller
 public class HomePageController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomePageController.class);
 
-
+	/**
+	 * 首页图片列表
+	 * @return 
+	 */
     @RequestMapping(value = "/homePages", method = RequestMethod.GET)
     public ModelAndView listAll() {
     	LOGGER.debug("requst:", "/homePages");
@@ -43,52 +51,92 @@ public class HomePageController {
         return mav;
     }
 
-    @RequestMapping(value = "/homePage/{id}", method = RequestMethod.GET)
+    /**
+     * 根据首页图片的ID,获取图片信息
+     * @param id 首页图片的ID
+     * @return
+     */
+    @RequestMapping(value = "/homePages/{id}", method = RequestMethod.GET)
     public ModelAndView findOne(@PathVariable("id") String id) {
+    	LOGGER.debug("id:{}", id);
         ModelAndView mav = new ModelAndView("homePage");
         HomePage homePage = homePageService.findOne(id);
         mav.addObject("homePage", homePage);
         return mav;
     }
-
-    @RequestMapping(value = "/homePage/{id}", method = RequestMethod.DELETE)
+    
+    /**
+     * 根据首页图片的ID,删除图片信息
+     * @param id 首页图片的ID
+     * @return
+     */
+    @RequestMapping(value = "/homePages/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public String delete(@PathVariable("id") String id) {
-        return homePageService.delete(id).toString();
-
+    public void delete(@PathVariable("id") String id) {
+    	LOGGER.debug("id:{}", id);
+        homePageService.delete(id);
     }
-
+    
+    /**
+     * 显示添加页面
+     * @return
+     */
     @RequestMapping(value = "/homePage", method = RequestMethod.GET)
-    public ModelAndView toInsert() {
+    public ModelAndView homePage() {
         ModelAndView mav = new ModelAndView("homePage");
         return mav;
     }
-
-    @RequestMapping(value = "/homePage", method = RequestMethod.POST)
+    
+    /**
+     * 添加首页图片
+     * @param homePage
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/homePages", method = RequestMethod.POST)
     @ResponseBody
-    public String insert(HomePage homePage) {
-        homePageService.save(homePage);
-        try {
-            templateService.buildHomePage();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public String insert(HomePage homePage, HttpServletRequest request) {
+    	final String _tempHomeFileName = (String)request.getSession().getAttribute("_tempHomeFileName");	//获取已上传文件名
+    	LOGGER.debug("Session:Start:_tempHomePath:{}", (String)request.getSession().getAttribute("_tempHomePath"));
+    	if (null != _tempHomeFileName) {
+    		homePage.setUrl(_tempHomeFileName);
+    		LOGGER.debug("homePage.url:{}", homePage.getUrl());
+    		new File(_homePathTemp + File.separator + _tempHomeFileName).renameTo(new File(_homePath + File.separator + homePage.getUrl()));		//将文件移到到确定目录
+    	}
+    	LOGGER.debug("homePage.name:{}", homePage.getName());
+        homePageService.save(homePage);			//保存
+        request.getSession().setAttribute("_tempHomePath", null);		//清空文件上传的临时路径
+        LOGGER.debug("Session:End:_tempHomePath:{}", (String)request.getSession().getAttribute("_tempHomePath"));
+        
         return homePage.getId();
     }
-
-    @RequestMapping(value = "/homePage/{id}", method = RequestMethod.PUT)
+    
+    /**
+     * 根据首页ID，更新首页信息
+     * @param id
+     * @param body
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/homePages/{id}", method = RequestMethod.PUT)
     @ResponseBody
-    public String update(@PathVariable("id") String id, @RequestBody String body) throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public void update(@PathVariable("id") String id, @RequestBody String body, HttpServletRequest request) throws IOException {
+    	ObjectMapper objectMapper = new ObjectMapper();
         @SuppressWarnings("unchecked")
-        Map<String, Object> map = objectMapper.readValue(body, Map.class);
-        final String result = homePageService.update(id, map).toString();
-        try {
-            templateService.buildHomePage();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+        Map<String, String> map = objectMapper.readValue(body, Map.class);
+        
+        final String _tempHomeFileName = (String)request.getSession().getAttribute("_tempHomeFileName");	//获取文件上传的临时路径
+    	LOGGER.debug("Session:Start:_tempHomePath:{}", (String)request.getSession().getAttribute("_tempHomePath"));
+        if (null != _tempHomeFileName) {
+        	map.put("url", _tempHomeFileName);
+    		LOGGER.debug("homePage.url:{}", map.get("url"));
+    		new File(_homePathTemp + File.separator + _tempHomeFileName).renameTo(new File(_homePath + File.separator + map.get("url")));		//将文件移到到确定目录
+    	}
+        homePageService.update(id, map);
+        
+        request.getSession().setAttribute("_tempHomeFileName", null);		//清空文件上传的临时路径
+        LOGGER.debug("Session:End:_tempHomePath:{}", (String)request.getSession().getAttribute("_tempHomeFileName"));
     }
     
     /**
@@ -100,11 +148,9 @@ public class HomePageController {
      */
     @RequestMapping(value = "/homePages/fileupload", method = RequestMethod.POST)
     @ResponseBody
-    public String fileupload(@RequestParam(value = "file", required = true) MultipartFile file) throws IllegalStateException, IOException {
+    public void fileupload(@RequestParam(value = "file", required = true) MultipartFile file, HttpServletRequest request) throws IllegalStateException, IOException {
     	LOGGER.debug("url:{}, fileName:{}, fileUrl:", "/homePages/fileupload", file.getName(), file.getOriginalFilename());
-    	String _tempPath= _homePath + File.separator + "temp";		//临时保存路径
-    	LOGGER.debug("_tempPath:{}", _tempPath);
-    	File _tempDir = new File(_tempPath);
+    	File _tempDir = new File(_homePathTemp);
     	if (!_tempDir.exists()) {			//不存在，新建之					
     		_tempDir.mkdirs();
     	}
@@ -112,25 +158,34 @@ public class HomePageController {
     	String fileName = file.getOriginalFilename();// 获取文件名称
         String extension = FilenameUtils.getExtension(fileName);	//获取文件后缀
         
-        String _tempName = UUID.randomUUID().toString();	//UUID当作临时文件名	
-        
-        _tempPath += (File.separator + _tempName + "." + extension);
+        final String _tempName = UUID.randomUUID().toString() + "." + extension;	//临时文件名(UUID)
+        final String _tempPath = _homePathTemp + File.separator + _tempName;		
         
         File _target = new File(_tempPath);
         
-        file.transferTo(_target);
+        file.transferTo(_target);				//移动文件到临时文件.
+        
         LOGGER.debug("return:{}", _tempPath);
-    	return _tempPath;
+        request.getSession().setAttribute("_tempHomeFileName", _tempName);		//路径保存到Session
     }
 
     @Resource
     HomePageService homePageService;
 
-    @Resource
-    TemplateService templateService;
     
     @Value("#{properties.getProperty('_homePath')}")
-    private String _homePath;
+    private String _homePath;			//保存路径
+    
+    @Value("#{properties.getProperty('_homePathTemp')}")
+    private String _homePathTemp;		//临时保存路径
+
+	public String get_homePathTemp() {
+		return _homePathTemp;
+	}
+
+	public void set_homePathTemp(String _homePathTemp) {
+		this._homePathTemp = _homePathTemp;
+	}
 
 	public String get_homePath() {
 		return _homePath;
@@ -140,8 +195,4 @@ public class HomePageController {
 		this._homePath = _homePath;
 	}
 	
-	public static void main(String[] args) {
-		LOGGER.debug("hello world");
-	}
-   
 }

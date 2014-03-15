@@ -1,6 +1,5 @@
 package com.iokays.homepage.service.impl;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -33,25 +32,35 @@ public class HomePageServiceImpl implements HomePageService {
     public HomePage save(HomePage homePage) {
         return homePageRepository.save(homePage);
     }
-
+    
+    /**
+     * 更新首页图片
+     */
     @Override
-    public Integer update(Serializable id, Map<String, Object> map) throws Exception {
-        return homePageRepository.update(id, map);
+    public HomePage update(String id, Map<String, String> map) {
+    	HomePage _homePage = homePageRepository.findOne(id);
+    	
+    	if (map.containsKey("id")) { _homePage.setId(map.get("id")); map.remove("id"); }
+    	if (map.containsKey("target")) { _homePage.setTarget(map.get("target")); map.remove("target"); }
+    	if (map.containsKey("url")) { _homePage.setUrl(map.get("url")); map.remove("url"); }
+    	if (map.containsKey("sort")) { _homePage.setSort(Integer.valueOf(map.get("sort"))); map.remove("sort"); }		//sort,不能为空，当为空(null)或数据格式错误,抛出异常即可
+    	
+    	return _homePage;
     }
 
     /* (non-Javadoc)
      * @see com.iokays.homepage.service.impl.HomePageService#delete(java.io.Serializable)
      */
     @Override
-    public Integer delete(Serializable id) {
-        return homePageRepository.deleteById(id);
+    public void delete(String id) {
+        homePageRepository.delete(id);
     }
 
     /* (non-Javadoc)
      * @see com.iokays.homepage.service.impl.HomePageService#findOne(java.io.Serializable)
      */
     @Override
-    public HomePage findOne(Serializable id) {
+    public HomePage findOne(String id) {
         return homePageRepository.findOne(id);
     }
 

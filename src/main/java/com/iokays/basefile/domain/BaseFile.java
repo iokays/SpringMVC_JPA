@@ -3,7 +3,6 @@ package com.iokays.basefile.domain;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.iokays.utils.domain.IdEntity;
@@ -14,7 +13,7 @@ import com.iokays.utils.domain.IdEntity;
  * @author pengyuanbing@gmail.com
  */
 
-@Entity
+//@Entity
 @Table(name = "t_pub_base_file")
 public class BaseFile extends IdEntity implements Serializable {
 

@@ -36,7 +36,7 @@ public class Column extends IdEntity implements Serializable {
     private Integer sort;            //排序
     private String description;        //描述
     private String template;        //模版
-    private String image;            //图片
+    private String imageUrl;            //图片
 
     public Column() {
 
@@ -118,13 +118,13 @@ public class Column extends IdEntity implements Serializable {
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @javax.persistence.Column(columnDefinition = "LONGTEXT", name = "image_", nullable = false)
-    public String getImage() {
-        return image;
+    @javax.persistence.Column(columnDefinition = "LONGTEXT", name = "image_url_", nullable = false)
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
 }

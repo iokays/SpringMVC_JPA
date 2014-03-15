@@ -7,29 +7,6 @@
     <%@ include file="/common/meta.jsp" %>
     <title>首页列表</title>
 </head>
-<script type="text/javascript">
-    function removeData(e, id) {
-        $.ajax({
-            type: "DELETE",
-            url: "${ctx}/homePage/" + id,
-            success: function (data) {
-                $(e).parents("tr").remove();
-                $("#alert").attr("class", "alert alert-success");
-                if (0 == data) {
-                    $("#alert_text").html("数据不存在,或者已删除");
-                } else {
-                    $("#alert_text").html("数据删除成功");
-                }
-                $("#alert").css("display", "block");
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                $("#alert").attr("class", "alert alert-error");
-                $("#alert_text").html("删除失败!");
-                $("#alert").css("display", "block");
-            }});
-    }
-
-</script>
 <body>
 <%@ include file="/header.jsp" %>
 <div class="container" style="background: #FFF">
@@ -61,7 +38,7 @@
                     <td>${homePage.url }</td>
                     <td>${homePage.sort }</td>
                     <td>
-                        <a href="${ctx}/homePage/${homePage.id}" class="btn btn-small btn-primary"
+                        <a href="${ctx}/homePages/${homePage.id}" class="btn btn-small btn-primary"
                            target="${homePage.id }">编辑</a>
                         <button class="btn btn-small btn-danger" type="button"
                                 onclick="removeData(this, '${homePage.id}')">删除
@@ -73,15 +50,8 @@
 
     </div>
 
-
 </div>
 
+<script type="text/javascript" src="${ctx }/js/homePages.js"></script>
 </body>
-<script type="text/javascript">
-    $(function () {
-        $(".close").click(function () {
-            $(this).parent().hide();
-        });
-    });
-</script>
 </html>

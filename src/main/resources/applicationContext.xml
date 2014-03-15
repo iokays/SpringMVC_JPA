@@ -53,6 +53,9 @@
 		<constructor-arg index="0">
 			<props>
 				<prop key="_homePath">d:/news/home</prop>
+				<prop key="_homePathTemp">d:/news/home/temp</prop>
+				<prop key="_columnPath">d:/news/column</prop>
+				<prop key="_columnPathTemp">d:/news/column/temp</prop>
 				<prop key="_articlePath">d:/news/article</prop>
 			</props>
 		</constructor-arg>

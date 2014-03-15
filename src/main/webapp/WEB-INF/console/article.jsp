@@ -65,7 +65,7 @@
             var data = buildData();
             $.ajax({
                 type: "POST",
-                url: "${ctx}/article",
+                url: "${ctx}/articles",
                 data: data,
                 success: function (data) {
                     $("#id").val(data);
@@ -85,7 +85,7 @@
             var data = buildData();
             $.ajax({
                 type: "PUT",
-                url: "${ctx}/article/" + id,
+                url: "${ctx}/articles/" + id,
                 data: JSON.stringify(data),
                 success: function () {
                     $("#alert").attr("class", "alert alert-success");

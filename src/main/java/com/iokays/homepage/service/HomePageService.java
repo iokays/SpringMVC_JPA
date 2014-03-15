@@ -1,6 +1,5 @@
 package com.iokays.homepage.service;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +13,10 @@ public interface HomePageService {
 
     public abstract HomePage save(HomePage homePage);
 
-    public abstract Integer update(Serializable id, Map<String, Object> map) throws Exception;
+    public abstract HomePage update(String id, Map<String, String> map);
 
-    public abstract Integer delete(Serializable id);
+    public abstract void delete(String id);
 
-    public abstract HomePage findOne(Serializable id);
+    public abstract HomePage findOne(String id);
 
 }
