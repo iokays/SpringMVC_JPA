@@ -1,6 +1,5 @@
 package com.iokays.column.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iokays.column.domain.Column;
 import com.iokays.column.service.ColumnService;
+import com.iokays.template.service.TemplateService;
 import com.iokays.utils.fileupload.FileUpload;
 
 @Controller
@@ -77,16 +76,25 @@ public class ColumnController {
     public String insert(Column column, Long timeInMillis, HttpServletRequest request) {
     	final String _timeInMillis =timeInMillis.toString();
     	final String _tempColumnFileName = (String)request.getSession().getAttribute(_timeInMillis);	//获取已上传文件名
-    	String extension = FilenameUtils.getExtension(_tempColumnFileName);	//获取文件后缀
     	LOGGER.debug("Session:Start:_tempColumnFileName:{}", (String)request.getSession().getAttribute(_timeInMillis));
     	if (null != _tempColumnFileName) {
-    		column.setImageUrl(column.getMarking() + "." + extension);
+    		column.setImageUrl(_tempColumnFileName);
     		LOGGER.debug("column.imageUrl:{}", column.getImageUrl());
-    		new File(_columnDirTemp + File.separator + _tempColumnFileName).renameTo(new File(_columnDir + File.separator + column.getImageUrl()));		//将文件移到到确定目录
     	}
         columnService.save(column);
         request.getSession().setAttribute(_timeInMillis, null);		//清空文件上传的临时路径
         LOGGER.debug("Session:End:_tempHomePath:{}", (String)request.getSession().getAttribute(_timeInMillis));
+        
+        try {
+        	if (Column.Grade.one == column.getGrade()) {
+        		templateService.buildOneColumn(column.getId());
+        	} else if (Column.Grade.two == column.getGrade()) {
+        		templateService.buildTwoColumn(column.getId());
+        	}
+        	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         
         return column.getId();
     }
@@ -103,44 +111,49 @@ public class ColumnController {
         map.remove(_timeInMillis);
         
         final String _tempColumnFileName = (String)request.getSession().getAttribute(_timeInMillis);	//获取已上传文件名
-    	String extension = FilenameUtils.getExtension(_tempColumnFileName);	//获取文件后缀
     	LOGGER.debug("Session:Start:_tempColumnFileName:{}", (String)request.getSession().getAttribute(_timeInMillis));
         
         if (null != _tempColumnFileName) {
-        	map.put("imageUrl", map.get("marking") + "." + extension);
+        	map.put("imageUrl", _tempColumnFileName);
     		LOGGER.debug("homePage.imageUrl:{}", map.get("imageUrl"));
-    		new File(_columnDirTemp + File.separator + _tempColumnFileName).renameTo(new File(_columnDir + File.separator + map.get("imageUrl")));		//将文件移到到确定目录
     	}
         
         request.getSession().setAttribute(_timeInMillis, null);		//清空文件上传的临时路径
         LOGGER.debug("Session:End:_tempHomePath:{}", (String)request.getSession().getAttribute(map.get("timeInMillis").toString()));
         
+        final String grade = map.get("grade").toString();
+        
         columnService.update(id, map);
+        
+        try {
+        	if (Column.Grade.one == Column.Grade.valueOf(grade)) {
+        		templateService.buildOneColumn(id);
+        	} else if (Column.Grade.two == Column.Grade.valueOf(map.get("grade").toString())) {
+        		templateService.buildTwoColumn(id);
+        	}
+        	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     @RequestMapping(value = "/columns/fileupload", method = RequestMethod.POST)
     @ResponseBody
     public void fileupload(@RequestParam(value = "file", required = true) MultipartFile file, Long timeInMillis, HttpServletRequest request) throws IllegalStateException, IOException {
-    	String _tempName = FileUpload.uploadImages(file, _columnDirTemp);
+    	String _tempName = FileUpload.uploadImages(file, _columnDir);
     	request.getSession().setAttribute(timeInMillis.toString(), _tempName);		//路径保存到Session
     }
 
     @Resource
     private ColumnService columnService;
     
+    @Resource
+    private TemplateService templateService;
+    
     @Value("#{properties.getProperty('_columnDir')}")
     private String _columnDir;
     
-    @Value("#{properties.getProperty('_columnDirTemp')}")
-    private String _columnDirTemp;
-
-	public String get_columnDirTemp() {
-		return _columnDirTemp;
-	}
-	public void set_columnDirTemp(String _columnDirTemp) {
-		this._columnDirTemp = _columnDirTemp;
-	}
-
+   
 	public String get_columnDir() {
 		return _columnDir;
 	}

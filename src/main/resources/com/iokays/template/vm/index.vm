@@ -173,12 +173,16 @@
     
     <!-- footer start-->
     <footer class="footer" style="margin-top: 100px">
-       
+        <div class="container">
+            <p class="text-center">粤ICP备14014989号</p>
+        </div>
     </footer>
 
 <!-- footer end-->
 
 </div>
+
+
 <script src="./dist/jquery/1.10.2/jquery.min.js"></script>
 
 <script src="./dist/bootstrap/2.3.2/js/bootstrap.js"></script>

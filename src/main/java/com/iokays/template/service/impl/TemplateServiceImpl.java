@@ -79,7 +79,8 @@ public class TemplateServiceImpl implements TemplateService {
 		context.put("aboutArticles", aboutArticles);
 		
 		Template template = Velocity.getTemplate("com/iokays/template/vm/index.vm", "UTF-8");
-		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + "index.html", "UTF-8");
+		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + "/index.html", "UTF-8");
+		LOGGER.debug("buildTwoColumn:url:{}", System.getProperty("webapp.root") + "/index.html", "UTF-8");
 		template.merge(context, printWriter);
 		printWriter.flush();  
 		printWriter.close();
@@ -103,7 +104,8 @@ public class TemplateServiceImpl implements TemplateService {
 		
 		LOGGER.debug("buildOneColumn:{}", "com/iokays/template/vm/" + column.getMarking() + ".vm");
 		Template template = Velocity.getTemplate("com/iokays/template/vm/" + column.getMarking() + ".vm", "UTF-8");
-		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + column.getMarking() + ".html", "UTF-8");
+		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + "/" + column.getMarking() + ".html", "UTF-8");
+		LOGGER.debug("buildTwoColumn:url:{}", System.getProperty("webapp.root") + "/" + column.getMarking() + ".html");
 		template.merge(context, printWriter);
 		printWriter.flush();  
 		printWriter.close();
@@ -127,7 +129,8 @@ public class TemplateServiceImpl implements TemplateService {
 		context.put("articles", articles);
 		LOGGER.debug("buildTwoColumn:template:{}", "com/iokays/template/vm/" + column.getMarking() + ".vm");
 		Template template = Velocity.getTemplate("com/iokays/template/vm/" + column.getMarking() + ".vm", "UTF-8");
-		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + column.getMarking() + ".html", "UTF-8");
+		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + "/" + column.getMarking() + ".html", "UTF-8");
+		LOGGER.debug("buildTwoColumn:url:{}", System.getProperty("webapp.root") + "/" + column.getMarking() + ".html");
 		template.merge(context, printWriter);
 		printWriter.flush();  
 		printWriter.close();
@@ -152,7 +155,8 @@ public class TemplateServiceImpl implements TemplateService {
 		
 		LOGGER.debug("buildArticle:template:{}", "com/iokays/template/vm/" + article.getColumn().getMarking() + "_article.vm");
 		Template template = Velocity.getTemplate("com/iokays/template/vm/" + article.getColumn().getMarking() + "_article.vm", "UTF-8");
-		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + article.getId() + ".html", "UTF-8");
+		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + "/" + article.getId() + ".html", "UTF-8");
+		LOGGER.debug("buildTwoColumn:url:{}", System.getProperty("webapp.root") + "/" + article.getId() + ".html");
 		template.merge(context, printWriter);
 		printWriter.flush();  
 		printWriter.close();

@@ -1,6 +1,5 @@
 package com.iokays.homepage.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -102,12 +100,10 @@ public class HomePageController {
     public String insert(HomePage homePage, Long timeInMillis, HttpServletRequest request) {
     	final String _timeInMillis = timeInMillis.toString();
     	final String _tempHomeFileName = (String)request.getSession().getAttribute(_timeInMillis);	//获取已上传文件名
-    	String extension = FilenameUtils.getExtension(_tempHomeFileName);	//获取文件后缀
     	LOGGER.debug("Session:Start:_tempHomePath:{}", (String)request.getSession().getAttribute(_timeInMillis));
     	if (null != _tempHomeFileName) {
-    		homePage.setUrl(homePage.getName() + "." + extension);
+    		homePage.setUrl(_tempHomeFileName);
     		LOGGER.debug("homePage.url:{}", homePage.getUrl());
-    		new File(_homeDirTemp + File.separator + _tempHomeFileName).renameTo(new File(_homeDir + File.separator + homePage.getUrl()));		//将文件移到到确定目录
     	}
     	LOGGER.debug("homePage.name:{}", homePage.getName());
         homePageService.save(homePage);			//保存
@@ -140,12 +136,10 @@ public class HomePageController {
         map.remove(_timeInMillis);
         
         final String _tempHomeFileName = (String)request.getSession().getAttribute(_timeInMillis);	//获取文件上传的临时路径
-        String extension = FilenameUtils.getExtension(_tempHomeFileName);	//获取文件后缀
     	LOGGER.debug("Session:Start:_tempHomePath:{}", (String)request.getSession().getAttribute(_timeInMillis));
         if (null != _tempHomeFileName) {
-        	map.put("url", map.get("name") + "." + extension);
+        	map.put("url", _tempHomeFileName);
     		LOGGER.debug("homePage.url:{}", map.get("url"));
-    		new File(_homeDirTemp + File.separator + _tempHomeFileName).renameTo(new File(_homeDir + File.separator + map.get("url")));		//将文件移到到确定目录
     	}
         homePageService.update(id, map);
         
@@ -171,7 +165,7 @@ public class HomePageController {
     public void fileupload(@RequestParam(value = "file", required = true) MultipartFile file, Long timeInMillis, HttpServletRequest request) throws IllegalStateException, IOException {
     	LOGGER.debug("url:{}, fileName:{}, fileUrl:", "/homePages/fileupload", file.getName(), file.getOriginalFilename());
     	LOGGER.debug("timeInMillis:{}", timeInMillis);
-    	String _tempName = FileUpload.uploadImages(file,  _homeDirTemp);
+    	String _tempName = FileUpload.uploadImages(file,  _homeDir);
     	request.getSession().setAttribute(timeInMillis.toString(), _tempName);		//路径保存到Session
     }
 
@@ -185,17 +179,6 @@ public class HomePageController {
     @Value("#{properties.getProperty('_homeDir')}")
     private String _homeDir;			//保存路径
     
-    @Value("#{properties.getProperty('_homeDirTemp')}")
-    private String _homeDirTemp;		//临时保存路径
-
-	public String get_homeDirTemp() {
-		return _homeDirTemp;
-	}
-
-	public void set_homeDirTemp(String _homeDirTemp) {
-		this._homeDirTemp = _homeDirTemp;
-	}
-
 	public String get_homeDir() {
 		return _homeDir;
 	}

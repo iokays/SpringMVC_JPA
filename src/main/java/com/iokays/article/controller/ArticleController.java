@@ -1,13 +1,11 @@
 package com.iokays.article.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,12 +88,10 @@ public class ArticleController {
         map.remove(_timeInMillis);
         
         final String _tempArticleFileName = (String)request.getSession().getAttribute(_timeInMillis);	//获取已上传文件名
-    	String extension = FilenameUtils.getExtension(_tempArticleFileName);	//获取文件后缀
     	
         if (null != _tempArticleFileName) {
-        	map.put("imageUrl", map.get("title") + "." + extension);
+        	map.put("imageUrl", _tempArticleFileName);
     		LOGGER.debug("homePage.imageUrl:{}", map.get("imageUrl"));
-    		new File(_articleDirTemp + File.separator + _tempArticleFileName).renameTo(new File(_articleDir + File.separator + map.get("imageUrl")));		//将文件移到到确定目录
     	
     	}
         
@@ -116,12 +112,10 @@ public class ArticleController {
     public String insert(Article article, Long timeInMillis, HttpServletRequest request) {
     	final String _timeInMillis = timeInMillis.toString(); 
     	final String _tempArticleFileName = (String)request.getSession().getAttribute(_timeInMillis);	//获取已上传文件名
-    	String extension = FilenameUtils.getExtension(_tempArticleFileName);	//获取文件后缀
     	
     	if (null != _tempArticleFileName) {
-    		article.setImageUrl(article.getTitle() + "." + extension);
+    		article.setImageUrl(_tempArticleFileName);
     		LOGGER.debug("column.imageUrl:{}", article.getImageUrl());
-    		new File(_articleDirTemp + File.separator + _tempArticleFileName).renameTo(new File(_articleDir + File.separator + article.getImageUrl()));		//将文件移到到确定目录
     	}
     	
     	request.getSession().setAttribute(_timeInMillis, null);		//清空文件上传的临时路径
@@ -146,15 +140,13 @@ public class ArticleController {
     @ResponseBody
     public void fileupload(@RequestParam(value = "file", required = true) MultipartFile file, Long timeInMillis, HttpServletRequest request) throws IllegalStateException, IOException {
     	LOGGER.debug("url:{}, fileName:{}, fileUrl:", "/articles/fileupload", file.getName(), file.getOriginalFilename());
-    	String _tempName = FileUpload.uploadImages(file,  _articleDirTemp);
+    	String _tempName = FileUpload.uploadImages(file,  _articleDir);
     	request.getSession().setAttribute(timeInMillis.toString(), _tempName);		//路径保存到Session
     }
     
     @Value("#{properties.getProperty('_articleDir')}")
     private String _articleDir;			//保存路径
     
-    @Value("#{properties.getProperty('_articleDirTemp')}")
-    private String _articleDirTemp;		//临时保存路径
     
     public String get_articleDir() {
 		return _articleDir;
@@ -162,14 +154,6 @@ public class ArticleController {
 
 	public void set_articleDir(String _articleDir) {
 		this._articleDir = _articleDir;
-	}
-
-	public String get_articleDirTemp() {
-		return _articleDirTemp;
-	}
-
-	public void set_articleDirTemp(String _articleDirTemp) {
-		this._articleDirTemp = _articleDirTemp;
 	}
 
 	@Resource
