@@ -19,10 +19,12 @@ public class Article extends IdEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String title;                    //标题
-    private String content;                    //内容
+    private String title;                    	//标题
+    private String content;                   	//内容
 
-    private Column column;                    //所属标题
+    private Column column;                    	//所属标题
+    
+    private String imageUrl;            		//图片
 
     @javax.persistence.Column(name = "title_", length = 40, nullable = false)
     public String getTitle() {
@@ -53,5 +55,13 @@ public class Article extends IdEntity implements Serializable {
     public void setColumn(Column column) {
         this.column = column;
     }
+    
+    @javax.persistence.Column(name = "image_url_", length = 50, unique = true, nullable = false)
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

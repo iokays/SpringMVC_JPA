@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -27,6 +27,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iokays.homepage.domain.HomePage;
 import com.iokays.homepage.service.HomePageService;
+import com.iokays.template.service.TemplateService;
+import com.iokays.utils.fileupload.FileUpload;
 
 /**
  * 首页图片管理 控制类
@@ -43,7 +45,9 @@ public class HomePageController {
 	 * @return 
 	 */
     @RequestMapping(value = "/homePages", method = RequestMethod.GET)
-    public ModelAndView listAll() {
+    public ModelAndView listAll(HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+    	System.out.println(session.getId());
     	LOGGER.debug("requst:", "/homePages");
         ModelAndView mav = new ModelAndView("homePages");
         List<HomePage> homePages = homePageService.findAll(new Sort("sort"));
@@ -95,19 +99,26 @@ public class HomePageController {
      */
     @RequestMapping(value = "/homePages", method = RequestMethod.POST)
     @ResponseBody
-    public String insert(HomePage homePage, HttpServletRequest request) {
-    	final String _tempHomeFileName = (String)request.getSession().getAttribute("_tempHomeFileName");	//获取已上传文件名
-    	LOGGER.debug("Session:Start:_tempHomePath:{}", (String)request.getSession().getAttribute("_tempHomePath"));
+    public String insert(HomePage homePage, Long timeInMillis, HttpServletRequest request) {
+    	final String _timeInMillis = timeInMillis.toString();
+    	final String _tempHomeFileName = (String)request.getSession().getAttribute(_timeInMillis);	//获取已上传文件名
+    	String extension = FilenameUtils.getExtension(_tempHomeFileName);	//获取文件后缀
+    	LOGGER.debug("Session:Start:_tempHomePath:{}", (String)request.getSession().getAttribute(_timeInMillis));
     	if (null != _tempHomeFileName) {
-    		homePage.setUrl(_tempHomeFileName);
+    		homePage.setUrl(homePage.getName() + "." + extension);
     		LOGGER.debug("homePage.url:{}", homePage.getUrl());
-    		new File(_homePathTemp + File.separator + _tempHomeFileName).renameTo(new File(_homePath + File.separator + homePage.getUrl()));		//将文件移到到确定目录
+    		new File(_homeDirTemp + File.separator + _tempHomeFileName).renameTo(new File(_homeDir + File.separator + homePage.getUrl()));		//将文件移到到确定目录
     	}
     	LOGGER.debug("homePage.name:{}", homePage.getName());
         homePageService.save(homePage);			//保存
-        request.getSession().setAttribute("_tempHomePath", null);		//清空文件上传的临时路径
-        LOGGER.debug("Session:End:_tempHomePath:{}", (String)request.getSession().getAttribute("_tempHomePath"));
+        request.getSession().setAttribute(_timeInMillis, null);		//清空文件上传的临时路径
+        LOGGER.debug("Session:End:_tempHomePath:{}", (String)request.getSession().getAttribute(_timeInMillis));
         
+        try {
+        	templateService.buildHomePage();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         return homePage.getId();
     }
     
@@ -124,19 +135,28 @@ public class HomePageController {
     public void update(@PathVariable("id") String id, @RequestBody String body, HttpServletRequest request) throws IOException {
     	ObjectMapper objectMapper = new ObjectMapper();
         @SuppressWarnings("unchecked")
-        Map<String, String> map = objectMapper.readValue(body, Map.class);
+        Map<String, Object> map = objectMapper.readValue(body, Map.class);
+        final String _timeInMillis = map.get("timeInMillis").toString();
+        map.remove(_timeInMillis);
         
-        final String _tempHomeFileName = (String)request.getSession().getAttribute("_tempHomeFileName");	//获取文件上传的临时路径
-    	LOGGER.debug("Session:Start:_tempHomePath:{}", (String)request.getSession().getAttribute("_tempHomePath"));
+        final String _tempHomeFileName = (String)request.getSession().getAttribute(_timeInMillis);	//获取文件上传的临时路径
+        String extension = FilenameUtils.getExtension(_tempHomeFileName);	//获取文件后缀
+    	LOGGER.debug("Session:Start:_tempHomePath:{}", (String)request.getSession().getAttribute(_timeInMillis));
         if (null != _tempHomeFileName) {
-        	map.put("url", _tempHomeFileName);
+        	map.put("url", map.get("name") + "." + extension);
     		LOGGER.debug("homePage.url:{}", map.get("url"));
-    		new File(_homePathTemp + File.separator + _tempHomeFileName).renameTo(new File(_homePath + File.separator + map.get("url")));		//将文件移到到确定目录
+    		new File(_homeDirTemp + File.separator + _tempHomeFileName).renameTo(new File(_homeDir + File.separator + map.get("url")));		//将文件移到到确定目录
     	}
         homePageService.update(id, map);
         
-        request.getSession().setAttribute("_tempHomeFileName", null);		//清空文件上传的临时路径
-        LOGGER.debug("Session:End:_tempHomePath:{}", (String)request.getSession().getAttribute("_tempHomeFileName"));
+        request.getSession().setAttribute(_timeInMillis, null);		//清空文件上传的临时路径
+        LOGGER.debug("Session:End:_tempHomePath:{}", (String)request.getSession().getAttribute(_timeInMillis));
+        
+        try {
+        	templateService.buildHomePage();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     /**
@@ -148,51 +168,40 @@ public class HomePageController {
      */
     @RequestMapping(value = "/homePages/fileupload", method = RequestMethod.POST)
     @ResponseBody
-    public void fileupload(@RequestParam(value = "file", required = true) MultipartFile file, HttpServletRequest request) throws IllegalStateException, IOException {
+    public void fileupload(@RequestParam(value = "file", required = true) MultipartFile file, Long timeInMillis, HttpServletRequest request) throws IllegalStateException, IOException {
     	LOGGER.debug("url:{}, fileName:{}, fileUrl:", "/homePages/fileupload", file.getName(), file.getOriginalFilename());
-    	File _tempDir = new File(_homePathTemp);
-    	if (!_tempDir.exists()) {			//不存在，新建之					
-    		_tempDir.mkdirs();
-    	}
-    	
-    	String fileName = file.getOriginalFilename();// 获取文件名称
-        String extension = FilenameUtils.getExtension(fileName);	//获取文件后缀
-        
-        final String _tempName = UUID.randomUUID().toString() + "." + extension;	//临时文件名(UUID)
-        final String _tempPath = _homePathTemp + File.separator + _tempName;		
-        
-        File _target = new File(_tempPath);
-        
-        file.transferTo(_target);				//移动文件到临时文件.
-        
-        LOGGER.debug("return:{}", _tempPath);
-        request.getSession().setAttribute("_tempHomeFileName", _tempName);		//路径保存到Session
+    	LOGGER.debug("timeInMillis:{}", timeInMillis);
+    	String _tempName = FileUpload.uploadImages(file,  _homeDirTemp);
+    	request.getSession().setAttribute(timeInMillis.toString(), _tempName);		//路径保存到Session
     }
 
     @Resource
     HomePageService homePageService;
+    
+    @Resource
+    TemplateService templateService;
 
     
-    @Value("#{properties.getProperty('_homePath')}")
-    private String _homePath;			//保存路径
+    @Value("#{properties.getProperty('_homeDir')}")
+    private String _homeDir;			//保存路径
     
-    @Value("#{properties.getProperty('_homePathTemp')}")
-    private String _homePathTemp;		//临时保存路径
+    @Value("#{properties.getProperty('_homeDirTemp')}")
+    private String _homeDirTemp;		//临时保存路径
 
-	public String get_homePathTemp() {
-		return _homePathTemp;
+	public String get_homeDirTemp() {
+		return _homeDirTemp;
 	}
 
-	public void set_homePathTemp(String _homePathTemp) {
-		this._homePathTemp = _homePathTemp;
+	public void set_homeDirTemp(String _homeDirTemp) {
+		this._homeDirTemp = _homeDirTemp;
 	}
 
-	public String get_homePath() {
-		return _homePath;
+	public String get_homeDir() {
+		return _homeDir;
 	}
 
-	public void set_homePath(String _homePath) {
-		this._homePath = _homePath;
+	public void set_homeDir(String _homeDir) {
+		this._homeDir = _homeDir;
 	}
 	
 }

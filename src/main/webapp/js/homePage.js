@@ -1,11 +1,12 @@
 function buildData() {
 	var name = $("#name").val();
 	var target = $("#target").val();
-	var sort = $("#sort").val();
+	var sort = Number($("#sort").val());
 	return {
 		"name" : name,
 		"target" : target,
-		"sort" : sort
+		"sort" : sort,
+		"timeInMillis" : timeInMillis
 	};
 }
 
@@ -21,7 +22,7 @@ function insertData() {
 					$("#alert").attr("class", "alert alert-success");
 					$("#alert_text")
 							.html(
-									"添加成功<a style='float:right' target=blank href='${ctx}/index.html'>静态页</a>");
+									"添加成功<a style='float:right' target=blank href='" + ctx + "/index.html'>静态页</a>");
 					$("#alert").css("display", "block");
 				},
 				error : function() {
@@ -43,7 +44,7 @@ function updateData(id) {
 					$("#alert").attr("class", "alert alert-success");
 					$("#alert_text")
 							.html(
-									"修改成功<a style='float:right' target=blank href='${ctx}/index.html'>静态页</a>");
+									"修改成功<a style='float:right' target=blank href='" + ctx + "/index.html'>静态页</a>");
 					$("#alert").css("display", "block");
 				},
 				error : function() {
@@ -73,11 +74,11 @@ jQuery(function() {
 		auto : true,
 
 		// swf文件路径
-		swf : "${ctx}/dist/webuploader/1.0/Uploader.swf",
+		swf : ctx + "/dist/webuploader/1.0/Uploader.swf",
 
 		// 文件接收服务端。
-		server : '${ctx}/homePages/fileupload',
-
+		server : ctx + '/homePages/fileupload?timeInMillis=' + timeInMillis,
+		
 		fileNumLimit : 1,
 
 		// 选择文件的按钮。可选。

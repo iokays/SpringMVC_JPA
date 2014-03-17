@@ -33,7 +33,7 @@
                 <th>所属栏目</th>
                 <th>栏目描述</th>
                 <th>排序值</th>
-                <th>模版</th>
+                <th>标识</th>
                 <th>操作</th>
             </tr>
 
@@ -48,7 +48,7 @@
                     <td></td>
                     <td>${column.description }</td>
                     <td>${column.sort }</td>
-                    <td>${column.template }</td>
+                    <td>${column.marking }</td>
                     <td>
                         <a href="${ctx}/columns/${column.id}" class="btn btn-small btn-primary"
                            target="${column.id }">编辑</a>
@@ -67,7 +67,7 @@
                         <td>${column.name }</td>
                         <td>${child.description }</td>
                         <td>${child.sort }</td>
-                        <td>${child.template }</td>
+                        <td>${child.marking }</td>
                         <td>
                             <a href="${ctx}/columns/${child.id}" class="btn btn-small btn-primary" target="${child.id}">编辑</a>
                             <button class="btn btn-small btn-danger" type="button"

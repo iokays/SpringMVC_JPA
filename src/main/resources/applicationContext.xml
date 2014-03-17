@@ -52,11 +52,12 @@
 	<bean id="properties" class="java.util.Properties">
 		<constructor-arg index="0">
 			<props>
-				<prop key="_homePath">d:/news/home</prop>
-				<prop key="_homePathTemp">d:/news/home/temp</prop>
-				<prop key="_columnPath">d:/news/column</prop>
-				<prop key="_columnPathTemp">d:/news/column/temp</prop>
-				<prop key="_articlePath">d:/news/article</prop>
+				<prop key="_homeDir">d:/news/home</prop>
+				<prop key="_homeDirTemp">d:/news/home/temp</prop>
+				<prop key="_columnDir">d:/news/column</prop>
+				<prop key="_columnDirTemp">d:/news/column/temp</prop>
+				<prop key="_articleDir">d:/news/article</prop>
+				<prop key="_articleDirTemp">d:/news/article/temp</prop>
 			</props>
 		</constructor-arg>
 	</bean>

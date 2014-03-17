@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,9 +21,15 @@ import com.iokays.column.service.ColumnService;
 @Service("columnService")
 @Transactional
 public class ColumnServiceImpl implements ColumnService {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ColumnServiceImpl.class);
 
     @Resource
     private ColumnRepository columnRepository;
+    
+    public Column findByMarking(String marking) {
+    	 return columnRepository.findByMarking(marking);
+    }
 
     public List<Column> findAllByParent(String parentId, Sort sort) {
         return columnRepository.findAllByParent(parentId, sort);
@@ -95,16 +103,17 @@ public class ColumnServiceImpl implements ColumnService {
      * @see com.iokays.column.service.ColumnService#update(java.io.Serializable, java.util.Map)
      */
     @Override
-    public Column update(String id, Map<String, String> map) {
+    public Column update(String id, Map<String, Object> map) {
+    	LOGGER.debug("map:{}", map);
     	Column _column = columnRepository.findOne(id);
     	
-    	if (map.containsKey("id")) { _column.setId(map.get("id")); map.remove("id"); }
-    	if (map.containsKey("grade")) { _column.setGrade(Grade.valueOf(map.get("grade"))); map.remove("grade"); }
-    	if (map.containsKey("parentId")) { _column.getParent().setId(map.get("parentId")); map.remove("parentId"); }
-    	if (map.containsKey("sort")) { _column.setSort(Integer.valueOf(map.get("sort"))); map.remove("sort"); }
-    	if (map.containsKey("description")) { _column.setDescription(map.get("description")); map.remove("description"); }
-    	if (map.containsKey("template")) { _column.setTemplate(map.get("template")); map.remove("template"); }
-    	if (map.containsKey("imageUrl")) { _column.setImageUrl(map.get("imageUrl")); map.remove("imageUrl"); }
+    	if (map.containsKey("id")) { _column.setId(map.get("id").toString()); map.remove("id"); }
+    	if (map.containsKey("grade")) { _column.setGrade(Grade.valueOf(map.get("grade").toString())); map.remove("grade"); }
+    	if (map.containsKey("parent.id")) { _column.getParent().setId(map.get("parent.id").toString()); map.remove("parent.id"); }
+    	if (map.containsKey("sort")) { _column.setSort((Integer)map.get("sort")); map.remove("sort"); }
+    	if (map.containsKey("description")) { _column.setDescription(map.get("description").toString()); map.remove("description"); }
+    	if (map.containsKey("imageUrl")) { _column.setImageUrl(map.get("imageUrl").toString()); map.remove("imageUrl"); }
+    	if (map.containsKey("marking")) { _column.setMarking(map.get("marking").toString()); map.remove("marking"); }
     	
         return _column;
     }

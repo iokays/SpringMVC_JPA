@@ -16,11 +16,7 @@
             success: function (data) {
                 $(e).parents("tr").remove();
                 $("#alert").attr("class", "alert alert-success");
-                if (0 == data) {
-                    $("#alert_text").html("数据不存在,或者已删除");
-                } else {
-                    $("#alert_text").html("数据删除成功");
-                }
+                $("#alert_text").html("数据删除成功");
                 $("#alert").css("display", "block");
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -60,7 +56,7 @@
             <c:forEach items="${page.content }" var="object" varStatus="status">
                 <tr class="info">
                     <td><strong>${status.count }</strong></td>
-                    <td><a target="blank" href="${ctx }/console/${object[0]}.html">${object[1] }</a></td>
+                    <td><a target="blank" href="${ctx }/${object[0]}.html">${object[1] }</a></td>
                     <td>${object[2] }</td>
                     <td>${object[3] }</td>
                     <td>

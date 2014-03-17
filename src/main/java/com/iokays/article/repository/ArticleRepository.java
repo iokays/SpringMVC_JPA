@@ -1,6 +1,5 @@
 package com.iokays.article.repository;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -13,7 +12,7 @@ import com.iokays.article.domain.Article;
 import com.iokays.article.repository.plus.ArticleRepositoryPlus;
 import com.iokays.column.domain.Column;
 
-public interface ArticleRepository extends JpaRepository<Article, Serializable>, ArticleRepositoryPlus {
+public interface ArticleRepository extends JpaRepository<Article, String>, ArticleRepositoryPlus {
 
     public abstract List<Article> findByColumn(Column column);
 

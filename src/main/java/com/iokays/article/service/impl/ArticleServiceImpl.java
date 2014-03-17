@@ -1,11 +1,12 @@
 package com.iokays.article.service.impl;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,6 +22,8 @@ import com.iokays.column.domain.Column;
 @Service("articleService")
 @Transactional
 public class ArticleServiceImpl implements ArticleService {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
     public Page<Article> findAll(Pageable pageable) {
         return articleRepository.findAll(pageable);
@@ -77,7 +80,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @see com.iokays.article.service.ArticleService#findOne(java.io.Serializable)
      */
     @Override
-    public Article findOne(Serializable id) {
+    public Article findOne(String id) {
         return articleRepository.findOne(id);
     }
 
@@ -90,12 +93,20 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Integer delete(Serializable id) {
-        return articleRepository.deleteById(id);
+    public void delete(String id) {
+        articleRepository.delete(id);
     }
 
-    public Integer update(Serializable id, Map<String, Object> map) throws Exception {
-        return articleRepository.update(id, map);
+    public Article update(String id, Map<String, Object> map) {
+    	LOGGER.debug("map:{}", map);
+    	Article article = articleRepository.findOne(id);
+    	if (map.containsKey("id")) { article.setId(map.get("id").toString()); map.remove("id"); }
+    	if (map.containsKey("title")) { article.setTitle(map.get("title").toString()); map.remove("title"); }
+    	if (map.containsKey("content")) { article.setContent(map.get("content").toString()); map.remove("content"); }
+    	if (map.containsKey("column.id")) { article.getColumn().setId(map.get("column.id").toString()); map.remove("column.id"); }
+    	if (map.containsKey("imageUrl")) { article.setImageUrl(map.get("imageUrl").toString()); map.remove("imageUrl"); }
+    	
+    	return article;
     }
 
     public Page<Object[]> findTitleAndCreateDateByColumnParentId(String columnParentId, Pageable pageable) {

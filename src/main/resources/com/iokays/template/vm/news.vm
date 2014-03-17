@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>${column.name}</title>
+
+    <link rel="stylesheet" href="dist/bootstrap/2.3.2/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="dist/bootstrap/2.3.2/css/bootstrap-responsive.min.css" media="screen">
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class=""><a href="./index.html">首页</a></li>
+                    <li class="active"><a href="./news.html">公益资讯</a></li>
+                    <li class=""><a href="./together.html">与你共行</a></li>
+                    <li class=""><a href="./postulant.html">志愿者</a></li>
+                    <li class=""><a href="./about.html">关于公益</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<header class="jumbotron subhead" id="overview">
+    <div class="container" style="margin-top: 40px">
+
+    </div>
+</header>
+
+<div class="container" style="background:#FFF">
+    <div>
+        <ul class="breadcrumb">
+            <li><a href="./index.html">首页</a> <span class="divider">/</span></li>
+            <li><a href="./news.html">公益资讯</a> <span class="divider">/</span></li>
+            <li class="active">最近资讯</li>
+        </ul>
+    </div>
+
+    <div>
+        <div class="row">
+            <div class="span2">
+                <ul class="dropdown-menu" role="menu"
+                    style="display: block; position: static; margin-bottom: 5px; *width: 180px;">
+                    <li><a tabindex="-1" href="./news.html">公益资讯</a></li>
+                    <li class="divider"></li>
+                    <li class=""><a tabindex="-1" href="./new">最近资讯</a>
+                    </li>
+                    <li class=""><a tabindex="-1" href="./weibo">微博收集</a></li>
+                </ul>
+            </div>
+            <div  class="span10" style="margin-left:20px; margin-bottom:50px">
+                <ol>
+                    #foreach(${article_} in ${articles})
+                        <li class=""><a tabindex="-1" href="./${article_[0]}.html">${article_[1]}</a></li>
+                    #end
+                </ol>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- footer start-->
+<footer class="footer">
+    
+</footer>
+
+<!-- footer end-->
+
+
+<script src="dist/jquery/1.10.2/jquery.min.js"></script>
+
+<script src="dist/bootstrap/2.3.2/js/bootstrap.js"></script>
+
+<script>
+    !function ($) {
+        $(function () {
+            $('#myCarousel').carousel()
+        })
+    }(window.jQuery)
+</script>
+
+<script src="../public/holder/holder.js"></script>
+<script src="../public/baidu/shangqiao.js"></script>
+</body>
+</html>

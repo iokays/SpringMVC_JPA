@@ -3,13 +3,11 @@ package com.iokays.column.domain;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -35,14 +33,15 @@ public class Column extends IdEntity implements Serializable {
     private List<Article> articles;    //包含文章
     private Integer sort;            //排序
     private String description;        //描述
-    private String template;        //模版
     private String imageUrl;            //图片
+    
+    private String marking;			//标识
 
     public Column() {
 
     }
-
-    @javax.persistence.Column(name = "name_", length = 20, unique = true, nullable = false)
+	
+	@javax.persistence.Column(name = "name_", length = 20, unique = true, nullable = false)
     public String getName() {
         return name;
     }
@@ -50,6 +49,14 @@ public class Column extends IdEntity implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+    
+    @javax.persistence.Column(name = "marking_", length = 20, unique = true, nullable = false)
+    public String getMarking() {
+		return marking;
+	}
+	public void setMarking(String marking) {
+		this.marking = marking;
+	}
 
     @Enumerated(EnumType.ORDINAL)
     @javax.persistence.Column(name = "grade_", nullable = false)
@@ -107,18 +114,8 @@ public class Column extends IdEntity implements Serializable {
         this.articles = articles;
     }
 
-    @javax.persistence.Column(name = "template_", length = 20)
-    public String getTemplate() {
-        return template;
-    }
 
-    public void setTemplate(String template) {
-        this.template = template;
-    }
-
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    @javax.persistence.Column(columnDefinition = "LONGTEXT", name = "image_url_", nullable = false)
+    @javax.persistence.Column(name = "image_url_", length = 50, unique = true, nullable = true)
     public String getImageUrl() {
         return imageUrl;
     }

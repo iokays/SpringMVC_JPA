@@ -30,9 +30,7 @@ public class HomePage extends IdEntity implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
+    
     @Column(name = "target_", length = 50, nullable = false)
     public String getTarget() {
         return target;

@@ -13,7 +13,7 @@ public interface HomePageService {
 
     public abstract HomePage save(HomePage homePage);
 
-    public abstract HomePage update(String id, Map<String, String> map);
+    public abstract HomePage update(String id, Map<String, Object> map);
 
     public abstract void delete(String id);
 

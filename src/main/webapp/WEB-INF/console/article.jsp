@@ -58,7 +58,7 @@
             var content = $("#editor").html();
             var columnId = $("#columnId").val();
 
-            return {"column.id": columnId, "title": title, "content": content};
+            return {"column.id": columnId, "title": title, "content": content, "timeInMillis" : timeInMillis};
         }
 
         function insertData() {
@@ -70,7 +70,7 @@
                 success: function (data) {
                     $("#id").val(data);
                     $("#alert").attr("class", "alert alert-success");
-                    $("#alert_text").html("添加成功<a style='float:right' target=blank href='${ctx}/console/" + data + ".html'>静态页</a>");
+                    $("#alert_text").html("添加成功<a style='float:right' target=blank href='${ctx}/" + data + ".html'>静态页</a>");
                     $("#alert").css("display", "block");
                 },
                 error: function () {
@@ -89,7 +89,7 @@
                 data: JSON.stringify(data),
                 success: function () {
                     $("#alert").attr("class", "alert alert-success");
-                    $("#alert_text").html("修改成功<a style='float:right' target=blank href='${ctx}/console/" + id + ".html'>静态页</a>");
+                    $("#alert_text").html("修改成功<a style='float:right' target=blank href='${ctx}/" + id + ".html'>静态页</a>");
                     $("#alert").css("display", "block");
                 },
                 error: function () {
@@ -141,7 +141,23 @@
                 <div class="controls">
                     <input id="title" class="span8" type="text" size=40 placeholder="输入文章标题" value="${article.title }"/>
                 </div>
+                
             </div>
+            
+            <div class="control-group">
+                 <label class="control-label" for=image>标识图片</label>
+
+                 <div class="controls" style="width:150px">
+                        <!--dom结构部分-->
+					<div id="uploader-demo">
+						    <!--用来存放item-->
+						<div id="fileList" class="uploader-list"></div>
+						<div id="filePicker">选择图片</div>
+					</div>
+                </div>
+             </div>
+                
+                
             <div class="control-group">
                 <label class="control-label" for="columnId">所属栏目</label>
 
@@ -297,6 +313,59 @@
 
 <script>
     $(function () {
+    	
+    	var $ = jQuery, $list = $('#fileList'), ratio = window.devicePixelRatio || 1, thumbnailWidth = 150 * ratio, thumbnailHeight = 150 * ratio, uploader;
+    	
+    	// 初始化Web Uploader
+    	var uploader = WebUploader.create({
+    		// 选完文件后，是否自动上传。
+    		auto : true,
+
+    		// swf文件路径
+    		swf : "${ctx}/dist/webuploader/1.0/Uploader.swf",
+
+    		// 文件接收服务端。
+    		server : ctx + '/articles/fileupload?timeInMillis=' + timeInMillis,
+
+    		fileNumLimit : 1,
+
+    		// 选择文件的按钮。可选。
+    		// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    		pick : {
+    			id : filePicker,
+    			multiple : false
+    		},
+
+    		// 只允许选择图片文件。
+    		accept : {
+    			title : 'Images',
+    			extensions : 'gif,jpg,jpeg,bmp,png',
+    			mimeTypes : 'image/*'
+    		}
+    	});// 当有文件添加进来的时候
+
+    	uploader.on('fileQueued', function(file) {
+    		var $li = $('<div id="' + file.id + '" class="file-item thumbnail">'
+    				+ '<img>' + '<div class="info">' + file.name + '</div>'
+    				+ '</div>'), $img = $li.find('img');
+
+    		// $list为容器jQuery实例
+    		$list.append($li);
+
+    		// 创建缩略图
+    		// 如果为非图片文件，可以不用调用此方法。
+    		// thumbnailWidth x thumbnailHeight 为 100 x 100
+    		uploader.makeThumb(file, function(error, src) {
+    			if (error) {
+    				$img.replaceWith('<span>不能预览</span>');
+    				return;
+    			}
+
+    			$img.attr('src', src);
+    		}, thumbnailWidth, thumbnailHeight);
+    	});
+    	
+    	
         function initToolbarBootstrapBindings() {
             var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
                         'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',

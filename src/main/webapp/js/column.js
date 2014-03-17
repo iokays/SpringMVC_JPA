@@ -1,27 +1,29 @@
 function buildData() {
 	var name = $("#name").val();
+	var marking = $("#marking").val();
 	var grade = $("#grade").val();
 	var parentId = $("#parentId").val();
-	var sort = $("#sort").val();
-	var template = $("#template").val();
+	var sort = Number($("#sort").val());
 	var description = $("#description").val();
 	switch (grade) {
 	case "one":
 		return {
 			"name" : name,
+			"marking" : marking,
 			"grade" : grade,
 			"sort" : sort,
-			"template" : template,
-			"description" : description
+			"description" : description,
+			"timeInMillis" : timeInMillis
 		};
 	case "two":
 		return {
 			"name" : name,
+			"marking" : marking,
 			"grade" : grade,
-			"parentId" : parentId,
+			"parent.id" : parentId,
 			"sort" : sort,
-			"template" : template,
-			"description" : description
+			"description" : description,
+			"timeInMillis" : timeInMillis
 		};
 	}
 	;
@@ -38,7 +40,7 @@ function insertData() {
 			$("#alert").attr("class", "alert alert-success");
 			$("#alert_text").html(
 					"添加成功<a style='float:right' target=blank href='" + ctx + "/"
-							+ data + ".html'>静态页</a>");
+							+ data.marking + ".html'>静态页</a>");
 			$("#alert").css("display", "block");
 		},
 		error : function() {
@@ -59,7 +61,7 @@ function updateData(id) {
 			$("#alert").attr("class", "alert alert-success");
 			$("#alert_text").html(
 					"修改成功<a style='float:right' target=blank href='" + ctx + "/"
-							+ id + ".html'>静态页</a>");
+							+ data.marking + ".html'>静态页</a>");
 			$("#alert").css("display", "block");
 		},
 		error : function() {
@@ -81,7 +83,7 @@ function uploadData() {
 
 $(function() {
 	var $ = jQuery, $list = $('#fileList'), ratio = window.devicePixelRatio || 1, thumbnailWidth = 1000 * ratio, thumbnailHeight = 200 * ratio, uploader;
-
+	
 	// 初始化Web Uploader
 	var uploader = WebUploader.create({
 		// 选完文件后，是否自动上传。
@@ -91,7 +93,7 @@ $(function() {
 		swf : "${ctx}/dist/webuploader/1.0/Uploader.swf",
 
 		// 文件接收服务端。
-		server : ctx + "/columns/fileupload",
+		server : ctx + '/columns/fileupload?timeInMillis=' + timeInMillis,
 
 		fileNumLimit : 1,
 

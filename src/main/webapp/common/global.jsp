@@ -12,4 +12,5 @@
 %>
 <script type="text/javascript">
     var ctx = '<%=request.getContextPath() %>';
+    var timeInMillis = <%=pageContext.getAttribute("timeInMillis") %>;
 </script>

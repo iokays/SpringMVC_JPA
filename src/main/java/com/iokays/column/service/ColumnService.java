@@ -41,9 +41,11 @@ public interface ColumnService {
 
     public abstract Column save(Column column);
 
-    public abstract Column update(String id, Map<String, String> map);
+    public abstract Column update(String id, Map<String, Object> map);
 
     public abstract Column findOne(String id);
+    
+    public abstract Column findByMarking(String marking);
 
     public abstract void delete(String id);
 

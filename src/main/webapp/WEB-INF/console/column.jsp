@@ -37,7 +37,15 @@
                     <input id="name" class="span6" type="text" size=40 placeholder="输入栏目名称" value="${column.name }"/>
                 </div>
             </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="name">标识</label>
 
+                <div class="controls">
+                    <input id="marking" class="span6" type="text" size=40 placeholder="输入前端标识" value="${column.marking }"/>
+                </div>
+            </div>
+           
             <div class="control-group">
                 <label class="control-label" for="grade">栏目级别</label>
 
@@ -72,15 +80,6 @@
 
                 <div class="controls">
                     <input id="sort" class="span6" type="text" size=40 placeholder="输入数字" value="${column.sort }"/>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label class="control-label" for=template>模版</label>
-
-                <div class="controls">
-                    <input id="template" class="span6" type="text" size=40 placeholder="输入模版名称"
-                           value="${column.template }"/>
                 </div>
             </div>
 

@@ -13,7 +13,7 @@ import org.springframework.data.repository.query.Param;
 import com.iokays.column.domain.Column;
 import com.iokays.column.repository.plus.ColumnRepositoryPlus;
 
-public interface ColumnRepository extends JpaRepository<Column, Serializable>, ColumnRepositoryPlus {
+public interface ColumnRepository extends JpaRepository<Column, String>, ColumnRepositoryPlus {
 
     public abstract List<Column> findAllByGrade(Column.Grade grade);
 
@@ -32,6 +32,8 @@ public interface ColumnRepository extends JpaRepository<Column, Serializable>, C
     public abstract List<Column> findAllByParent(Column parent, Sort sort);
 
     public abstract Page<Column> findAllByParent(Column parent, Pageable pageable);
+    
+    public abstract Column findByMarking(String marking);
 
     @Query(value = "from Column t1 where t1.parent.id = :parentId")
     public abstract List<Column> findAllByParent(@Param("parentId") Serializable parentId);
