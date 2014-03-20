@@ -1,11 +1,13 @@
 package com.iokays.utils.domain;
 
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -22,7 +24,7 @@ public abstract class IdEntity {
 
 	protected String id;
 
-	protected Long createDate = Calendar.getInstance().getTimeInMillis(); // 默认排序规则
+	protected Date createDate = new Date(); // 默认排序规则
 
 	@Id
 	@GeneratedValue(generator = "system-uuid")
@@ -35,13 +37,14 @@ public abstract class IdEntity {
 	public void setId(String id) {
 		this.id = id;
 	}
-
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date_", nullable = false, updatable = false)
-	public Long getCreateDate() {
+	public Date getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(Long createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 }

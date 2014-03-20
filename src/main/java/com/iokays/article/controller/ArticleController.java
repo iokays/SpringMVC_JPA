@@ -57,6 +57,9 @@ public class ArticleController {
     	
         ModelAndView mav = new ModelAndView("articles");
         Page<Article> page = (StringUtils.isNotBlank(columnId)) ? articleService.findAllByColumn(columnId, pageable) : articleService.findAll(pageable);
+        for (Article article : page.getContent()) {
+        	article.setColumn(columnService.findOne(article.getColumn().getId()));
+		}
         mav.addObject("page", page);
         mav.addObject("columnId", columnId);
         return mav;
@@ -104,6 +107,22 @@ public class ArticleController {
     	}
         
         request.getSession().setAttribute(_timeInMillis, null);		//清空文件上传的临时路径
+        
+        final Article _article = article;
+        new Thread(new Runnable() {									//生成静态页，失败，不影响数据的准确性
+			public void run() {
+				try {
+					templateService.buildArticle(_article.getId());
+					Column column = columnService.findOne(_article.getColumn().getId());
+					templateService.buildTwoColumn(column.getId());
+					templateService.buildOneColumn(column.getParent().getId());
+					templateService.buildHomePage();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
     }
 
     @RequestMapping(value = "/articles", method = RequestMethod.POST)
@@ -124,6 +143,22 @@ public class ArticleController {
     	}
     	
     	request.getSession().setAttribute(_timeInMillis, null);		//清空文件上传的临时路径
+    	
+    	final Article _article = article;
+        new Thread(new Runnable() {							//生成静态页，失败，不影响数据的准确性
+			public void run() {
+				try {
+					templateService.buildArticle(_article.getId());
+					Column column = columnService.findOne(_article.getColumn().getId());
+					templateService.buildTwoColumn(column.getId());
+					templateService.buildOneColumn(column.getParent().getId());
+					templateService.buildHomePage();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
     	
         return article.getId();
     }

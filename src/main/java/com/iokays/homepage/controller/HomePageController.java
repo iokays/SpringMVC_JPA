@@ -104,6 +104,7 @@ public class HomePageController {
     	
     	final String _timeInMillis = timeInMillis.toString();
     	final String _tempHomeFileName = (String)request.getSession().getAttribute(_timeInMillis);	//获取已上传文件名
+    	
     	if (null != _tempHomeFileName) {
     		try {
 				FileUpload.copyFileNIO(new File(_homeTempDir + File.separator + _tempHomeFileName), new File(_homeDir + File.separator + homePage.getId() + ".jpg"));
@@ -114,6 +115,16 @@ public class HomePageController {
     	
         request.getSession().setAttribute(_timeInMillis, null);		//清空文件上传的临时路径
         LOGGER.debug("Session:End:_tempHomePath:{}", (String)request.getSession().getAttribute(_timeInMillis));
+       
+        new Thread(new Runnable() {
+			public void run() {
+				try {
+					templateService.buildHomePage();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
       
         return homePage.getId();
     }

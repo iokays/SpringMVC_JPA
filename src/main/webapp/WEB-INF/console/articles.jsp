@@ -17,7 +17,7 @@
             <li><a target="homePages" href="${ctx }/homePages">首页</a> <span class="divider">/</span></li>
             <li><a target="articles" href="${ctx }/articles">文章列表</a> <span class="divider">/</span></li>
             <li style="float: right"><a target="columns" href="${ctx }/articles/generateStaticPage">生成静态页</a> <span class="divider">/</span></li>
-            <li style="float: right"><a href="${ctx }/articles/new?columnId=${columnId}">添加</a> <span class="divider">/</span></li>
+            <li style="float: right"><a href="${ctx }/articles/new<c:if test='${null != columnId }'>?columnId=${columnId}</c:if>">添加</a> <span class="divider">/</span></li>
         </ul>
     </div>
     <div id="alert" class="alert alert-error" style="display: none">
@@ -38,8 +38,8 @@
                 <tr class="info">
                     <td><strong>${status.count }</strong></td>
                     <td><a target="blank" href="${ctx }/${article.id}.html">${article.title }</a></td>
-                    <td>${article.createDate }</td>
-                    <td>${article.createDate }</td>
+                    <td>${article.column.name }</td>
+                    <td><fmt:formatDate type="both" value="${article.createDate }" /></td>
                     <td>
                         <a href="${ctx}/articles/${article.id}" class="btn btn-small btn-primary" target="blank">编辑</a>
                         <button class="btn btn-small btn-danger" type="button"

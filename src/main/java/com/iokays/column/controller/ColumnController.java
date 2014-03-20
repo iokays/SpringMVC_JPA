@@ -92,6 +92,29 @@ public class ColumnController {
         request.getSession().setAttribute(_timeInMillis, null);		//清空文件上传的临时路径
         LOGGER.debug("Session:End:_tempHomePath:{}", (String)request.getSession().getAttribute(_timeInMillis));
         
+        final Column _column = column;
+        new Thread(new Runnable() {
+			public void run() {
+				try {
+					switch (_column.getGrade()) {
+					case one:
+						templateService.buildOneColumn(_column.getId());
+						templateService.buildHomePage();
+						break;
+					case two:
+						templateService.buildTwoColumn(_column.getId());
+						templateService.buildOneColumn(_column.getParent().getId());
+						templateService.buildHomePage();
+						break;
+					default:	
+						templateService.buildHomePage();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+        
         return column.getId();
     }
 
