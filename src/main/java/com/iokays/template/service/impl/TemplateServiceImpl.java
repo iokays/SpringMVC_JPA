@@ -1,7 +1,9 @@
 package com.iokays.template.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -50,37 +52,37 @@ public class TemplateServiceImpl implements TemplateService {
 	 * 生成首页
 	 */
 	public void buildHomePage() throws IOException  {
-		List<Column> rootColumns = columnService.findAllByGrade(Column.Grade.one, new Sort("sort"));
+		List<Column> menus = columnService.findAllByGrade(Column.Grade.one, new Sort("sort"));
 		Pageable pageable = new PageRequest(0, 6, Direction.DESC, "createDate");
+		
+		for (Column column : menus) {
+			column.setArticles(articleService.findAllByColumnParent(column.getId(), pageable).getContent());
+		}
 		List<HomePage> homePages = homePageService.findAll(new Sort("sort"));			//获取首页图片地址
 		
-		final Column news = columnService.findByMarking("news");						//获取公益资讯ID
-		List<Object[]> newsArticles = articleService.findTitleAndCreateDateByColumnParentId(news.getId(), pageable).getContent();
-		
-		final Column together = columnService.findByMarking("together");				//获取与你同在ID
-		List<Object[]> togetherArticles = articleService.findTitleAndCreateDateByColumnParentId(together.getId(), pageable).getContent();
-		
-		final Column postulant = columnService.findByMarking("postulant");				//获取志愿者ID
-		List<Object[]> postulantArticles = articleService.findTitleAndCreateDateByColumnParentId(postulant.getId(), pageable).getContent();
-		
-		final Column about = columnService.findByMarking("postulant");					//获取关于公益ID
-		List<Object[]> aboutArticles = articleService.findTitleAndCreateDateByColumnParentId(about.getId(), pageable).getContent();
+		List<List<Column>> row = new ArrayList<List<Column>>();
+		for (int i = 1; i < menus.size(); i += 2) {
+			List<Column> _list = new ArrayList<Column>();
+			_list.add(menus.get(i - 1));
+			_list.add(menus.get(i));
+			row.add(_list);
+		}
 		
 		Properties p = new Properties();
 		p.load(this.getClass().getResourceAsStream("/velocity.properties"));
 		Velocity.init(p);
 		VelocityContext context = new VelocityContext();
 		
-		context.put("rootColumns", rootColumns);
+		
+		context.put("menus", menus);
 		context.put("homePages", homePages);
-		context.put("newsArticles", newsArticles);
-		context.put("togetherArticles", togetherArticles);
-		context.put("postulantArticles", postulantArticles);
-		context.put("aboutArticles", aboutArticles);
+		
+		context.put("row", row);
 		
 		Template template = Velocity.getTemplate("com/iokays/template/vm/index.vm", "UTF-8");
-		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + "/index.html", "UTF-8");
-		LOGGER.debug("buildTwoColumn:url:{}", System.getProperty("webapp.root") + "/index.html", "UTF-8");
+		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + File.separator  +"index.html", "UTF-8");
+		
+		LOGGER.debug("buildTwoColumn:url:{}", System.getProperty("webapp.root") + File.separator  +"index.html", "UTF-8");
 		template.merge(context, printWriter);
 		printWriter.flush();  
 		printWriter.close();
@@ -91,21 +93,24 @@ public class TemplateServiceImpl implements TemplateService {
 	 * @throws IOException 
 	 */
 	public void buildOneColumn(String id) throws IOException {
+		List<Column> menus = columnService.findAllByGrade(Column.Grade.one, new Sort("sort"));
 		Column column = columnService.findOne(id);
-		List<Object[]> articles = articleService.findTitleAndCreateDateByColumnParentId(column.getId(), null).getContent();
+		column.getChildren();
+		List<Article> articles = articleService.findAllByColumnParent(column.getId(), null).getContent();
 		Properties p = new Properties();
 		p.load(this.getClass().getResourceAsStream("/velocity.properties"));
 		
 		Velocity.init(p);
 		VelocityContext context = new VelocityContext();
 		
+		context.put("menus", menus);
 		context.put("column", column);
 		context.put("articles", articles);
 		
-		LOGGER.debug("buildOneColumn:{}", "com/iokays/template/vm/" + column.getMarking() + ".vm");
-		Template template = Velocity.getTemplate("com/iokays/template/vm/" + column.getMarking() + ".vm", "UTF-8");
-		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + "/" + column.getMarking() + ".html", "UTF-8");
-		LOGGER.debug("buildTwoColumn:url:{}", System.getProperty("webapp.root") + "/" + column.getMarking() + ".html");
+		LOGGER.debug("buildOneColumn:{}", "com/iokays/template/vm/" + column.getTemplate() + ".vm");
+		Template template = Velocity.getTemplate("com/iokays/template/vm/" + column.getTemplate() + ".vm", "UTF-8");
+		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + File.separator + column.getMarking() + ".html", "UTF-8");
+		LOGGER.debug("buildTwoColumn:url:{}", System.getProperty("webapp.root") + File.separator + column.getMarking() + ".html");
 		template.merge(context, printWriter);
 		printWriter.flush();  
 		printWriter.close();
@@ -117,20 +122,23 @@ public class TemplateServiceImpl implements TemplateService {
 	 * @throws IOException 
 	 */
 	public void buildTwoColumn(String id) throws IOException {
+		List<Column> menus = columnService.findAllByGrade(Column.Grade.one, new Sort("sort"));
 		Column column = columnService.findOne(id);
-		List<Object[]> articles = articleService.findTitleAndColumnNameByColumnId(column.getId(), null).getContent();
+		column.getParent().getChildren();
+		List<Article> articles = articleService.findAllByColumn(column.getId(), null).getContent();
 		Properties p = new Properties();
 		p.load(this.getClass().getResourceAsStream("/velocity.properties"));
 		
 		Velocity.init(p);
 		VelocityContext context = new VelocityContext();
 		
+		context.put("menus", menus);
 		context.put("column", column);
 		context.put("articles", articles);
-		LOGGER.debug("buildTwoColumn:template:{}", "com/iokays/template/vm/" + column.getMarking() + ".vm");
-		Template template = Velocity.getTemplate("com/iokays/template/vm/" + column.getMarking() + ".vm", "UTF-8");
-		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + "/" + column.getMarking() + ".html", "UTF-8");
-		LOGGER.debug("buildTwoColumn:url:{}", System.getProperty("webapp.root") + "/" + column.getMarking() + ".html");
+		LOGGER.debug("buildTwoColumn:template:{}", "com/iokays/template/vm/" + column.getTemplate() + ".vm");
+		Template template = Velocity.getTemplate("com/iokays/template/vm/" + column.getTemplate() + ".vm", "UTF-8");
+		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + File.separator + column.getMarking() + ".html", "UTF-8");
+		LOGGER.debug("buildTwoColumn:url:{}", System.getProperty("webapp.root") + File.separator + column.getMarking() + ".html");
 		template.merge(context, printWriter);
 		printWriter.flush();  
 		printWriter.close();
@@ -142,25 +150,26 @@ public class TemplateServiceImpl implements TemplateService {
 	 * @throws IOException 
 	 */
 	public void buildArticle(String id) throws IOException {
-		
+		List<Column> menus = columnService.findAllByGrade(Column.Grade.one, new Sort("sort"));
 		Article article = articleService.findOne(id);
-		article.getColumn();
+		article.getColumn().getParent().getChildren();
 		Properties p = new Properties();
 		p.load(this.getClass().getResourceAsStream("/velocity.properties"));
 		
 		Velocity.init(p);
 		VelocityContext context = new VelocityContext();
 		
+		context.put("menus", menus);
 		context.put("article", article);
+		context.put("content", new String(article.getContent()));
 		
-		LOGGER.debug("buildArticle:template:{}", "com/iokays/template/vm/" + article.getColumn().getMarking() + "_article.vm");
-		Template template = Velocity.getTemplate("com/iokays/template/vm/" + article.getColumn().getMarking() + "_article.vm", "UTF-8");
-		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + "/" + article.getId() + ".html", "UTF-8");
-		LOGGER.debug("buildTwoColumn:url:{}", System.getProperty("webapp.root") + "/" + article.getId() + ".html");
+		LOGGER.debug("buildArticle:template:{}", "com/iokays/template/vm/article.vm");
+		Template template = Velocity.getTemplate("com/iokays/template/vm/article.vm", "UTF-8");
+		PrintWriter printWriter = new PrintWriter(System.getProperty("webapp.root") + File.separator + "article" + File.separator + article.getId() + ".html", "UTF-8");
+		LOGGER.debug("buildTwoColumn:url:{}", System.getProperty("webapp.root") + File.separator + "article" + File.separator + article.getId() + ".html");
 		template.merge(context, printWriter);
 		printWriter.flush();  
 		printWriter.close();
-		
 	}
 
 	@Resource

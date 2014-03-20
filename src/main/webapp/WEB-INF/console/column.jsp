@@ -16,7 +16,7 @@
         <ul class="breadcrumb">
             <li><a target="homePages" href="${ctx }/homePages">首页</a> <span class="divider">/</span></li>
             <li><a target="columns" href="${ctx }/columns">栏目列表</a> <span class="divider">/</span></li>
-            <li><a href="${ctx }/column">再添加</a> <span class="divider">/</span></li>
+            <li><a href="${ctx }/columns/new">再添加</a> <span class="divider">/</span></li>
             <li style="float:right">
                 <button class="btn btn-small btn-primary" type="button" onclick="uploadData()">保存</button>
             </li>
@@ -45,6 +45,14 @@
                     <input id="marking" class="span6" type="text" size=40 placeholder="输入前端标识" value="${column.marking }"/>
                 </div>
             </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="name">模版</label>
+
+                <div class="controls">
+                    <input id="template" class="span6" type="text" size=40 placeholder="输入模版名称" value="${column.template }"/>
+                </div>
+            </div>
            
             <div class="control-group">
                 <label class="control-label" for="grade">栏目级别</label>
@@ -67,8 +75,7 @@
                 <div class="controls">
                     <select id="parentId">
                         <c:forEach items="${columns }" var="object">
-                            <option value="${object.id }"
-                                    <c:if test='${column.parent.id==object.id }'>selected</c:if>  >${object.name }</option>
+                            <option value="${object.id }" <c:if test='${column.parent.id==object.id }'>selected</c:if>  >${object.name }</option>
                         </c:forEach>
 
                     </select>

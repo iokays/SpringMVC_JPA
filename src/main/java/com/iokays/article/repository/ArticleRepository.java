@@ -14,21 +14,19 @@ import com.iokays.column.domain.Column;
 
 public interface ArticleRepository extends JpaRepository<Article, String>, ArticleRepositoryPlus {
 
-    public abstract List<Article> findByColumn(Column column);
+    public abstract List<Article> findAllByColumn(Column column);
 
     @Query("select t1 from Article t1 where t1.column.id = :columnId")
-    public abstract List<Article> findByColumn(@Param("columnId") String columnId);
+    public abstract List<Article> findAllByColumn(@Param("columnId") String columnId);
+    
+    @Query("select t1 from Article t1 where t1.column.id = :columnId")
+    public abstract Page<Article> findAllByColumn(@Param("columnId") String columnId, Pageable pageable);
 
-    @Query("select t1.id, t1.title, t1.column.name, t1.createDate from Article t1")
-    public abstract Page<Object[]> findTitleAndColumnName(Pageable pageable);
+   
+    @Query("select t1 from Article t1 where t1.column.id in :columnIds")
+    public abstract Page<Article> findAllByColumnIn(@Param("columnIds") String[] columnIds, Pageable pageable);
 
-    @Query("select t1.id, t1.title, t1.column.name, t1.createDate from Article t1 where t1.column.id = :columnId")
-    public abstract Page<Object[]> findTitleAndColumnNameByColumnId(@Param("columnId") String columnId, Pageable pageable);
-
-    @Query("select t1.id, t1.title, t1.column.name, t1.createDate from Article t1 where t1.column.id in :columnIds")
-    public abstract Page<Object[]> findTitleAndColumnNameByColumnIdIn(@Param("columnIds") String[] columnIds, Pageable pageable);
-
-    @Query("select t1.id, t1.title, t1.createDate from Article t1 where t1.column.parent.id = :columnParentId")
-    public abstract Page<Object[]> findTitleAndCreateDateByColumnParentId(@Param("columnParentId") String columnParentId, Pageable pageable);
+    @Query("select t1 from Article t1 where t1.column.parent.id = :columnParentId")
+    public abstract Page<Article> findAllByColumnParent(@Param("columnParentId") String columnParentId, Pageable pageable);
 
 }

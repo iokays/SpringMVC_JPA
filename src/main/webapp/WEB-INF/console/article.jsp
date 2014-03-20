@@ -52,65 +52,6 @@
         }
     </style>
 
-    <script>
-        function buildData() {
-            var title = $("#title").val();
-            var content = $("#editor").html();
-            var columnId = $("#columnId").val();
-
-            return {"column.id": columnId, "title": title, "content": content, "timeInMillis" : timeInMillis};
-        }
-
-        function insertData() {
-            var data = buildData();
-            $.ajax({
-                type: "POST",
-                url: "${ctx}/articles",
-                data: data,
-                success: function (data) {
-                    $("#id").val(data);
-                    $("#alert").attr("class", "alert alert-success");
-                    $("#alert_text").html("添加成功<a style='float:right' target=blank href='${ctx}/" + data + ".html'>静态页</a>");
-                    $("#alert").css("display", "block");
-                },
-                error: function () {
-                    $("#alert").attr("class", "alert alert-error");
-                    $("#alert_text").html("添加失败");
-                    $("#alert").css("display", "block");
-                }
-            });
-        }
-
-        function updateData(id) {
-            var data = buildData();
-            $.ajax({
-                type: "PUT",
-                url: "${ctx}/articles/" + id,
-                data: JSON.stringify(data),
-                success: function () {
-                    $("#alert").attr("class", "alert alert-success");
-                    $("#alert_text").html("修改成功<a style='float:right' target=blank href='${ctx}/" + id + ".html'>静态页</a>");
-                    $("#alert").css("display", "block");
-                },
-                error: function () {
-                    $("#alert").attr("class", "alert alert-error");
-                    $("#alert_text").html("修改失败");
-                    $("#alert").css("display", "block");
-                }
-            });
-        }
-
-
-        function uploadData() {
-            var id = $("#id").val();
-            if (undefined == id || "" == id) {
-                insertData();
-            } else {
-                updateData(id);
-            }
-        }
-    </script>
-
 </head>
 <body>
 <%@ include file="/header.jsp" %>
@@ -120,7 +61,7 @@
         <ul class="breadcrumb">
             <li><a target="homePages" href="${ctx }/homePages">首页</a> <span class="divider">/</span></li>
             <li><a target="articles" href="${ctx }/articles">文章列表</a> <span class="divider">/</span></li>
-            <li><a href="${ctx }/article">再添加</a> <span class="divider">/</span></li>
+            <li><a href="${ctx }/articles/new">再添加</a> <span class="divider">/</span></li>
             <li style="float:right">
                 <button class="btn btn-small btn-primary" type="button" onclick="uploadData()">保存</button>
             </li>
@@ -305,119 +246,13 @@
 
     </div>
 
-    <div id="editor" contenteditable="true">${article.content }</div>
+    <div id="editor" contenteditable="true">${content }</div>
 
 </div>
 
+<script type="text/javascript" src="${ctx }/js/article.js"></script>
 </body>
 
-<script>
-    $(function () {
-    	
-    	var $ = jQuery, $list = $('#fileList'), ratio = window.devicePixelRatio || 1, thumbnailWidth = 150 * ratio, thumbnailHeight = 150 * ratio, uploader;
-    	
-    	// 初始化Web Uploader
-    	var uploader = WebUploader.create({
-    		// 选完文件后，是否自动上传。
-    		auto : true,
-
-    		// swf文件路径
-    		swf : "${ctx}/dist/webuploader/1.0/Uploader.swf",
-
-    		// 文件接收服务端。
-    		server : ctx + '/articles/fileupload?timeInMillis=' + timeInMillis,
-
-    		fileNumLimit : 1,
-
-    		// 选择文件的按钮。可选。
-    		// 内部根据当前运行是创建，可能是input元素，也可能是flash.
-    		pick : {
-    			id : filePicker,
-    			multiple : false
-    		},
-
-    		// 只允许选择图片文件。
-    		accept : {
-    			title : 'Images',
-    			extensions : 'gif,jpg,jpeg,bmp,png',
-    			mimeTypes : 'image/*'
-    		}
-    	});// 当有文件添加进来的时候
-
-    	uploader.on('fileQueued', function(file) {
-    		var $li = $('<div id="' + file.id + '" class="file-item thumbnail">'
-    				+ '<img>' + '<div class="info">' + file.name + '</div>'
-    				+ '</div>'), $img = $li.find('img');
-
-    		// $list为容器jQuery实例
-    		$list.append($li);
-
-    		// 创建缩略图
-    		// 如果为非图片文件，可以不用调用此方法。
-    		// thumbnailWidth x thumbnailHeight 为 100 x 100
-    		uploader.makeThumb(file, function(error, src) {
-    			if (error) {
-    				$img.replaceWith('<span>不能预览</span>');
-    				return;
-    			}
-
-    			$img.attr('src', src);
-    		}, thumbnailWidth, thumbnailHeight);
-    	});
-    	
-    	
-        function initToolbarBootstrapBindings() {
-            var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
-                        'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
-                        'Times New Roman', 'Verdana'],
-                    fontTarget = $('[title=Font]').siblings('.dropdown-menu');
-            $.each(fonts, function (idx, fontName) {
-                fontTarget.append($('<li><a data-edit="fontName ' + fontName + '" style="font-family:\'' + fontName + '\'">' + fontName + '</a></li>'));
-            });
-            $('a[title]').tooltip({container: 'body'});
-            $('.dropdown-menu input').click(function () {
-                return false;
-            })
-                    .change(function () {
-                        $(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');
-                    })
-                    .keydown('esc', function () {
-                        this.value = '';
-                        $(this).change();
-                    });
-
-            $('[data-role=magic-overlay]').each(function () {
-                var overlay = $(this), target = $(overlay.data('target'));
-                overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
-            });
-            if ("onwebkitspeechchange"  in document.createElement("input")) {
-                var editorOffset = $('#editor').offset();
-                $('#voiceBtn').css('position', 'absolute').offset({top: editorOffset.top, left: editorOffset.left + $('#editor').innerWidth() - 35});
-            } else {
-                $('#voiceBtn').hide();
-            }
-        };
-        function showErrorAlert(reason, detail) {
-            var msg = '';
-            if (reason === 'unsupported-file-type') {
-                msg = "Unsupported format " + detail;
-            }
-            else {
-                console.log("error uploading file", reason, detail);
-            }
-            $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>' +
-                    '<strong>File upload error</strong> ' + msg + ' </div>').prependTo('#alerts');
-        };
-
-        $(".close").click(function () {
-            $(this).parent().hide();
-        });
-
-        initToolbarBootstrapBindings();
-        $('#editor').wysiwyg({ fileUploadError: showErrorAlert});
-        window.prettyPrint && prettyPrint();
-    });
-</script>
 
 </html>
 

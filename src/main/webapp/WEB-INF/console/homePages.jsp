@@ -14,7 +14,8 @@
     <div>
         <ul class="breadcrumb">
             <li><a target="homePages" href="${ctx }/homePages">首页</a> <span class="divider">/</span></li>
-            <li style="float: right"><a href="${ctx }/homePage">添加</a> <span class="divider">/</span></li>
+            <li style="float: right"><a target="homePages" href="${ctx }/homePages/generateStaticPage">生成静态页</a> <span class="divider">/</span></li>
+            <li style="float: right"><a href="${ctx }/homePages/new">添加</a> <span class="divider">/</span></li>
         </ul>
     </div>
     <div id="alert" class="alert alert-error" style="display: none">
@@ -35,7 +36,7 @@
                 <tr class="info">
                     <td><strong>${status.index }</strong></td>
                     <td>${homePage.name }</td>
-                    <td>${homePage.url }</td>
+                    <td>${homePage.target }</td>
                     <td>${homePage.sort }</td>
                     <td>
                         <a href="${ctx}/homePages/${homePage.id}" class="btn btn-small btn-primary"

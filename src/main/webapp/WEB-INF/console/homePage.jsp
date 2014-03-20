@@ -15,7 +15,7 @@
 	    <div>
 	        <ul class="breadcrumb">
 	            <li><a target="homePages" href="${ctx }/homePages">首页管理</a> <span class="divider">/</span></li>
-	            <li><a href="${ctx }/homePages">再添加</a> <span class="divider">/</span></li>
+	            <li><a href="${ctx }/homePages/new">再添加</a> <span class="divider">/</span></li>
 	            <li style="float:right">
 	                <button class="btn btn-small btn-primary" type="button" onclick="uploadData()">保存</button>
 	            </li>

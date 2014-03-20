@@ -13,7 +13,7 @@ public class ArticleServiceTest {
 
     @Test
     public void testDelete() {
-        articleService.delete("e7284e24-9f67-43a5-b87c-42055ecec7f7");
+      articleService.findAll();
     }
 
     @Resource

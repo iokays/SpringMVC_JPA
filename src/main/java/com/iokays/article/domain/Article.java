@@ -17,51 +17,42 @@ import com.iokays.utils.domain.IdEntity;
 @Table(name = "t_pub_article")
 public class Article extends IdEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private String title;                    	//标题
-    private String content;                   	//内容
+	private String title; // 标题
 
-    private Column column;                    	//所属标题
-    
-    private String imageUrl;            		//图片
+	private byte[] content; // 内容
 
-    @javax.persistence.Column(name = "title_", length = 40, nullable = false)
-    public String getTitle() {
-        return title;
-    }
+	private Column column; // 所属标题
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	@javax.persistence.Column(name = "title_", length = 40, nullable = false)
+	public String getTitle() {
+		return title;
+	}
 
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    @javax.persistence.Column(columnDefinition = "LONGTEXT", name = "content_", nullable = false)
-    public String getContent() {
-        return content;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	@javax.persistence.Column(name = "content_", nullable = false)
+	public byte[] getContent() {
+		return content;
+	}
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "column_id_", nullable = false)
-    public Column getColumn() {
-        return column;
-    }
+	public void setContent(byte[] content) {
+		this.content = content;
+	}
 
-    public void setColumn(Column column) {
-        this.column = column;
-    }
-    
-    @javax.persistence.Column(name = "image_url_", length = 50, unique = true, nullable = false)
-    public String getImageUrl() {
-        return imageUrl;
-    }
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "column_id_", nullable = false)
+	public Column getColumn() {
+		return column;
+	}
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+	public void setColumn(Column column) {
+		this.column = column;
+	}
+
 }

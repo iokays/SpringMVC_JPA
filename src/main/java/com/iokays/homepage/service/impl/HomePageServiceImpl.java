@@ -48,7 +48,6 @@ public class HomePageServiceImpl implements HomePageService {
     	if (map.containsKey("id")) { _homePage.setId(map.get("id").toString()); map.remove("id"); }
     	if (map.containsKey("name")) { _homePage.setName(map.get("name").toString()); map.remove("name"); }
     	if (map.containsKey("target")) { _homePage.setTarget(map.get("target").toString()); map.remove("target"); }
-    	if (map.containsKey("url")) { _homePage.setUrl(map.get("url").toString()); map.remove("url"); }
     	if (map.containsKey("sort")) { _homePage.setSort((Integer)map.get("sort")); map.remove("sort"); }		//sort,不能为空，当为空(null)或数据格式错误,抛出异常即可
     	
     	return _homePage;

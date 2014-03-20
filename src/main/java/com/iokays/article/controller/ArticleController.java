@@ -1,6 +1,8 @@
 package com.iokays.article.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -41,7 +43,7 @@ import com.iokays.utils.fileupload.FileUpload;
 public class ArticleController {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ArticleController.class);
-
+    
     /**
      * @param columnId 栏目Id
      * @param pageable 分页参数
@@ -52,9 +54,9 @@ public class ArticleController {
             @RequestParam(value = "columnId", required = false) String columnId,
             @PageableDefault(page = 0, value = 50, sort = {"createDate"}, direction = Direction.DESC)
             @RequestParam(value = "pageable", required = false) Pageable pageable) {
-
+    	
         ModelAndView mav = new ModelAndView("articles");
-        Page<Object[]> page = (StringUtils.isNotBlank(columnId)) ? articleService.findTitleAndColumnNameByColumnId(columnId, pageable) : articleService.findTitleAndColumnName(pageable);
+        Page<Article> page = (StringUtils.isNotBlank(columnId)) ? articleService.findAllByColumn(columnId, pageable) : articleService.findAll(pageable);
         mav.addObject("page", page);
         mav.addObject("columnId", columnId);
         return mav;
@@ -64,13 +66,14 @@ public class ArticleController {
     public ModelAndView findOne(@PathVariable("id") String id) {
     	LOGGER.debug("id:{}", id);
         ModelAndView mav = new ModelAndView("article");
-        
-        mav.addObject("article", articleService.findOne(id));
+        Article article = articleService.findOne(id);
+        mav.addObject("article", article);
+        mav.addObject("content", new String(article.getContent()));
         mav.addObject("columns", columnService.findAllByGrade(Column.Grade.two));
         return mav;
     }
 
-    @RequestMapping(value = "/article", method = RequestMethod.GET)
+    @RequestMapping(value = "/articles/new", method = RequestMethod.GET)
     public ModelAndView toInsert(@RequestParam(value = "columnId", required = false) String columnId) {
         ModelAndView mav = new ModelAndView("article");
         mav.addObject("columnId", columnId);
@@ -80,52 +83,47 @@ public class ArticleController {
 
     @RequestMapping(value = "/articles/{id}", method = RequestMethod.PUT)
     @ResponseBody
-    public String update(@PathVariable("id") String id, @RequestBody String body, HttpServletRequest request) throws JsonParseException, JsonMappingException, IOException {
+    public void update(@PathVariable("id") String id, @RequestBody String body, HttpServletRequest request) throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         @SuppressWarnings("unchecked")
         Map<String, Object> map = objectMapper.readValue(body, Map.class);
         final String _timeInMillis = map.get("timeInMillis").toString();
+        LOGGER.debug("timeInMillis:{}", _timeInMillis);
         map.remove(_timeInMillis);
+        
+        Article article = articleService.update(id, map);
         
         final String _tempArticleFileName = (String)request.getSession().getAttribute(_timeInMillis);	//获取已上传文件名
     	
         if (null != _tempArticleFileName) {
-        	map.put("imageUrl", _tempArticleFileName);
-    		LOGGER.debug("homePage.imageUrl:{}", map.get("imageUrl"));
-    	
+    		try {
+				FileUpload.copyFileNIO(new File(_articleTempDir + File.separator + _tempArticleFileName), new File(_articleDir + File.separator + article.getId() + ".jpg"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
     	}
         
         request.getSession().setAttribute(_timeInMillis, null);		//清空文件上传的临时路径
-        final String resutl = articleService.update(id, map).toString();
-        
-        try {
-    		templateService.build(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-       
-        return resutl;
     }
 
     @RequestMapping(value = "/articles", method = RequestMethod.POST)
     @ResponseBody
-    public String insert(Article article, Long timeInMillis, HttpServletRequest request) {
+    public String insert(Article article, String content, Long timeInMillis, HttpServletRequest request) {
     	final String _timeInMillis = timeInMillis.toString(); 
+    	LOGGER.debug("timeInMillis:{}", _timeInMillis);
     	final String _tempArticleFileName = (String)request.getSession().getAttribute(_timeInMillis);	//获取已上传文件名
+    	article.setContent(content.getBytes());
+    	articleService.save(article);
     	
     	if (null != _tempArticleFileName) {
-    		article.setImageUrl(_tempArticleFileName);
-    		LOGGER.debug("column.imageUrl:{}", article.getImageUrl());
+    		try {
+    			FileUpload.copyFileNIO(new File(_articleTempDir + File.separator + _tempArticleFileName), new File(_articleDir + File.separator + article.getId() + ".jpg"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
     	}
     	
     	request.getSession().setAttribute(_timeInMillis, null);		//清空文件上传的临时路径
-    	articleService.save(article);
-    	
-    	try {
-    		templateService.build(article.getId());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
     	
         return article.getId();
     }
@@ -134,21 +132,45 @@ public class ArticleController {
     @ResponseBody
     public void delete(@PathVariable("id") String id) {
         articleService.delete(id);
+        new File(_articleDir + File.separator + id + ".jpg").delete();
     }
     
     @RequestMapping(value = "/articles/fileupload", method = RequestMethod.POST)
     @ResponseBody
-    public void fileupload(@RequestParam(value = "file", required = true) MultipartFile file, Long timeInMillis, HttpServletRequest request) throws IllegalStateException, IOException {
+    public void fileupload(@RequestParam(value = "file", required = true) MultipartFile file, Long timeInMillis, HttpServletRequest request) {
     	LOGGER.debug("url:{}, fileName:{}, fileUrl:", "/articles/fileupload", file.getName(), file.getOriginalFilename());
-    	String _tempName = FileUpload.uploadImages(file,  _articleDir);
+    	LOGGER.debug("timeInMillis:{}", timeInMillis.toString());
+    	String _tempName = FileUpload.uploadImages(file,  _articleTempDir);
     	request.getSession().setAttribute(timeInMillis.toString(), _tempName);		//路径保存到Session
+    }
+    
+    @RequestMapping(value = "/articles/generateStaticPage", method = RequestMethod.GET)
+    @ResponseBody
+    public void generateStaticPage() {
+    	List<Article> articles = articleService.findAll();
+    	try {
+    		for (Article article : articles) {
+    			templateService.buildArticle(article.getId());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     @Value("#{properties.getProperty('_articleDir')}")
     private String _articleDir;			//保存路径
     
+    @Value("#{properties.getProperty('_articleTempDir')}")
+    private String _articleTempDir;			//保存路径
     
-    public String get_articleDir() {
+    
+    public String get_articleTempDir() {
+		return _articleTempDir;
+	}
+	public void set_articleTempDir(String _articleTempDir) {
+		this._articleTempDir = _articleTempDir;
+	}
+	public String get_articleDir() {
 		return _articleDir;
 	}
 

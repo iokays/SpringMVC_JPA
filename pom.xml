@@ -15,10 +15,18 @@
 		<springframework.security.version>3.2.0.RELEASE</springframework.security.version>
 		<hibernate.version>4.3.1.Final</hibernate.version>
 
+		<javassist.version>3.18.1-GA</javassist.version>
+
 		<slf4j.version>1.7.5</slf4j.version>
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.9.3</version>
+		</dependency>
 
 
 		<dependency>
@@ -111,6 +119,7 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
@@ -245,16 +254,29 @@
 		</dependency>
 
 		<dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
 
-		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
 			<version>3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>${javassist.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 
 	</dependencies>
@@ -277,6 +299,8 @@
 	<build>
 		<finalName>love</finalName>
 
+		<defaultGoal>compile</defaultGoal>
+
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -289,9 +313,48 @@
 						<encoding>UTF-8</encoding>
 					</configuration>
 				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.6</version>
+					<configuration>
+						<encoding>utf-8</encoding>
+					</configuration>
+				</plugin>
+
+				<plugin>
+			        <artifactId>maven-antrun-plugin</artifactId>
+			        <executions>
+			          <execution>
+			          	<id>process-classes</id>
+			            <phase>process-classes</phase>
+			            <goals>
+			              <goal>run</goal>
+			            </goals>
+			          </execution>
+			        </executions>
+			        <configuration>
+			          <tasks>
+			            <taskdef name="instrument" classname="org.hibernate.tool.instrument.javassist.InstrumentTask">
+			              <classpath>
+			                <path refid="maven.runtime.classpath" />
+			                <path refid="maven.plugin.classpath" />
+			              </classpath>
+			            </taskdef>
+			            <instrument verbose="true">
+			              <fileset dir="${project.build.directory}">
+			                <include name="**/domain/*.class" />
+			              </fileset>
+			            </instrument>
+			          </tasks>
+			        </configuration>
+			      </plugin>
+
+
 			</plugins>
 		</pluginManagement>
-	</build>
 
+	</build>
 
 </project>

@@ -29,12 +29,12 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.findAll(pageable);
     }
 
-    public List<Article> findByColumn(Column column) {
-        return articleRepository.findByColumn(column);
+    public List<Article> findAllByColumn(Column column) {
+        return articleRepository.findAllByColumn(column);
     }
 
-    public List<Article> findByColumn(@Param("columnId") String columnId) {
-        return articleRepository.findByColumn(columnId);
+    public List<Article> findAllByColumn(@Param("columnId") String columnId) {
+        return articleRepository.findAllByColumn(columnId);
     }
 
     /* (non-Javadoc)
@@ -46,16 +46,16 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Object[]> findTitleAndColumnNameByColumnId(String columnId, Pageable pageable) {
-        return articleRepository.findTitleAndColumnNameByColumnId(columnId, pageable);
+    public Page<Article> findAllByColumn(String columnId, Pageable pageable) {
+        return articleRepository.findAllByColumn(columnId, pageable);
     }
 
     @Override
-    public Page<Object[]> findTitleAndColumnNameByColumnIdIn(String[] columnIds, Pageable pageable) {
+    public Page<Article> findAllByColumnIn(String[] columnIds, Pageable pageable) {
         if (1 == columnIds.length) {
-            return articleRepository.findTitleAndColumnNameByColumnId(columnIds[0], pageable);
+            return articleRepository.findAllByColumn(columnIds[0], pageable);
         } else {
-            return articleRepository.findTitleAndColumnNameByColumnIdIn(columnIds, pageable);
+            return articleRepository.findAllByColumnIn(columnIds, pageable);
         }
 
     }
@@ -72,8 +72,8 @@ public class ArticleServiceImpl implements ArticleService {
      * @see com.iokays.article.service.ArticleService#findAll(org.springframework.data.domain.Pageable)
      */
     @Override
-    public Page<Object[]> findTitleAndColumnName(Pageable pageable) {
-        return articleRepository.findTitleAndColumnName(pageable);
+    public Page<Article> pageable(Pageable pageable) {
+        return articleRepository.findAll(pageable);
     }
 
     /* (non-Javadoc)
@@ -81,7 +81,9 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public Article findOne(String id) {
-        return articleRepository.findOne(id);
+    	Article article = articleRepository.findOne(id);
+    	
+       return article;
     }
 
     /* (non-Javadoc)
@@ -102,15 +104,19 @@ public class ArticleServiceImpl implements ArticleService {
     	Article article = articleRepository.findOne(id);
     	if (map.containsKey("id")) { article.setId(map.get("id").toString()); map.remove("id"); }
     	if (map.containsKey("title")) { article.setTitle(map.get("title").toString()); map.remove("title"); }
-    	if (map.containsKey("content")) { article.setContent(map.get("content").toString()); map.remove("content"); }
-    	if (map.containsKey("column.id")) { article.getColumn().setId(map.get("column.id").toString()); map.remove("column.id"); }
-    	if (map.containsKey("imageUrl")) { article.setImageUrl(map.get("imageUrl").toString()); map.remove("imageUrl"); }
+    	if (map.containsKey("content")) { article.setContent(map.get("content").toString().getBytes()); map.remove("content"); }
+    	if (map.containsKey("column.id")) {
+    		Column column = new Column(map.remove("column.id").toString());
+    		if (!column.getId().equals(article.getColumn().getId())) {
+    			article.setColumn(column);
+    		}
+    	}
     	
     	return article;
     }
 
-    public Page<Object[]> findTitleAndCreateDateByColumnParentId(String columnParentId, Pageable pageable) {
-        return articleRepository.findTitleAndCreateDateByColumnParentId(columnParentId, pageable);
+    public Page<Article> findAllByColumnParent(String columnParentId, Pageable pageable) {
+        return articleRepository.findAllByColumnParent(columnParentId, pageable);
     }
 
     @Resource

@@ -1,7 +1,7 @@
 package com.iokays.column.controller;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iokays.column.domain.Column;
+import com.iokays.column.domain.Column.Grade;
 import com.iokays.column.service.ColumnService;
 import com.iokays.template.service.TemplateService;
 import com.iokays.utils.fileupload.FileUpload;
@@ -36,12 +37,11 @@ public class ColumnController {
     @RequestMapping(value = "/columns", method = RequestMethod.GET)
     public ModelAndView listAll() {
         ModelAndView mav = new ModelAndView("columns");
-        List<Object[]> columns = new ArrayList<Object[]>();
-        List<Column> list = columnService.findAllByGrade(Column.Grade.one, new Sort("sort"));
-        for (int i = 0, length = list.size(); i != length; ++i) {
-            Column column = list.get(i);
+        List<Column> columns = columnService.findAllByGrade(Column.Grade.one, new Sort("sort"));
+        for (int i = 0, length = columns.size(); i != length; ++i) {
+            Column column = columns.get(i);
             List<Column> children = columnService.findAllByParent(column, new Sort("sort"));
-            columns.add(new Object[]{column, children});
+            column.setChildren(children);
         }
         mav.addObject("columns", columns);
         return mav;
@@ -61,9 +61,10 @@ public class ColumnController {
     @ResponseBody
     public void delete(@PathVariable("id") String id) {
         columnService.delete(id);
+        new File(_columnDir + File.separator + id + ".jpg").delete();
     }
 
-    @RequestMapping(value = "/column", method = RequestMethod.GET)
+    @RequestMapping(value = "/columns/new", method = RequestMethod.GET)
     public ModelAndView toInsert() {
         ModelAndView mav = new ModelAndView("column");
         List<Column> columns = columnService.findAllByGrade(Column.Grade.one, new Sort("sort"));
@@ -74,27 +75,22 @@ public class ColumnController {
     @RequestMapping(value = "/columns", method = RequestMethod.POST)
     @ResponseBody
     public String insert(Column column, Long timeInMillis, HttpServletRequest request) {
-    	final String _timeInMillis =timeInMillis.toString();
+    	column = columnService.save(column);
+    	 
+    	final String _timeInMillis = timeInMillis.toString();
+    	LOGGER.debug("timeInMillis:{}", _timeInMillis);
     	final String _tempColumnFileName = (String)request.getSession().getAttribute(_timeInMillis);	//获取已上传文件名
     	LOGGER.debug("Session:Start:_tempColumnFileName:{}", (String)request.getSession().getAttribute(_timeInMillis));
     	if (null != _tempColumnFileName) {
-    		column.setImageUrl(_tempColumnFileName);
-    		LOGGER.debug("column.imageUrl:{}", column.getImageUrl());
+    		try {
+    			FileUpload.copyFileNIO(new File(_columnTempDir + File.separator + _tempColumnFileName), new File(_columnDir + File.separator + column.getId() + ".jpg"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
     	}
-        columnService.save(column);
+       
         request.getSession().setAttribute(_timeInMillis, null);		//清空文件上传的临时路径
         LOGGER.debug("Session:End:_tempHomePath:{}", (String)request.getSession().getAttribute(_timeInMillis));
-        
-        try {
-        	if (Column.Grade.one == column.getGrade()) {
-        		templateService.buildOneColumn(column.getId());
-        	} else if (Column.Grade.two == column.getGrade()) {
-        		templateService.buildTwoColumn(column.getId());
-        	}
-        	
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
         
         return column.getId();
     }
@@ -109,39 +105,48 @@ public class ColumnController {
 		Map<String, Object> map = objectMapper.readValue(body, Map.class);
         final String _timeInMillis = map.get("timeInMillis").toString();
         map.remove(_timeInMillis);
-        
+        LOGGER.debug("timeInMillis:{}", _timeInMillis);
         final String _tempColumnFileName = (String)request.getSession().getAttribute(_timeInMillis);	//获取已上传文件名
     	LOGGER.debug("Session:Start:_tempColumnFileName:{}", (String)request.getSession().getAttribute(_timeInMillis));
         
-        if (null != _tempColumnFileName) {
-        	map.put("imageUrl", _tempColumnFileName);
-    		LOGGER.debug("homePage.imageUrl:{}", map.get("imageUrl"));
+    	Column column = columnService.update(id, map);
+    	
+    	if (null != _tempColumnFileName) {
+    		try {
+				FileUpload.copyFileNIO(new File(_columnTempDir + File.separator + _tempColumnFileName), new File(_columnDir + File.separator + column.getId() + ".jpg"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
     	}
         
         request.getSession().setAttribute(_timeInMillis, null);		//清空文件上传的临时路径
         LOGGER.debug("Session:End:_tempHomePath:{}", (String)request.getSession().getAttribute(map.get("timeInMillis").toString()));
-        
-        final String grade = map.get("grade").toString();
-        
-        columnService.update(id, map);
-        
-        try {
-        	if (Column.Grade.one == Column.Grade.valueOf(grade)) {
-        		templateService.buildOneColumn(id);
-        	} else if (Column.Grade.two == Column.Grade.valueOf(map.get("grade").toString())) {
-        		templateService.buildTwoColumn(id);
-        	}
-        	
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+       
     }
     
     @RequestMapping(value = "/columns/fileupload", method = RequestMethod.POST)
     @ResponseBody
-    public void fileupload(@RequestParam(value = "file", required = true) MultipartFile file, Long timeInMillis, HttpServletRequest request) throws IllegalStateException, IOException {
-    	String _tempName = FileUpload.uploadImages(file, _columnDir);
+    public void fileupload(@RequestParam(value = "file", required = true) MultipartFile file, Long timeInMillis, HttpServletRequest request)  {
+    	LOGGER.debug("url:{}, fileName:{}, fileUrl:", "/columns/fileupload", file.getName(), file.getOriginalFilename());
+    	LOGGER.debug("timeInMillis:{}", timeInMillis.toString());
+    	String _tempName = FileUpload.uploadImages(file, _columnTempDir);
     	request.getSession().setAttribute(timeInMillis.toString(), _tempName);		//路径保存到Session
+    }
+    
+    @RequestMapping(value = "/columns/generateStaticPage")
+    @ResponseBody
+    public void generateStaticPage() {
+    	List<Column> columns = columnService.findAll();try {
+    		for (Column column : columns) {
+    			if (column.getGrade() == Grade.one) {
+    				templateService.buildOneColumn(column.getId());
+    			} else if (column.getGrade() == Grade.two){
+    				templateService.buildTwoColumn(column.getId());
+    			}
+    		}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     @Resource
@@ -153,7 +158,18 @@ public class ColumnController {
     @Value("#{properties.getProperty('_columnDir')}")
     private String _columnDir;
     
-   
+    @Value("#{properties.getProperty('_columnTempDir')}")
+    private String _columnTempDir;
+    
+    
+	public String get_columnTempDir() {
+		return _columnTempDir;
+	}
+
+	public void set_columnTempDir(String _columnTempDir) {
+		this._columnTempDir = _columnTempDir;
+	}
+
 	public String get_columnDir() {
 		return _columnDir;
 	}

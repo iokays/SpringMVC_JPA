@@ -12,37 +12,36 @@ import org.hibernate.annotations.GenericGenerator;
 /**
  * 统一定义id的entity基类.
  * <p/>
- * 基类统一定义id的属性名称、数据类型、列名映射及生成策略.
- * 子类可重载getId()函数重定义id的列名映射和生成策略.
- *
+ * 基类统一定义id的属性名称、数据类型、列名映射及生成策略. 子类可重载getId()函数重定义id的列名映射和生成策略.
+ * 
  * @author pengyuanbing@gmail.com
  */
-//JPA 基类的标识
+// JPA 基类的标识
 @MappedSuperclass
 public abstract class IdEntity {
 
-    protected String id;
+	protected String id;
 
-    protected Long createDate = Calendar.getInstance().getTimeInMillis();    //默认排序规则
+	protected Long createDate = Calendar.getInstance().getTimeInMillis(); // 默认排序规则
 
-    @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
-    @Column(name = "id_", unique = true, nullable = false, length = 36, updatable = false)
-    public String getId() {
-        return id;
-    }
+	@Id
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
+	@Column(name = "id_", unique = true, nullable = false, length = 36, updatable = false)
+	public String getId() {
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    @Column(name = "create_date_", nullable = false, updatable = false)
-    public Long getCreateDate() {
-        return createDate;
-    }
+	@Column(name = "create_date_", nullable = false, updatable = false)
+	public Long getCreateDate() {
+		return createDate;
+	}
 
-    public void setCreateDate(Long createDate) {
-        this.createDate = createDate;
-    }
+	public void setCreateDate(Long createDate) {
+		this.createDate = createDate;
+	}
 }

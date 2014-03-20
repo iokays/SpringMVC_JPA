@@ -2,11 +2,8 @@ package com.iokays.homepage.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import com.iokays.utils.domain.IdEntity;
@@ -15,48 +12,39 @@ import com.iokays.utils.domain.IdEntity;
 @Table(name = "t_pub_home_page")
 public class HomePage extends IdEntity implements Serializable {
 
-    private static final long serialVersionUID = -4784844584245964547L;
+	private static final long serialVersionUID = -4784844584245964547L;
 
-    private String name;             //名称
-    private String target;           //指向
-    private String url;              //地址
-    private Integer sort;            //排序
+	private String name; // 名称
 
-    @Column(name = "name_", length = 50, nullable = true)
-    public String getName() {
-        return name;
-    }
+	private String target; // 指向
 
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    @Column(name = "target_", length = 50, nullable = false)
-    public String getTarget() {
-        return target;
-    }
+	private Integer sort; // 排序
 
-    public void setTarget(String target) {
-        this.target = target;
-    }
+	@Column(name = "name_", length = 50, nullable = true)
+	public String getName() {
+		return name;
+	}
 
-    @Column(name = "url_", length = 100, nullable = true)
-    public String getUrl() {
-        return url;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+	@Column(name = "target_", length = 50, nullable = false)
+	public String getTarget() {
+		return target;
+	}
 
-    @Column(name = "sort_", nullable = false)
-    public Integer getSort() {
-        return sort;
-    }
+	public void setTarget(String target) {
+		this.target = target;
+	}
 
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
+	@Column(name = "sort_", nullable = false)
+	public Integer getSort() {
+		return sort;
+	}
 
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
 
 }

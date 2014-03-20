@@ -111,8 +111,8 @@ public class ColumnServiceImpl implements ColumnService {
     	if (map.containsKey("grade")) { _column.setGrade(Grade.valueOf(map.get("grade").toString())); map.remove("grade"); }
     	if (map.containsKey("parent.id")) { _column.getParent().setId(map.get("parent.id").toString()); map.remove("parent.id"); }
     	if (map.containsKey("sort")) { _column.setSort((Integer)map.get("sort")); map.remove("sort"); }
+    	if (map.containsKey("template")) { _column.setTemplate(map.get("template").toString()); map.remove("template"); }
     	if (map.containsKey("description")) { _column.setDescription(map.get("description").toString()); map.remove("description"); }
-    	if (map.containsKey("imageUrl")) { _column.setImageUrl(map.get("imageUrl").toString()); map.remove("imageUrl"); }
     	if (map.containsKey("marking")) { _column.setMarking(map.get("marking").toString()); map.remove("marking"); }
     	
         return _column;

@@ -11,9 +11,9 @@ import com.iokays.article.domain.Article;
 import com.iokays.column.domain.Column;
 
 public interface ArticleService {
-    public abstract Page<Object[]> findTitleAndColumnNameByColumnId(String columnId, Pageable pageable);
+	public abstract Page<Article> findAllByColumn(String columnId, Pageable pageable);
 
-    public abstract Page<Object[]> findTitleAndColumnNameByColumnIdIn(String[] columnIds, Pageable pageable);
+	public abstract Page<Article> findAllByColumnIn(String[] columnIds, Pageable pageable);
 
     public abstract List<Article> findAll();
 
@@ -21,7 +21,7 @@ public interface ArticleService {
 
     public abstract Page<Article> findAll(Pageable pageable);
 
-    public abstract Page<Object[]> findTitleAndColumnName(Pageable pageable);
+    public abstract Page<Article> pageable(Pageable pageable);
 
     public abstract Article findOne(String id);
 
@@ -31,10 +31,10 @@ public interface ArticleService {
 
     public abstract Article update(String id, Map<String, Object> map);
 
-    public abstract List<Article> findByColumn(Column column);
+    public abstract List<Article> findAllByColumn(Column column);
 
-    public abstract List<Article> findByColumn(String columnId);
+    public abstract List<Article> findAllByColumn(String columnId);
 
-    public abstract Page<Object[]> findTitleAndCreateDateByColumnParentId(String columnParentId, Pageable pageable);
+    public Page<Article> findAllByColumnParent(String columnParentId, Pageable pageable);
 
 }

@@ -16,7 +16,8 @@
         <ul class="breadcrumb">
             <li><a target="homePages" href="${ctx }/homePages">首页</a> <span class="divider">/</span></li>
             <li><a target="columns" href="${ctx }/columns">栏目列表</a> <span class="divider">/</span></li>
-            <li style="float: right"><a href="${ctx }/column">添加</a> <span class="divider">/</span></li>
+            <li style="float: right"><a target="columns" href="${ctx }/columns/generateStaticPage">生成静态页</a> <span class="divider">/</span></li>
+            <li style="float: right"><a href="${ctx }/columns/new">添加</a> <span class="divider">/</span></li>
         </ul>
     </div>
     <div id="alert" class="alert alert-error" style="display: none">
@@ -37,9 +38,8 @@
                 <th>操作</th>
             </tr>
 
-            <c:forEach items="${columns }" var="object" varStatus="status">
-                <c:set var="column" value="${object[0] }"/>
-                <c:set var="children" value="${object[1] }"/>
+            <c:forEach items="${columns }" var="column" varStatus="status">
+                <c:set var="children" value="${column.children }"/>
                 <tr class="info">
                     <td><strong>${status.index }</strong></td>
                     <td>${column.name }</td>
