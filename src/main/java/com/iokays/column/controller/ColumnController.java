@@ -159,7 +159,8 @@ public class ColumnController {
     @RequestMapping(value = "/columns/generateStaticPage")
     @ResponseBody
     public void generateStaticPage() {
-    	List<Column> columns = columnService.findAll();try {
+    	List<Column> columns = columnService.findAll();
+    	try {
     		for (Column column : columns) {
     			if (column.getGrade() == Grade.one) {
     				templateService.buildOneColumn(column.getId());
@@ -167,6 +168,21 @@ public class ColumnController {
     				templateService.buildTwoColumn(column.getId());
     			}
     		}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    @RequestMapping(value = "/columns/{id}/generateStaticPage", method = RequestMethod.GET)
+    @ResponseBody
+    public void generateStaticPage(@PathVariable("id")String id) {
+    	Column column = columnService.findOne(id);
+    	try {
+    		if (column.getGrade() == Grade.one) {
+				templateService.buildOneColumn(column.getId());
+			} else if (column.getGrade() == Grade.two){
+				templateService.buildTwoColumn(column.getId());
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

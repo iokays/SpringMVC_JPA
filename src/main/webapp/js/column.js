@@ -85,6 +85,7 @@ function uploadData() {
 }
 
 $(function() {
+	
 	var $ = jQuery, $list = $('#fileList'), ratio = window.devicePixelRatio || 1, thumbnailWidth = 1000 * ratio, thumbnailHeight = 200 * ratio, uploader;
 	
 	// 初始化Web Uploader
@@ -179,3 +180,5 @@ $(function() {
 	});
 
 });
+
+$("#columnsHeader").addClass("active");

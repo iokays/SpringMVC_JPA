@@ -7,6 +7,9 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -103,9 +106,10 @@ public class ColumnServiceImpl implements ColumnService {
      * @see com.iokays.column.service.ColumnService#update(java.io.Serializable, java.util.Map)
      */
     @Override
+    @CachePut(value = "columnCache", key = "#id")
     public Column update(String id, Map<String, Object> map) {
     	LOGGER.debug("map:{}", map);
-    	Column _column = columnRepository.findOne(id);
+    	Column _column = findOne(id);
     	
     	if (map.containsKey("id")) { _column.setId(map.get("id").toString()); map.remove("id"); }
     	if (map.containsKey("grade")) { _column.setGrade(Grade.valueOf(map.get("grade").toString())); map.remove("grade"); }
@@ -122,6 +126,7 @@ public class ColumnServiceImpl implements ColumnService {
      * @see com.iokays.column.repository.service.impl.ColumnService#findOne(java.io.Serializable)
      */
     @Override
+    @Cacheable(value="columnCache")
     public Column findOne(String id) {
         return columnRepository.findOne(id);
     }
@@ -130,6 +135,7 @@ public class ColumnServiceImpl implements ColumnService {
      * @see com.iokays.column.repository.service.impl.ColumnService#delete(java.io.Serializable)
      */
     @Override
+    @CacheEvict(value = "columnCache", key = "#id")
     public void delete(String id) {
         columnRepository.delete(id);
     }

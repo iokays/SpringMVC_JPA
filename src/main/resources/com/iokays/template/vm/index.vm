@@ -89,7 +89,7 @@
     <div class="carousel-inner">
         #foreach(${homePage_} in ${homePages})
             <div class="item #if($velocityCount == 1) active#end">
-                <img src="./image/${homePage_.id}.jpg" alt="">
+                <a href="${homePage_.target}" target="blank" title="${homePage_.name}" ><img src="./image/${homePage_.id}.jpg" alt="${homePage_.name}"></a>
                 <div class="container"></div>
             </div>
         #end
@@ -104,11 +104,11 @@
     <div class="row-fluid">
 
         <div class="row-fluid span4" >
-            <div class="row">
+            <div class="row" style="width:341px; height:256px">
                 <img src="image/img_06.jpg" class="img-polaroid">
             </div>
-            <div class="row">
-                <img src="image/img_06.jpg" class="img-polaroid">
+            <div class="row" style="width:341px; height:256px">
+                <img src="image/img_07.jpg" class="img-polaroid">
             </div>
         </div>
         
@@ -118,7 +118,7 @@
                     #foreach(${column_} int ${list}) 
                     <div class="span6">
                        <a href="./${column_.marking}.html" target="_blank"><span class="label label-info" style="font-size: 20px; color: yellow">${column_.name}</span></a>
-                        <ul class="inline">
+                        <ul class="unstyled">
                             #foreach(${article_} in ${column_.articles})
                                 <li><span class="badge badge-info">${velocityCount}</span>
                                 <a href="./article/${article_.id}.html" target="_blank" title="${article_.title}"><span style="color: white">${article_.title}</span></a>
@@ -149,7 +149,6 @@
 
 <!-- footer end-->
 
-</div>
 
 
 <script src="./dist/jquery/1.10.2/jquery.min.js"></script>

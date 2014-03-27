@@ -7,6 +7,9 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -80,9 +83,12 @@ public class ArticleServiceImpl implements ArticleService {
      * @see com.iokays.article.service.ArticleService#findOne(java.io.Serializable)
      */
     @Override
+    @Cacheable(value="articleCache")
     public Article findOne(String id) {
     	Article article = articleRepository.findOne(id);
-    	
+    	if (null != article) {
+    		article.getContent();
+    	}
        return article;
     }
 
@@ -95,10 +101,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @CacheEvict(value = "articleCache", key = "#id")
     public void delete(String id) {
         articleRepository.delete(id);
     }
 
+    @Override
+    @CachePut(value = "articleCache", key = "#id")
     public Article update(String id, Map<String, Object> map) {
     	LOGGER.debug("map:{}", map);
     	Article article = articleRepository.findOne(id);

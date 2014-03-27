@@ -21,7 +21,7 @@ function insertData() {
 			$("#id").val(data);
 			$("#alert").attr("class", "alert alert-success");
 			$("#alert_text").html(
-					"添加成功<a style='float:right' target=blank href='" + ctx + "/"
+					"添加成功<a style='float:right' target=blank href='" + ctx + "/article/"
 							+ data + ".html'>静态页</a>");
 			$("#alert").css("display", "block");
 		},
@@ -42,7 +42,7 @@ function updateData(id) {
 		success : function() {
 			$("#alert").attr("class", "alert alert-success");
 			$("#alert_text").html(
-					"修改成功<a style='float:right' target=blank href='" + ctx + "/"
+					"修改成功<a style='float:right' target=blank href='" + ctx + "/article/"
 							+ id + ".html'>静态页</a>");
 			$("#alert").css("display", "block");
 		},
@@ -64,6 +64,8 @@ function uploadData() {
 }
 
 $(function() {
+	
+	
 
 	var $ = jQuery, $list = $('#fileList'), ratio = window.devicePixelRatio || 1, thumbnailWidth = 150 * ratio, thumbnailHeight = 150 * ratio, uploader;
 
@@ -219,3 +221,5 @@ $(function() {
 	});
 	window.prettyPrint && prettyPrint();
 });
+
+$("#articlesHeader").addClass("active");

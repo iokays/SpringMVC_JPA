@@ -59,8 +59,8 @@
 
     <div>
         <ul class="breadcrumb">
-            <li><a target="homePages" href="${ctx }/homePages">首页</a> <span class="divider">/</span></li>
-            <li><a target="articles" href="${ctx }/articles">文章列表</a> <span class="divider">/</span></li>
+            <li><a href="${ctx }/homePages">首页</a> <span class="divider">/</span></li>
+            <li><a href="${ctx }/articles">文章列表</a> <span class="divider">/</span></li>
             <li><a href="${ctx }/articles/new">再添加</a> <span class="divider">/</span></li>
             <li style="float:right">
                 <button class="btn btn-small btn-primary" type="button" onclick="uploadData()">保存</button>
@@ -86,16 +86,33 @@
             </div>
             
             <div class="control-group">
-                 <label class="control-label" for=image>标识图片</label>
-
-                 <div class="controls" style="width:150px">
-                        <!--dom结构部分-->
-					<div id="uploader-demo">
-						    <!--用来存放item-->
-						<div id="fileList" class="uploader-list"></div>
-						<div id="filePicker">选择图片</div>
-					</div>
-                </div>
+            
+            	<div class="row-fluid">
+            		<div class="span6">
+	            		<label class="control-label" for=image>标识图片</label>
+	
+		                 <div class="controls" style="width:150px">
+		                        <!--dom结构部分-->
+							<div id="uploader-demo">
+								    <!--用来存放item-->
+								<div id="fileList" class="uploader-list"></div>
+								<div id="filePicker">选择图片</div>
+							</div>
+		                 </div>
+            		</div>
+            		
+            		<c:if test="${null != article }">
+	            		<div class="span6">
+		            		<label class="control-label" for=image>已上传图片</label>
+		
+			                 <div class="controls" style="width:150px">
+			                    <img alt="" src="${ctx }/image/${article.id}.jpg">
+			                 </div>
+	            		</div>
+            		</c:if>
+            	
+            	</div>
+            	
              </div>
                 
                 

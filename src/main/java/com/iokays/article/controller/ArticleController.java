@@ -53,7 +53,8 @@ public class ArticleController {
     public ModelAndView listAll(
             @RequestParam(value = "columnId", required = false) String columnId,
             @PageableDefault(page = 0, value = 50, sort = {"createDate"}, direction = Direction.DESC)
-            @RequestParam(value = "pageable", required = false) Pageable pageable) {
+            Pageable pageable) {
+    	LOGGER.debug("pageable:{}", pageable.toString());
     	
         ModelAndView mav = new ModelAndView("articles");
         Page<Article> page = (StringUtils.isNotBlank(columnId)) ? articleService.findAllByColumn(columnId, pageable) : articleService.findAll(pageable);
@@ -190,6 +191,23 @@ public class ArticleController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    }
+    
+    @RequestMapping(value = "/articles/{id}/generateStaticPage", method = RequestMethod.GET)
+    @ResponseBody
+    public void generateStaticPage(@PathVariable("id")String id) {
+    	try {
+    		templateService.buildArticle(id);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    @RequestMapping(value = "/articles/{id}/hideStaticPage", method = RequestMethod.GET)
+    @ResponseBody
+    public void hideStaticPage(@PathVariable("id")String id) {
+    	LOGGER.debug(System.getProperty("webapp.root") + File.separator + "article" + File.separator + id + ".html");
+    	new File(System.getProperty("webapp.root") + File.separator + "article" + File.separator + id + ".html").delete();
     }
     
     @Value("#{properties.getProperty('_articleDir')}")

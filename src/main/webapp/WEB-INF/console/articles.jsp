@@ -14,9 +14,9 @@
 
     <div>
         <ul class="breadcrumb">
-            <li><a target="homePages" href="${ctx }/homePages">首页</a> <span class="divider">/</span></li>
-            <li><a target="articles" href="${ctx }/articles">文章列表</a> <span class="divider">/</span></li>
-            <li style="float: right"><a target="columns" href="${ctx }/articles/generateStaticPage">生成静态页</a> <span class="divider">/</span></li>
+            <li><a href="${ctx }/homePages">首页</a> <span class="divider">/</span></li>
+            <li><a href="${ctx }/articles">文章列表</a> <span class="divider">/</span></li>
+            <li><button class="btn btn-link" type="button"onclick="generateStaticPage()">生成静态页</button><span class="divider">/</span></li>
             <li style="float: right"><a href="${ctx }/articles/new<c:if test='${null != columnId }'>?columnId=${columnId}</c:if>">添加</a> <span class="divider">/</span></li>
         </ul>
     </div>
@@ -37,11 +37,12 @@
             <c:forEach items="${page.content }" var="article" varStatus="status">
                 <tr class="info">
                     <td><strong>${status.count }</strong></td>
-                    <td><a target="blank" href="${ctx }/${article.id}.html">${article.title }</a></td>
-                    <td>${article.column.name }</td>
+                    <td><a target="blank" href="${ctx }/article/${article.id}.html">${article.title }</a></td>
+                    <td><a target="blank" href="${ctx }/${article.column.marking}.html">${article.column.name }</a></td>
                     <td><fmt:formatDate type="both" value="${article.createDate }" /></td>
                     <td>
                         <a href="${ctx}/articles/${article.id}" class="btn btn-small btn-primary" target="blank">编辑</a>
+                        <button class="btn btn-small btn-primary" type="button"onclick="generateStaticPageById('${article.id}')">生成</button>
                         <button class="btn btn-small btn-danger" type="button"
                                 onclick="removeData(this, '${object[0]}')">删除
                         </button>

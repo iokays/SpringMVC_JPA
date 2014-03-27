@@ -14,7 +14,7 @@
 		
 	    <div>
 	        <ul class="breadcrumb">
-	            <li><a target="homePages" href="${ctx }/homePages">首页管理</a> <span class="divider">/</span></li>
+	            <li><a href="${ctx }/homePages">首页管理</a> <span class="divider">/</span></li>
 	            <li><a href="${ctx }/homePages/new">再添加</a> <span class="divider">/</span></li>
 	            <li style="float:right">
 	                <button class="btn btn-small btn-primary" type="button" onclick="uploadData()">保存</button>
@@ -67,17 +67,15 @@
 					</div>
 	            </div>
 	            
-	            <div class="control-group">
-	            	<label class="control-label" for="sort">已上传(未保存)</label>
-	            	<div class="controls">
-	            		<img alt="" src="D:/news/home/1111111111111111111.jpg">
-	            	</div>
-	            	
-	            </div>
-	            
+	            <c:if test="${null != homePage }">
 	            <div class="control-group">
 	            	<label class="control-label" for="sort">已存储图片</label>
+	            	<div class="controls">
+	            		<img alt="" src="${ctx }/image/${homePage.id}.jpg">
+	            	</div>
 	            </div>
+	            </c:if>
+	            
 	            
 	        </form>
 	    </div>

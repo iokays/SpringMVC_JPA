@@ -16,8 +16,45 @@ function removeData(e, id) {
 	});
 }
 
+function generateStaticPageById(id) {
+	$.ajax({
+		type : "GET",
+		url : ctx + "/columns/" + id + "/generateStaticPage",
+		success : function() {
+			$("#alert").attr("class", "alert alert-success");
+			$("#alert_text").html("恭喜!...静态页生成成功！");
+			$("#alert").css("display", "block");
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$("#alert").attr("class", "alert alert-error");
+			$("#alert_text").html("抱歉!...静态页生成失败!");
+			$("#alert").css("display", "block");
+		}
+	});
+}
+
+function generateStaticPage() {
+	$.ajax({
+		type : "GET",
+		url : ctx + "/columns/generateStaticPage",
+		success : function() {
+			$("#alert").attr("class", "alert alert-success");
+			$("#alert_text").html("恭喜!...批量静态页生成成功！");
+			$("#alert").css("display", "block");
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$("#alert").attr("class", "alert alert-error");
+			$("#alert_text").html("抱歉!...批量静态页生成失败!");
+			$("#alert").css("display", "block");
+		}
+	});
+}
+
 $(function() {
+	
 	$(".close").click(function() {
 		$(this).parent().hide();
 	});
 });
+
+$("#columnsHeader").addClass("active");

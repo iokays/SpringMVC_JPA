@@ -1,0 +1,23 @@
+<project name="love" default="instrument" basedir=".">
+	<property name="lib.dir" value="./lib"/>
+	<property name="classes.dir" value="./classes"/>
+
+	<path id="lib.class.path">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+
+	<target name="instrument">
+		<taskdef name="instrument" classname="org.hibernate.tool.instrument.javassist.InstrumentTask">
+			<classpath path="${classes.dir}"/>
+			<classpath refid="lib.class.path"/>
+		</taskdef>
+		<instrument verbose="true">
+			<fileset dir="${classes.dir}/com/iokays/article/domain">
+				<include name="Article.class"/>
+			</fileset>
+		</instrument>
+	</target>
+</project>

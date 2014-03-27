@@ -18,8 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
 import com.iokays.article.domain.Article;
 import com.iokays.article.service.ArticleService;
@@ -29,8 +28,7 @@ import com.iokays.homepage.domain.HomePage;
 import com.iokays.homepage.service.HomePageService;
 import com.iokays.template.service.TemplateService;
 
-@Service("templateService")
-@Transactional
+@Component("templateService")
 public class TemplateServiceImpl implements TemplateService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(TemplateServiceImpl.class);
@@ -43,8 +41,9 @@ public class TemplateServiceImpl implements TemplateService {
 	public void build(String articleId) throws IOException {
 		Article article = articleService.findOne(articleId);
 		buildArticle(article.getId());
-		buildTwoColumn(article.getColumn().getId());
-		buildOneColumn(article.getColumn().getParent().getId());
+		Column column = columnService.findOne(article.getColumn().getId());
+		buildTwoColumn(column.getId());
+		buildOneColumn(column.getParent().getId());
 		buildHomePage();
 	}
 
@@ -95,7 +94,7 @@ public class TemplateServiceImpl implements TemplateService {
 	public void buildOneColumn(String id) throws IOException {
 		List<Column> menus = columnService.findAllByGrade(Column.Grade.one, new Sort("sort"));
 		Column column = columnService.findOne(id);
-		column.getChildren();
+		column.setChildren(columnService.findAllByParent(column));
 		List<Article> articles = articleService.findAllByColumnParent(column.getId(), null).getContent();
 		Properties p = new Properties();
 		p.load(this.getClass().getResourceAsStream("/velocity.properties"));
@@ -124,7 +123,8 @@ public class TemplateServiceImpl implements TemplateService {
 	public void buildTwoColumn(String id) throws IOException {
 		List<Column> menus = columnService.findAllByGrade(Column.Grade.one, new Sort("sort"));
 		Column column = columnService.findOne(id);
-		column.getParent().getChildren();
+		column.setParent(columnService.findOne(column.getParent().getId()));
+		column.getParent().setChildren(columnService.findAllByParent(column.getParent()));
 		List<Article> articles = articleService.findAllByColumn(column.getId(), null).getContent();
 		Properties p = new Properties();
 		p.load(this.getClass().getResourceAsStream("/velocity.properties"));
@@ -152,7 +152,9 @@ public class TemplateServiceImpl implements TemplateService {
 	public void buildArticle(String id) throws IOException {
 		List<Column> menus = columnService.findAllByGrade(Column.Grade.one, new Sort("sort"));
 		Article article = articleService.findOne(id);
-		article.getColumn().getParent().getChildren();
+		article.setColumn(columnService.findOne(article.getColumn().getId()));
+		article.getColumn().setParent(columnService.findOne(article.getColumn().getParent().getId()));
+		article.getColumn().getParent().setChildren(columnService.findAllByParent(article.getColumn().getParent()));
 		Properties p = new Properties();
 		p.load(this.getClass().getResourceAsStream("/velocity.properties"));
 		

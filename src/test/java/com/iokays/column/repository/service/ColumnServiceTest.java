@@ -3,7 +3,6 @@ package com.iokays.column.repository.service;
 import javax.annotation.Resource;
 
 import org.junit.Test;
-import org.junit.experimental.theories.suppliers.TestedOn;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,22 +16,25 @@ public class ColumnServiceTest {
 
     @Test
     public void testSave() {
-        Column column_one = new Column();
-        column_one.setName("一级栏目");
-        column_one.setGrade(Column.Grade.one);
-        column_one.setDescription("描述:一级栏目");
-        column_one.setSort(0);
-
+    	Column column = columnService.findOne("796aa463-98e2-4522-b75f-e031ca315e68");
+    	column.getParent().getId();
+//    	System.out.println("start ---------------------------------------");
+//    	columnService.update("796aa463-98e2-4522-b75f-e031ca315e68", new HashMap<String, Object>());
+//    	System.out.println("end ---------------------------------------");
+//    	columnService.findOne("796aa463-98e2-4522-b75f-e031ca315e68");
+//    	columnService.findOne("796aa463-98e2-4522-b75f-e031ca315e68");
+//    	System.out.println("---------------------------------------");
+    	
+//        Column column_one = new Column();
+//        column_one.setName("一级栏目");
+//        column_one.setGrade(Column.Grade.one);
+//        column_one.setDescription("描述:一级栏目");
+//        column_one.setSort(0);
+//        column_one.setMarking("test");
+//
 //		columnService.save(column_one);
 
-        Column column_two = new Column();
-        column_two.setName("二级栏目");
-        column_two.setGrade(Column.Grade.two);
-        column_two.setDescription("描述:二级栏目");
-        column_two.setSort(0);
-        column_two.setParent(column_one);
-
-//		columnService.save(column_two);
+      
 
 
     }

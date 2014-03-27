@@ -128,6 +128,17 @@
 		</div>
 	</div>
 	
+	<div class="row">
+        <div class="span3 offset6"> <button class="btn btn-primary" type="button" onclick="hideStaticPageById()">不喜欢，删除它</button></div>
+    </div>
+    
+    <div class="row">
+	    <div id="alert" class="alert alert-error" style="display: none">
+	        <button type="button" class="close">×</button>
+	        <strong id="alert_text"></strong>
+	    </div>
+    </div>
+	
 	<!-- footer start-->
 	<footer class="footer" style="margin-top: 100px">
 	   
@@ -146,6 +157,24 @@
             $('#myCarousel').carousel()
         })
     }(window.jQuery)
+    
+    
+    function hideStaticPageById(id) {
+	$.ajax({
+		type : "GET",
+		url : "./articles/" + id + "/hideStaticPage",
+		success : function(date) {
+			$("#alert").attr("class", "alert alert-success");
+			$("#alert_text").html("网页已删除！请告诉我 .... 请发送到: pengyuanbing@gmail.com");
+			$("#alert").css("display", "block");
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$("#alert").attr("class", "alert alert-error");
+			$("#alert_text").html("抱歉!...网页删除失败!");
+			$("#alert").css("display", "block");
+		}
+	});
+}
 </script>
 
 <script src="./public/holder/holder.js"></script>

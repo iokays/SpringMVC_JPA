@@ -13,8 +13,8 @@
 
     <div>
         <ul class="breadcrumb">
-            <li><a target="homePages" href="${ctx }/homePages">首页</a> <span class="divider">/</span></li>
-            <li style="float: right"><a target="homePages" href="${ctx }/homePages/generateStaticPage">生成静态页</a> <span class="divider">/</span></li>
+            <li><a href="${ctx }/homePages">首页</a> <span class="divider">/</span></li>
+            <li><button class="btn btn-link" type="button"onclick="generateStaticPage()">生成静态页</button><span class="divider">/</span></li>
             <li style="float: right"><a href="${ctx }/homePages/new">添加</a> <span class="divider">/</span></li>
         </ul>
     </div>
@@ -39,8 +39,7 @@
                     <td>${homePage.target }</td>
                     <td>${homePage.sort }</td>
                     <td>
-                        <a href="${ctx}/homePages/${homePage.id}" class="btn btn-small btn-primary"
-                           target="${homePage.id }">编辑</a>
+                        <a href="${ctx}/homePages/${homePage.id}" class="btn btn-small btn-primary" >编辑</a>
                         <button class="btn btn-small btn-danger" type="button"
                                 onclick="removeData(this, '${homePage.id}')">删除
                         </button>
