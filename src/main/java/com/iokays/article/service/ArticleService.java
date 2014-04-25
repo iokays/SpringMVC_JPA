@@ -12,6 +12,7 @@ import com.iokays.column.domain.Column;
 
 public interface ArticleService {
 	public abstract Page<Article> findAllByColumn(String columnId, Pageable pageable);
+	public abstract Page<Map<String, Object>> findMapByColumn(String columnId, Pageable pageable);
 
 	public abstract Page<Article> findAllByColumnIn(String[] columnIds, Pageable pageable);
 
@@ -20,6 +21,8 @@ public interface ArticleService {
     public abstract List<Article> findAll(Sort sort);
 
     public abstract Page<Article> findAll(Pageable pageable);
+    
+    public abstract Page<Map<String, Object>> findMap(Pageable pageable);
 
     public abstract Page<Article> pageable(Pageable pageable);
 

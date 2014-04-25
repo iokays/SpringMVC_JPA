@@ -34,17 +34,17 @@
                 <th>操作</th>
             </tr>
 
-            <c:forEach items="${page.content }" var="article" varStatus="status">
+            <c:forEach items="${page.content }" var="map" varStatus="status">
                 <tr class="info">
                     <td><strong>${status.count }</strong></td>
-                    <td><a target="blank" href="${ctx }/article/${article.id}.html">${article.title }</a></td>
-                    <td><a target="blank" href="${ctx }/${article.column.marking}.html">${article.column.name }</a></td>
-                    <td><fmt:formatDate type="both" value="${article.createDate }" /></td>
+                    <td><a target="blank" href="${ctx }/article/${map.id}.html">${map.title }</a></td>
+                    <td>${map.columnName }</td>
+                    <td><fmt:formatDate type="both" value="${map.createDate }" /></td>
                     <td>
-                        <a href="${ctx}/articles/${article.id}" class="btn btn-small btn-primary" target="blank">编辑</a>
-                        <button class="btn btn-small btn-primary" type="button"onclick="generateStaticPageById('${article.id}')">生成</button>
+                        <a href="${ctx}/articles/${map.id}" class="btn btn-small btn-primary" target="blank">编辑</a>
+                        <button class="btn btn-small btn-primary" type="button"onclick="generateStaticPageById('${map.id}')">生成</button>
                         <button class="btn btn-small btn-danger" type="button"
-                                onclick="removeData(this, '${object[0]}')">删除
+                                onclick="removeData(this, '${map.id}')">删除
                         </button>
                     </td>
                 </tr>

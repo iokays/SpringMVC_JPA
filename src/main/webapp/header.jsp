@@ -13,7 +13,7 @@
 			<!-- <a class="brand" href="#">后台系统</a> -->
 			<div class="nav-collapse collapse">
 				<p class="navbar-text pull-right">
-              		<a href="https://github.com/iokays/love" class="navbar-link">源码</a>|<a href="<%=request.getContextPath() %>/j_spring_security_logout" class="navbar-link">退出</a>
+					<a target="blank" href="https://github.com/iokays/love" class="navbar-link">源码</a>  <a href="<%=request.getContextPath() %>/j_spring_security_logout" class="navbar-link">退出</a>
             	</p>
 				<ul class="nav">
 					<li id="homePagesHeader"><a
@@ -28,25 +28,6 @@
 		</div>
 	</div>
 </div>
-
-<%-- <div class="navbar navbar-inverse navbar-fixed-top">
-	<div class="navbar-inner">
-		<div class="container">
-			<div class="nav-collapse collapse">
-				<ul class="nav">
-					<li id="homePagesHeader"><a
-						href="<%=request.getContextPath() %>/homePages">首页管理</a></li>
-					<li id="columnsHeader"><a
-						href="<%=request.getContextPath() %>/columns">栏目管理</a></li>
-					<li id="articlesHeader"><a
-						href="<%=request.getContextPath() %>/articles">文章管理</a></li>
-					<li class=""><a href="<%=request.getContextPath() %>/reservations">日志管理</a> </li>
-					
-				</ul>
-			</div>
-		</div>
-	</div>
-</div> --%>
 
 <header class="jumbotron subhead" id="overview">
 	<div class="container" style="margin-top: 40px">

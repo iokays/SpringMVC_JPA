@@ -28,14 +28,22 @@ public class ArticleServiceImpl implements ArticleService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
+	@Override
     public Page<Article> findAll(Pageable pageable) {
         return articleRepository.findAll(pageable);
     }
+    
+	@Override
+    public Page<Map<String, Object>> findMap(Pageable pageable) {
+    	return articleRepository.findMap(pageable);
+    }
 
+	@Override
     public List<Article> findAllByColumn(Column column) {
         return articleRepository.findAllByColumn(column);
     }
 
+	@Override
     public List<Article> findAllByColumn(@Param("columnId") String columnId) {
         return articleRepository.findAllByColumn(columnId);
     }
@@ -51,6 +59,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Page<Article> findAllByColumn(String columnId, Pageable pageable) {
         return articleRepository.findAllByColumn(columnId, pageable);
+    }
+    
+    @Override
+    public Page<Map<String, Object>> findMapByColumn(String columnId, Pageable pageable) {
+    	return articleRepository.findMapByColumn(columnId, pageable);
     }
 
     @Override

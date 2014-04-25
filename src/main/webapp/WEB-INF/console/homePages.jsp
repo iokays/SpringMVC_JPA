@@ -35,8 +35,8 @@
             <c:forEach items="${homePages }" var="homePage" varStatus="status">
                 <tr class="info">
                     <td><strong>${status.index }</strong></td>
-                    <td>${homePage.name }</td>
-                    <td>${homePage.target }</td>
+                    <td><a href="${ctx}/index.html" target="blank" >${homePage.name }</a></td>
+                    <td><a href="${homePage.target }" target="blank" >${homePage.target }</a></td>
                     <td>${homePage.sort }</td>
                     <td>
                         <a href="${ctx}/homePages/${homePage.id}" class="btn btn-small btn-primary" >编辑</a>

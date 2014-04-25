@@ -57,10 +57,7 @@ public class ArticleController {
     	LOGGER.debug("pageable:{}", pageable.toString());
     	
         ModelAndView mav = new ModelAndView("articles");
-        Page<Article> page = (StringUtils.isNotBlank(columnId)) ? articleService.findAllByColumn(columnId, pageable) : articleService.findAll(pageable);
-        for (Article article : page.getContent()) {
-        	article.setColumn(columnService.findOne(article.getColumn().getId()));
-		}
+        Page<Map<String, Object>> page = (StringUtils.isNotBlank(columnId)) ? articleService.findMapByColumn(columnId, pageable) : articleService.findMap(pageable);
         mav.addObject("page", page);
         mav.addObject("columnId", columnId);
         return mav;

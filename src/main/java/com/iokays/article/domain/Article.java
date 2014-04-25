@@ -10,11 +10,16 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.iokays.column.domain.Column;
 import com.iokays.utils.domain.IdEntity;
 
 @Entity
 @Table(name = "t_pub_article")
+@DynamicInsert(true)
+@DynamicUpdate(true)
 public class Article extends IdEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
