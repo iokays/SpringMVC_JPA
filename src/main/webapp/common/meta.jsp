@@ -8,4 +8,4 @@
 <script type="text/javascript" src="${ctx }/dist/bootstrap/2.3.2/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${ctx }/dist/holder/holder.js"></script>
 <script type="text/javascript" src="${ctx }/dist/bootstrap/bootstrap-wysiwyg.js"></script>
-<script type="text/javascript" src="${ctx }/dist/webuploader/1.0/webuploader.js"></script>
+<script type="text/javascript" src="${ctx }/dist/webuploader/0.1.3/webuploader.js"></script>

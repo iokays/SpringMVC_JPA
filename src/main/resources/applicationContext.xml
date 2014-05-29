@@ -65,13 +65,13 @@
 	<bean id="properties" class="java.util.Properties">
 		<constructor-arg index="0">
 			<props>
-				<prop key="_homeDir">/usr/local/project/love/image</prop>
-				<prop key="_columnDir">/usr/local/project/love/image</prop>
-				<prop key="_articleDir">/usr/local/project/love/image</prop>
+				<prop key="_homeDir">/mnt/com/iokays/love/image</prop>
+				<prop key="_columnDir">/mnt/com/iokays/love/image</prop>
+				<prop key="_articleDir">/mnt/com/iokays/love/image</prop>
 				
-				<prop key="_homeTempDir">/usr/local/project/love/image/temp</prop>
-				<prop key="_columnTempDir">/usr/local/project/love/image/temp</prop>
-				<prop key="_articleTempDir">/usr/local/project/love/image/temp</prop>
+				<prop key="_homeTempDir">/mnt/com/iokays/love/image/temp</prop>
+				<prop key="_columnTempDir">/mnt/com/iokays/love/image/temp</prop>
+				<prop key="_articleTempDir">/mnt/com/iokays/love/image/temp</prop>
 			</props>
 		</constructor-arg>
 	</bean>
